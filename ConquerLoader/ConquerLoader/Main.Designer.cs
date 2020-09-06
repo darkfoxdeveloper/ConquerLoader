@@ -33,6 +33,7 @@
             this.pBar = new MetroFramework.Controls.MetroProgressBar();
             this.worker = new System.ComponentModel.BackgroundWorker();
             this.cbxServers = new MetroFramework.Controls.MetroComboBox();
+            this.btnLogModules = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // btnStart
@@ -53,6 +54,7 @@
             this.pBar.Name = "pBar";
             this.pBar.Size = new System.Drawing.Size(564, 35);
             this.pBar.TabIndex = 2;
+            this.pBar.Visible = false;
             // 
             // worker
             // 
@@ -72,11 +74,23 @@
             this.cbxServers.TabIndex = 3;
             this.cbxServers.UseSelectable = true;
             // 
+            // btnLogModules
+            // 
+            this.btnLogModules.ForeColor = System.Drawing.Color.White;
+            this.btnLogModules.Location = new System.Drawing.Point(492, 151);
+            this.btnLogModules.Name = "btnLogModules";
+            this.btnLogModules.Size = new System.Drawing.Size(112, 37);
+            this.btnLogModules.TabIndex = 4;
+            this.btnLogModules.Text = "LOG MODULES";
+            this.btnLogModules.UseSelectable = true;
+            this.btnLogModules.Click += new System.EventHandler(this.BtnLogModules_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 322);
+            this.Controls.Add(this.btnLogModules);
             this.Controls.Add(this.cbxServers);
             this.Controls.Add(this.pBar);
             this.Controls.Add(this.btnStart);
@@ -96,6 +110,7 @@
         private MetroFramework.Controls.MetroProgressBar pBar;
         private System.ComponentModel.BackgroundWorker worker;
         private MetroFramework.Controls.MetroComboBox cbxServers;
+        private MetroFramework.Controls.MetroButton btnLogModules;
     }
 }
 

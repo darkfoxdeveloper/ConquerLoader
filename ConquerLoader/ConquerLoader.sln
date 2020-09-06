@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConquerLoader", "ConquerLoader\ConquerLoader.csproj", "{AF23285A-B4CD-46B1-962D-0CD66A55482B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SCLHook", "..\SCLHook\OpenConquerHook.vcxproj", "{01358812-493C-4A24-8630-F71DF28D47D8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenConquerHook", "..\ConquerHook\CSV3Hook.vcxproj", "{01358812-493C-4A24-8630-F71DF28D47D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
