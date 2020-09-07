@@ -1,6 +1,8 @@
 ﻿using ConquerLoader.Models;
+using MetroFramework.Controls;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,6 +16,7 @@ namespace ConquerLoader
         public Process CurrentConquerProcess = null;
         public string HookINI = "OpenConquerHook.ini";
         public string HookDLL = "OpenConquerHook.dll";
+        public bool AllStarted = false;
         public Main()
         {
             InitializeComponent();
@@ -31,6 +34,10 @@ namespace ConquerLoader
                 // TODO Create a new gui for manage this config.json and show in this case
             } else
             {
+                if (LoaderConfig.Title != null && LoaderConfig.Title.Length > 0)
+                {
+                    Text = LoaderConfig.Title;
+                }
                 Core.DebugWritter.Write("Loaded config.json");
                 btnLogModules.Enabled = LoaderConfig.DebugMode;
                 btnLogModules.Visible = LoaderConfig.DebugMode;
@@ -46,10 +53,24 @@ namespace ConquerLoader
                         if (s.Equals(LoaderConfig.DefaultServer.ServerName))
                         {
                             cbxServers.SelectedItem = s;
+                            SetServerStatus();
                         }
                     }
-                    
                 }
+            }
+            AllStarted = true;
+        }
+
+        private void SetServerStatus()
+        {
+            bool Online = Core.ServerAvailable(LoaderConfig.DefaultServer.LoginHost, LoaderConfig.DefaultServer.GamePort);
+            serverStatus.Text = Online ? "ONLINE" : "OFFLINE";
+            if (Online)
+            {
+                serverStatus.ForeColor = Color.DarkGreen;
+            } else
+            {
+                serverStatus.ForeColor = Color.DarkRed;
             }
         }
 
@@ -115,7 +136,7 @@ namespace ConquerLoader
             this.pBar.Value = e.ProgressPercentage;
             if (this.pBar.Value >= 100)
             {
-                //Environment.Exit(0);
+                if (LoaderConfig.CloseOnFinish) Environment.Exit(0);
             }
         }
 
@@ -128,6 +149,24 @@ namespace ConquerLoader
                 t += "ModuleName:" + m.ModuleName + Environment.NewLine + "FileName:" + m.FileName + Environment.NewLine;
             }
             Core.DebugWritter.Write(t);
+        }
+
+        private void CbxServers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (AllStarted)
+            {
+                foreach (object s in cbxServers.Items)
+                {
+                    MetroComboBox currentSender = sender as MetroComboBox;
+                    if (s.Equals(currentSender.SelectedItem.ToString()))
+                    {
+                        cbxServers.SelectedItem = currentSender.SelectedItem.ToString();
+                        LoaderConfig.DefaultServer = LoaderConfig.Servers.Where(x => x.ServerName == currentSender.SelectedItem.ToString()).FirstOrDefault();
+                        SetServerStatus();
+                        Core.SaveLoaderConfig(LoaderConfig);
+                    }
+                }
+            }
         }
     }
 }

@@ -34,13 +34,14 @@
             this.worker = new System.ComponentModel.BackgroundWorker();
             this.cbxServers = new MetroFramework.Controls.MetroComboBox();
             this.btnLogModules = new MetroFramework.Controls.MetroButton();
+            this.serverStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnStart
             // 
             this.btnStart.ForeColor = System.Drawing.Color.White;
             this.btnStart.Location = new System.Drawing.Point(196, 127);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(206, 30);
             this.btnStart.TabIndex = 0;
@@ -71,12 +72,13 @@
             this.cbxServers.Size = new System.Drawing.Size(165, 29);
             this.cbxServers.TabIndex = 3;
             this.cbxServers.UseSelectable = true;
+            this.cbxServers.SelectedIndexChanged += new System.EventHandler(this.CbxServers_SelectedIndexChanged);
             // 
             // btnLogModules
             // 
             this.btnLogModules.ForeColor = System.Drawing.Color.White;
             this.btnLogModules.Location = new System.Drawing.Point(297, 62);
-            this.btnLogModules.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLogModules.Margin = new System.Windows.Forms.Padding(2);
             this.btnLogModules.Name = "btnLogModules";
             this.btnLogModules.Size = new System.Drawing.Size(105, 24);
             this.btnLogModules.TabIndex = 4;
@@ -84,23 +86,34 @@
             this.btnLogModules.UseSelectable = true;
             this.btnLogModules.Click += new System.EventHandler(this.BtnLogModules_Click);
             // 
+            // serverStatus
+            // 
+            this.serverStatus.AutoSize = true;
+            this.serverStatus.Location = new System.Drawing.Point(22, 62);
+            this.serverStatus.Name = "serverStatus";
+            this.serverStatus.Size = new System.Drawing.Size(10, 13);
+            this.serverStatus.TabIndex = 5;
+            this.serverStatus.Text = "-";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(437, 169);
+            this.Controls.Add(this.serverStatus);
             this.Controls.Add(this.btnLogModules);
             this.Controls.Add(this.cbxServers);
             this.Controls.Add(this.pBar);
             this.Controls.Add(this.btnStart);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Main";
             this.Padding = new System.Windows.Forms.Padding(13, 60, 13, 13);
             this.Text = "ConquerLoader by DaRkFoxDeveloper";
             this.Load += new System.EventHandler(this.Main_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -111,6 +124,7 @@
         private System.ComponentModel.BackgroundWorker worker;
         private MetroFramework.Controls.MetroComboBox cbxServers;
         private MetroFramework.Controls.MetroButton btnLogModules;
+        private System.Windows.Forms.Label serverStatus;
     }
 }
 
