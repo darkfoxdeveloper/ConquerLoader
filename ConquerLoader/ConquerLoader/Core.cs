@@ -5,6 +5,7 @@ namespace ConquerLoader
 {
     public static class Core
     {
+        public static DebugWriter DebugWritter = new DebugWriter("conquerloader.log");
         public static LoaderConfig GetLoaderConfig()
         {
             LoaderConfig lConfig = null;

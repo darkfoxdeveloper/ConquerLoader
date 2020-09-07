@@ -39,9 +39,10 @@
             // btnStart
             // 
             this.btnStart.ForeColor = System.Drawing.Color.White;
-            this.btnStart.Location = new System.Drawing.Point(296, 252);
+            this.btnStart.Location = new System.Drawing.Point(196, 127);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(309, 46);
+            this.btnStart.Size = new System.Drawing.Size(206, 30);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "START";
             this.btnStart.UseSelectable = true;
@@ -49,12 +50,10 @@
             // 
             // pBar
             // 
-            this.pBar.Location = new System.Drawing.Point(40, 208);
-            this.pBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pBar.Location = new System.Drawing.Point(25, 99);
             this.pBar.Name = "pBar";
-            this.pBar.Size = new System.Drawing.Size(564, 35);
+            this.pBar.Size = new System.Drawing.Size(376, 23);
             this.pBar.TabIndex = 2;
-            this.pBar.Visible = false;
             // 
             // worker
             // 
@@ -67,19 +66,19 @@
             // 
             this.cbxServers.FormattingEnabled = true;
             this.cbxServers.ItemHeight = 23;
-            this.cbxServers.Location = new System.Drawing.Point(40, 252);
-            this.cbxServers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbxServers.Location = new System.Drawing.Point(25, 127);
             this.cbxServers.Name = "cbxServers";
-            this.cbxServers.Size = new System.Drawing.Size(246, 29);
+            this.cbxServers.Size = new System.Drawing.Size(165, 29);
             this.cbxServers.TabIndex = 3;
             this.cbxServers.UseSelectable = true;
             // 
             // btnLogModules
             // 
             this.btnLogModules.ForeColor = System.Drawing.Color.White;
-            this.btnLogModules.Location = new System.Drawing.Point(492, 151);
+            this.btnLogModules.Location = new System.Drawing.Point(297, 62);
+            this.btnLogModules.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLogModules.Name = "btnLogModules";
-            this.btnLogModules.Size = new System.Drawing.Size(112, 37);
+            this.btnLogModules.Size = new System.Drawing.Size(105, 24);
             this.btnLogModules.TabIndex = 4;
             this.btnLogModules.Text = "LOG MODULES";
             this.btnLogModules.UseSelectable = true;
@@ -87,17 +86,18 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 322);
+            this.ClientSize = new System.Drawing.Size(437, 169);
             this.Controls.Add(this.btnLogModules);
             this.Controls.Add(this.cbxServers);
             this.Controls.Add(this.pBar);
             this.Controls.Add(this.btnStart);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "Main";
-            this.Padding = new System.Windows.Forms.Padding(20, 92, 20, 20);
+            this.Padding = new System.Windows.Forms.Padding(13, 60, 13, 13);
             this.Text = "ConquerLoader by DaRkFoxDeveloper";
             this.Load += new System.EventHandler(this.Main_Load);
             this.ResumeLayout(false);

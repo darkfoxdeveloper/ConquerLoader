@@ -3,12 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Windows.Forms;
-using static ConquerLoader.Core;
 
 namespace ConquerLoader
 {
@@ -32,13 +27,13 @@ namespace ConquerLoader
             if (LoaderConfig == null)
             {
                 MetroFramework.MetroMessageBox.Show(this, "Cannot load config.json", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                // For testing
-                LoaderConfig l = new LoaderConfig();
-                l.Servers.Add(new ServerConfiguration() { ExecutableName = "Conquer.exe", LoginHost = "127.0.0.1", GameHost = "127.0.0.1", GamePort= 5816, LoginPort = 9958, ServerName = "ConquerLoaderIsHere"});
-                l.DefaultServer = l.Servers.FirstOrDefault();
-                File.WriteAllText("config.json", Newtonsoft.Json.JsonConvert.SerializeObject(l, Newtonsoft.Json.Formatting.Indented));
+                Environment.Exit(0);
+                // TODO Create a new gui for manage this config.json and show in this case
             } else
             {
+                Core.DebugWritter.Write("Loaded config.json");
+                btnLogModules.Enabled = LoaderConfig.DebugMode;
+                btnLogModules.Visible = LoaderConfig.DebugMode;
                 foreach (ServerConfiguration server in LoaderConfig.Servers)
                 {
                     cbxServers.Items.Add(server.ServerName);
@@ -84,29 +79,33 @@ namespace ConquerLoader
                     + Environment.NewLine + "HOSTNAME=" + SelectedServer.Hostname
                     + Environment.NewLine + "SERVER_VERSION=" + SelectedServer.ServerVersion
                     );
+                Core.DebugWritter.Write("Created the Hook Configuration");
                 worker.RunWorkerAsync();
             }
         }
 
         private void Worker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            // TODO Validación de IPS que pueden usar el Loader para que asi aun que se venda el codigo fuente habra una libreria que controlara quien puede o no usar el loader. La libreria en question tendra un codigo necesario para que funcione el loader
             // Do start conquer and inject
-
-            //Directory.SetCurrentDirectory(@"C:\Users\DaRkFoxDeveloper\Desktop\5065");
-            //Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = @"C:\Users\DaRkFoxDeveloper\Desktop\5065" + @"\" + SelectedServer.ExecutableName, Arguments = "blacknull" });
+            Core.DebugWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
             Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = Application.StartupPath + @"\" + SelectedServer.ExecutableName, Arguments = "blacknull" });
             if (conquerProc != null)
             {
+                Core.DebugWritter.Write("Process launched!");
                 CurrentConquerProcess = conquerProc;
-                DllInjector.GetInstance.Inject(conquerProc.ProcessName, Application.StartupPath + @"\" + HookDLL);
-                //if (!InjectDLL(CurrentConquerProcess.Handle, Application.StartupPath + @"\" + HookDLL, worker))
-                //{
-                //    MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //}
+                DllInjector.GetInstance.worker = worker;
+                Core.DebugWritter.Write("Injecting DLL...");
+                if (DllInjector.GetInstance.Inject(conquerProc.ProcessName, Application.StartupPath + @"\" + HookDLL) != DllInjectionResult.Success)
+                {
+                    MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                } else
+                {
+                    Core.DebugWritter.Write("Injected successfully!");
+                }
             }
             else
             {
+                Core.DebugWritter.Write("Cannot launch " + SelectedServer.ExecutableName + "");
                 MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot start {SelectedServer.ExecutableName}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -122,12 +121,13 @@ namespace ConquerLoader
 
         private void BtnLogModules_Click(object sender, EventArgs e)
         {
-            string t = "";
+            if (CurrentConquerProcess == null) return;
+            string t = "Modules on process: " + CurrentConquerProcess.ProcessName;
             foreach (ProcessModule m in CurrentConquerProcess.Modules)
             {
                 t += "ModuleName:" + m.ModuleName + Environment.NewLine + "FileName:" + m.FileName + Environment.NewLine;
             }
-            File.WriteAllText("modules.log", t);
+            Core.DebugWritter.Write(t);
         }
     }
 }

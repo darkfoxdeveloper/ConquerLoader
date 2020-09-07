@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -41,6 +42,8 @@ namespace ConquerLoader.Models
             IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
         static DllInjector _instance;
+
+        public BackgroundWorker worker = null;
 
         public static DllInjector GetInstance
         {
@@ -90,11 +93,19 @@ namespace ConquerLoader.Models
 
         bool bInject(uint pToBeInjected, string sDllPath)
         {
+            if (worker != null)
+            {
+                worker.ReportProgress(10);
+            }
             IntPtr hndProc = OpenProcess((0x2 | 0x8 | 0x10 | 0x20 | 0x400), 1, pToBeInjected);
 
             if (hndProc == INTPTR_ZERO)
             {
                 return false;
+            }
+            if (worker != null)
+            {
+                worker.ReportProgress(20);
             }
 
             IntPtr lpLLAddress = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
@@ -103,12 +114,20 @@ namespace ConquerLoader.Models
             {
                 return false;
             }
+            if (worker != null)
+            {
+                worker.ReportProgress(30);
+            }
 
             IntPtr lpAddress = VirtualAllocEx(hndProc, (IntPtr)null, (IntPtr)sDllPath.Length, (0x1000 | 0x2000), 0X40);
 
             if (lpAddress == INTPTR_ZERO)
             {
                 return false;
+            }
+            if (worker != null)
+            {
+                worker.ReportProgress(40);
             }
 
             byte[] bytes = Encoding.ASCII.GetBytes(sDllPath);
@@ -117,13 +136,25 @@ namespace ConquerLoader.Models
             {
                 return false;
             }
+            if (worker != null)
+            {
+                worker.ReportProgress(50);
+            }
 
             if (CreateRemoteThread(hndProc, (IntPtr)null, INTPTR_ZERO, lpLLAddress, lpAddress, 0, (IntPtr)null) == INTPTR_ZERO)
             {
                 return false;
             }
+            if (worker != null)
+            {
+                worker.ReportProgress(60);
+            }
 
             CloseHandle(hndProc);
+            if (worker != null)
+            {
+                worker.ReportProgress(100);
+            }
 
             return true;
         }
