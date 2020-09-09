@@ -57,7 +57,7 @@
             // tglCloseOnFinish
             // 
             this.tglCloseOnFinish.AutoSize = true;
-            this.tglCloseOnFinish.Location = new System.Drawing.Point(405, 19);
+            this.tglCloseOnFinish.Location = new System.Drawing.Point(374, 19);
             this.tglCloseOnFinish.Margin = new System.Windows.Forms.Padding(2);
             this.tglCloseOnFinish.Name = "tglCloseOnFinish";
             this.tglCloseOnFinish.Size = new System.Drawing.Size(80, 17);
@@ -101,11 +101,11 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(546, 19);
+            this.lblTitle.Location = new System.Drawing.Point(21, 99);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(33, 19);
+            this.lblTitle.Size = new System.Drawing.Size(92, 19);
             this.lblTitle.TabIndex = 6;
-            this.lblTitle.Text = "Title";
+            this.lblTitle.Text = "Title in Loader";
             // 
             // tbxTitle
             // 
@@ -113,7 +113,7 @@
             // 
             // 
             this.tbxTitle.CustomButton.Image = null;
-            this.tbxTitle.CustomButton.Location = new System.Drawing.Point(75, 1);
+            this.tbxTitle.CustomButton.Location = new System.Drawing.Point(177, 1);
             this.tbxTitle.CustomButton.Name = "";
             this.tbxTitle.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.tbxTitle.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -122,7 +122,7 @@
             this.tbxTitle.CustomButton.UseSelectable = true;
             this.tbxTitle.CustomButton.Visible = false;
             this.tbxTitle.Lines = new string[0];
-            this.tbxTitle.Location = new System.Drawing.Point(610, 19);
+            this.tbxTitle.Location = new System.Drawing.Point(129, 99);
             this.tbxTitle.MaxLength = 32767;
             this.tbxTitle.Name = "tbxTitle";
             this.tbxTitle.PasswordChar = '\0';
@@ -141,7 +141,7 @@
             // metroLabel2
             // 
             this.metroLabel2.AutoSize = true;
-            this.metroLabel2.Location = new System.Drawing.Point(295, 17);
+            this.metroLabel2.Location = new System.Drawing.Point(264, 17);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(96, 19);
             this.metroLabel2.TabIndex = 4;
@@ -150,7 +150,7 @@
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(291, 17);
+            this.metroLabel1.Location = new System.Drawing.Point(260, 17);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(96, 19);
             this.metroLabel1.TabIndex = 4;

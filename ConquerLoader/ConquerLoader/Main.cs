@@ -42,6 +42,7 @@ namespace ConquerLoader
             {
                 LoadConfigInForm();
             }
+            RefreshServerList();
             AllStarted = true;
         }
 
@@ -59,6 +60,10 @@ namespace ConquerLoader
             {
                 cbxServers.Items.Add(server.ServerName);
             }
+        }
+
+        private void RefreshServerList(bool CheckServerStatus = true)
+        {
             if (LoaderConfig.Servers.Count > 0)
             {
                 cbxServers.SelectedItem = cbxServers.Items[0];
@@ -67,7 +72,10 @@ namespace ConquerLoader
                     if (LoaderConfig.DefaultServer != null && s.Equals(LoaderConfig.DefaultServer.ServerName))
                     {
                         cbxServers.SelectedItem = s;
-                        SetServerStatus();
+                        if (CheckServerStatus)
+                        {
+                            SetServerStatus();
+                        }
                     }
                 }
             }
@@ -121,25 +129,52 @@ namespace ConquerLoader
         {
             // Do start conquer and inject
             Core.LogWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
-            Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = Application.StartupPath + @"\" + SelectedServer.ExecutableName, Arguments = "blacknull" });
-            if (conquerProc != null)
+            string PathToConquerExe = Path.Combine(Application.StartupPath, SelectedServer.ExecutableName);
+            string WorkingDir = Path.GetDirectoryName(PathToConquerExe);
+            if (File.Exists(PathToConquerExe))
             {
-                Core.LogWritter.Write("Process launched!");
-                CurrentConquerProcess = conquerProc;
-                DllInjector.GetInstance.worker = worker;
-                Core.LogWritter.Write("Injecting DLL...");
-                if (DllInjector.GetInstance.Inject(conquerProc.ProcessName, Application.StartupPath + @"\" + HookDLL) != DllInjectionResult.Success)
+                string CheckPathEnvDX8 = Path.Combine(Application.StartupPath, "Env_DX8", SelectedServer.ExecutableName);
+                string CheckPathEnvDX9 = Path.Combine(Application.StartupPath, "Env_DX9", SelectedServer.ExecutableName);
+                Core.LogWritter.Write("Checking if existing path: " + CheckPathEnvDX8 + "...");
+                if (File.Exists(CheckPathEnvDX8))
                 {
-                    MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                } else
-                {
-                    Core.LogWritter.Write("Injected successfully!");
+                    Core.LogWritter.Write("Found Env_DX8 Folder. Setting the folder for run executable...");
+                    PathToConquerExe = CheckPathEnvDX8;
+                    WorkingDir = Path.GetDirectoryName(PathToConquerExe);
                 }
-            }
-            else
+                if (SelectedServer.UseDirectX9)
+                {
+                    if (File.Exists(CheckPathEnvDX9))
+                    {
+                        Core.LogWritter.Write("Found Env_DX9 Folder. Setting the folder for run executable...");
+                        PathToConquerExe = CheckPathEnvDX9;
+                        WorkingDir = Path.GetDirectoryName(PathToConquerExe);
+                    }
+                }
+                Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });
+                if (conquerProc != null)
+                {
+                    Core.LogWritter.Write("Process launched!");
+                    CurrentConquerProcess = conquerProc;
+                    DllInjector.GetInstance.worker = worker;
+                    Core.LogWritter.Write("Injecting DLL...");
+                    if (DllInjector.GetInstance.Inject((uint)conquerProc.Id, Application.StartupPath + @"\" + HookDLL) != DllInjectionResult.Success)
+                    {
+                        MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        Core.LogWritter.Write("Injected successfully!");
+                    }
+                }
+                else
+                {
+                    Core.LogWritter.Write("Cannot launch " + SelectedServer.ExecutableName + "");
+                    MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot start {SelectedServer.ExecutableName}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            } else
             {
-                Core.LogWritter.Write("Cannot launch " + SelectedServer.ExecutableName + "");
-                MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot start {SelectedServer.ExecutableName}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Core.LogWritter.Write("Path for Executable not found: " + PathToConquerExe);
             }
         }
 

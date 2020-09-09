@@ -10,6 +10,7 @@
         public uint GamePort { get; set; }
         public string ExecutableName { get; set; }
         public bool EnableHostName { get; set; }
+        public bool UseDirectX9 { get; set; }
         public string Hostname { get; set; }
     }
 }

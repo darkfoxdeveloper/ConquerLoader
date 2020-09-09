@@ -24,20 +24,41 @@ namespace ConquerLoader
         }
         public static bool ServerAvailable(string Host, uint Port)
         {
-            bool Online = false;
-            using (TcpClient tcpClient = new TcpClient())
+            var result = false;
+            using (var client = new TcpClient())
             {
                 try
                 {
-                    tcpClient.Connect(Host, (int)Port);
-                    Online = true;
+                    client.ReceiveTimeout = 1 * 1000;
+                    client.SendTimeout = 1 * 1000;
+                    var asyncResult = client.BeginConnect(Host, (int)Port, null, null);
+                    var waitHandle = asyncResult.AsyncWaitHandle;
+                    try
+                    {
+                        if (!asyncResult.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1), false))
+                        {
+                            // wait handle didn't came back in time
+                            client.Close();
+                        }
+                        else
+                        {
+                            // The result was positiv
+                            result = client.Connected;
+                        }
+                        // ensure the ending-call
+                        client.EndConnect(asyncResult);
+                    }
+                    finally
+                    {
+                        // Ensure to close the wait handle.
+                        waitHandle.Close();
+                    }
                 }
-                catch (Exception)
+                catch
                 {
-                    Online = false;
                 }
             }
-            return Online;
+            return result;
         }
     }
 }
