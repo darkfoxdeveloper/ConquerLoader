@@ -24,41 +24,53 @@ namespace ConquerLoader
             this.Theme = MetroFramework.MetroThemeStyle.Light;
         }
 
+        /*
+         * TODO LIST
+         * Change servername on new clients with encrypted Server.dat (Maybe the best option is find the String of first Server in Server.dat (Decrypting it with the tool in the oc forum) in memory and remplace this with the custom string of LoaderConfig.SelectedServer.ServerName
+         * Create a page with wordpress and storefront theme for anounce the ConquerLoader with the domain conquerloader.com (Simple page only for now, in future have complements for sell and implement in this loader)
+         * Premium Features (Control with IP of servername in some AccessList, json or via Database) with the features are payed for the user (User = Server IP)
+         * */
+
         private void Main_Load(object sender, EventArgs e)
         {
             LoaderConfig = Core.GetLoaderConfig();
             if (LoaderConfig == null)
             {
-                MetroFramework.MetroMessageBox.Show(this, "Cannot load config.json", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Environment.Exit(0);
-                // TODO Create a new gui for manage this config.json and show in this case
+                Settings s = new Settings();
+                s.ShowDialog(this);
             } else
             {
-                if (LoaderConfig.Title != null && LoaderConfig.Title.Length > 0)
+                LoadConfigInForm();
+            }
+            AllStarted = true;
+        }
+
+        private void LoadConfigInForm()
+        {
+            cbxServers.Items.Clear();
+            if (LoaderConfig.Title != null && LoaderConfig.Title.Length > 0)
+            {
+                Text = LoaderConfig.Title;
+            }
+            Core.LogWritter.Write("Loaded config.json");
+            btnLogModules.Enabled = LoaderConfig.DebugMode;
+            btnLogModules.Visible = LoaderConfig.DebugMode;
+            foreach (ServerConfiguration server in LoaderConfig.Servers)
+            {
+                cbxServers.Items.Add(server.ServerName);
+            }
+            if (LoaderConfig.Servers.Count > 0)
+            {
+                cbxServers.SelectedItem = cbxServers.Items[0];
+                foreach (object s in cbxServers.Items)
                 {
-                    Text = LoaderConfig.Title;
-                }
-                Core.DebugWritter.Write("Loaded config.json");
-                btnLogModules.Enabled = LoaderConfig.DebugMode;
-                btnLogModules.Visible = LoaderConfig.DebugMode;
-                foreach (ServerConfiguration server in LoaderConfig.Servers)
-                {
-                    cbxServers.Items.Add(server.ServerName);
-                }
-                if (LoaderConfig.Servers.Count > 0)
-                {
-                    cbxServers.SelectedItem = cbxServers.Items[0];
-                    foreach (object s in cbxServers.Items)
+                    if (LoaderConfig.DefaultServer != null && s.Equals(LoaderConfig.DefaultServer.ServerName))
                     {
-                        if (s.Equals(LoaderConfig.DefaultServer.ServerName))
-                        {
-                            cbxServers.SelectedItem = s;
-                            SetServerStatus();
-                        }
+                        cbxServers.SelectedItem = s;
+                        SetServerStatus();
                     }
                 }
             }
-            AllStarted = true;
         }
 
         private void SetServerStatus()
@@ -100,7 +112,7 @@ namespace ConquerLoader
                     + Environment.NewLine + "HOSTNAME=" + SelectedServer.Hostname
                     + Environment.NewLine + "SERVER_VERSION=" + SelectedServer.ServerVersion
                     );
-                Core.DebugWritter.Write("Created the Hook Configuration");
+                Core.LogWritter.Write("Created the Hook Configuration");
                 worker.RunWorkerAsync();
             }
         }
@@ -108,25 +120,25 @@ namespace ConquerLoader
         private void Worker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             // Do start conquer and inject
-            Core.DebugWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
+            Core.LogWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
             Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = Application.StartupPath + @"\" + SelectedServer.ExecutableName, Arguments = "blacknull" });
             if (conquerProc != null)
             {
-                Core.DebugWritter.Write("Process launched!");
+                Core.LogWritter.Write("Process launched!");
                 CurrentConquerProcess = conquerProc;
                 DllInjector.GetInstance.worker = worker;
-                Core.DebugWritter.Write("Injecting DLL...");
+                Core.LogWritter.Write("Injecting DLL...");
                 if (DllInjector.GetInstance.Inject(conquerProc.ProcessName, Application.StartupPath + @"\" + HookDLL) != DllInjectionResult.Success)
                 {
                     MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 } else
                 {
-                    Core.DebugWritter.Write("Injected successfully!");
+                    Core.LogWritter.Write("Injected successfully!");
                 }
             }
             else
             {
-                Core.DebugWritter.Write("Cannot launch " + SelectedServer.ExecutableName + "");
+                Core.LogWritter.Write("Cannot launch " + SelectedServer.ExecutableName + "");
                 MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot start {SelectedServer.ExecutableName}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -148,7 +160,7 @@ namespace ConquerLoader
             {
                 t += "ModuleName:" + m.ModuleName + Environment.NewLine + "FileName:" + m.FileName + Environment.NewLine;
             }
-            Core.DebugWritter.Write(t);
+            Core.LogWritter.Write(t);
         }
 
         private void CbxServers_SelectedIndexChanged(object sender, EventArgs e)
@@ -167,6 +179,14 @@ namespace ConquerLoader
                     }
                 }
             }
+        }
+
+        private void BtnSettings_Click(object sender, EventArgs e)
+        {
+            Settings s = new Settings();
+            s.ShowDialog(this);
+            LoaderConfig = s.CurrentLoaderConfig;
+            LoadConfigInForm();
         }
     }
 }

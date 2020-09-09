@@ -7,19 +7,20 @@ namespace ConquerLoader
 {
     public static class Core
     {
-        public static DebugWriter DebugWritter = new DebugWriter("conquerloader.log");
+        public static LogWritter LogWritter = new LogWritter("conquerloader.log");
+        public static string ConfigJsonPath = "config.json";
         public static LoaderConfig GetLoaderConfig()
         {
             LoaderConfig lConfig = null;
-            if (File.Exists("config.json"))
+            if (File.Exists(ConfigJsonPath))
             {
-                lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(File.ReadAllText("config.json"));
+                lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(File.ReadAllText(ConfigJsonPath));
             }
             return lConfig;
         }
         public static void SaveLoaderConfig(LoaderConfig LoaderConfig)
         {
-            File.WriteAllText("config.json", Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented));
+            File.WriteAllText(ConfigJsonPath, Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented));
         }
         public static bool ServerAvailable(string Host, uint Port)
         {

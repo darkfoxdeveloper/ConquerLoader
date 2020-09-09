@@ -4,12 +4,12 @@ using System.IO;
 
 namespace ConquerLoader.Models
 {
-    public class DebugWriter
+    public class LogWritter
     {
         private string LogPath { get; set; }
         private List<string> Log { get; set; }
 
-        public DebugWriter(string _LogPath)
+        public LogWritter(string _LogPath)
         {
             LogPath = _LogPath;
             Log = new List<string>();
@@ -35,6 +35,18 @@ namespace ConquerLoader.Models
         {
             WriteHeader();
             WriteBody(Content);
+            WriteFooter();
+            SaveLog();
+        }
+
+        public void Write(List<string> Contents)
+        {
+            WriteHeader();
+            foreach(string line in Contents)
+            {
+                string cont = "[" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss") + "] " + line;
+                Log.Add(cont);
+            }
             WriteFooter();
             SaveLog();
         }

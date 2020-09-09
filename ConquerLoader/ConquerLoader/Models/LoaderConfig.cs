@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ConquerLoader.Models
 {
     public class LoaderConfig
     {
-        public List<ServerConfiguration> Servers { get; set; }
+        public BindingList<ServerConfiguration> Servers { get; set; }
         public ServerConfiguration DefaultServer { get; set; }
         public bool DebugMode { get; set; }
         public bool CloseOnFinish { get; set; }
@@ -14,7 +15,7 @@ namespace ConquerLoader.Models
         {
             if (Servers == null)
             {
-                Servers = new List<ServerConfiguration>();
+                Servers = new BindingList<ServerConfiguration>();
             }
         }
     }
