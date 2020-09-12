@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ConquerLoader
@@ -16,6 +13,7 @@ namespace ConquerLoader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Core.LoadAvailablePlugins();
             Application.Run(new Main());
         }
     }

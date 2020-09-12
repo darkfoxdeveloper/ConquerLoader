@@ -82,6 +82,10 @@
     <Compile Include="Models\Injector.cs" />
     <Compile Include="Models\LoaderConfig.cs" />
     <Compile Include="Models\ServerConfiguration.cs" />
+    <Compile Include="PluginsLoader\Constants.cs" />
+    <Compile Include="PluginsLoader\Help.cs" />
+    <Compile Include="PluginsLoader\IPlugin.cs" />
+    <Compile Include="PluginsLoader\PluginLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs">

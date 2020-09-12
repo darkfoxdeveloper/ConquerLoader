@@ -1,6 +1,8 @@
 ﻿using ConquerLoader.Models;
+using ConquerLoader.PluginsLoader;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 
 namespace ConquerLoader
@@ -18,6 +20,27 @@ namespace ConquerLoader
             }
             return lConfig;
         }
+
+        internal static void LoadAvailablePlugins()
+        {
+            try
+            {
+                PluginLoader loader = new PluginLoader();
+                loader.LoadPlugins();
+                LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " plugins.");
+            }
+            catch (Exception e)
+            {
+                LogWritter.Write(string.Format("Plugins couldn't be loaded: {0}", e.Message));
+                Environment.Exit(0);
+            }
+            IPlugin plugin = PluginLoader.Plugins.Where(p => p.Name == "ExamplePlugin").FirstOrDefault();
+            if (plugin != null)
+            {
+                plugin.Go("Test plugin exec!");
+            }
+        }
+
         public static void SaveLoaderConfig(LoaderConfig LoaderConfig)
         {
             File.WriteAllText(ConfigJsonPath, Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented));
