@@ -34,10 +34,10 @@ namespace ConquerLoader
                 LogWritter.Write(string.Format("Plugins couldn't be loaded: {0}", e.Message));
                 Environment.Exit(0);
             }
-            IPlugin plugin = PluginLoader.Plugins.Where(p => p.Name == "ExamplePlugin").FirstOrDefault();
-            if (plugin != null)
+            foreach(IPlugin plugin in PluginLoader.Plugins.Where(p => p.Name != "help"))
             {
-                plugin.Go("Test plugin exec!");
+                plugin.Run();
+                LogWritter.Write("Run plugin: " + plugin.Name + ".");
             }
         }
 

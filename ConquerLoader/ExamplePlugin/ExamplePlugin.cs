@@ -21,9 +21,9 @@ namespace ConquerLoader.Plugins
 			}
 		}
 
-		public void Go(string parameters)
+		public void Run()
 		{
-			File.WriteAllText("ExamplePlugin.log", parameters);
+			File.WriteAllText("ExamplePlugin.log", "This is a example plugin. This text is writted in the file by Run Method of the plugin.");
 		}
 	}
 }

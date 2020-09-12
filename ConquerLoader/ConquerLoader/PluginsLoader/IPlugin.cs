@@ -4,7 +4,7 @@
 	{
 		string Name { get; }
 		string Explanation { get; }
-		void Go(string parameters);
+		void Run();
 	}
 }
 

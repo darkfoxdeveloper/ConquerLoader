@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConquerLoader\ConquerLoader.csproj">
-      <Project>{AF23285A-B4CD-46B1-962D-0CD66A55482B}</Project>
+      <Project>{af23285a-b4cd-46b1-962d-0cd66a55482b}</Project>
       <Name>ConquerLoader</Name>
     </ProjectReference>
   </ItemGroup>
