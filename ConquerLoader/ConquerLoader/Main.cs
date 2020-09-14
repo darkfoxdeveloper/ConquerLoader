@@ -1,4 +1,5 @@
 ﻿using ConquerLoader.Models;
+using ConquerLoader.PluginsLoader;
 using MetroFramework.Controls;
 using System;
 using System.Diagnostics;
@@ -43,6 +44,7 @@ namespace ConquerLoader
                 LoadConfigInForm();
             }
             RefreshServerList();
+            Core.ExecAvailablePlugins();
             AllStarted = true;
         }
 
@@ -122,6 +124,11 @@ namespace ConquerLoader
                     );
                 Core.LogWritter.Write("Created the Hook Configuration");
                 worker.RunWorkerAsync();
+                foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_GAME_START))
+                {
+                    plugin.Run();
+                    Core.LogWritter.Write("Run plugin on start: " + plugin.Name + ".");
+                }
             }
         }
 

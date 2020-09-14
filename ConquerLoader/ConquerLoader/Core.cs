@@ -34,10 +34,19 @@ namespace ConquerLoader
                 LogWritter.Write(string.Format("Plugins couldn't be loaded: {0}", e.Message));
                 Environment.Exit(0);
             }
-            foreach(IPlugin plugin in PluginLoader.Plugins.Where(p => p.Name != "help"))
+            foreach(IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.LOADER_EXECUTION))
             {
                 plugin.Run();
-                LogWritter.Write("Run plugin: " + plugin.Name + ".");
+                LogWritter.Write("Run plugin on loader execution: " + plugin.Name + ".");
+            }
+        }
+
+        internal static void ExecAvailablePlugins()
+        {
+            foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_FORM_LOAD))
+            {
+                plugin.Run();
+                LogWritter.Write("Run plugin on form load: " + plugin.Name + ".");
             }
         }
 
