@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenConquerHook", "..\Conqu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "ExamplePlugin\ExamplePlugin.csproj", "{2828D538-96AF-45EC-90FD-22555B20381B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLPluginLoader", "PluginLoader\CLPluginLoader.csproj", "{B3D527DF-7ED0-4F05-9119-989B47B09C63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLCore", "PluginLoader\CLCore.csproj", "{B3D527DF-7ED0-4F05-9119-989B47B09C63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

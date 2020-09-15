@@ -1,5 +1,5 @@
-﻿using ConquerLoader.Models;
-using ConquerLoader.PluginsLoader;
+﻿using ConquerLoader.CLCore;
+using ConquerLoader.Models;
 using System;
 using System.IO;
 using System.Linq;
@@ -25,16 +25,16 @@ namespace ConquerLoader
         {
             try
             {
-                PluginLoader loader = new PluginLoader();
+                PluginsLoader.PluginLoader loader = new PluginsLoader.PluginLoader();
                 loader.LoadPlugins();
-                LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " plugins.");
+                LogWritter.Write("Loaded " + PluginsLoader.PluginLoader.Plugins.Count + " plugins.");
             }
             catch (Exception e)
             {
                 LogWritter.Write(string.Format("Plugins couldn't be loaded: {0}", e.Message));
                 Environment.Exit(0);
             }
-            foreach(IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.LOADER_EXECUTION))
+            foreach(IPlugin plugin in PluginsLoader.PluginLoader.Plugins.Where(p => p.LoadType == LoadType.LOADER_EXECUTION))
             {
                 plugin.Run();
                 LogWritter.Write("Run plugin on loader execution: " + plugin.Name + ".");
@@ -43,7 +43,7 @@ namespace ConquerLoader
 
         internal static void ExecAvailablePlugins()
         {
-            foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_FORM_LOAD))
+            foreach (IPlugin plugin in PluginsLoader.PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_FORM_LOAD))
             {
                 plugin.Run();
                 LogWritter.Write("Run plugin on form load: " + plugin.Name + ".");

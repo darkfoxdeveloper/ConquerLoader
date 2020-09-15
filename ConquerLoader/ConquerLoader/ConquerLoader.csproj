@@ -124,9 +124,9 @@
     <Content Include="conquer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PluginLoader\CLPluginLoader.csproj">
+    <ProjectReference Include="..\PluginLoader\CLCore.csproj">
       <Project>{b3d527df-7ed0-4f05-9119-989b47b09c63}</Project>
-      <Name>CLPluginLoader</Name>
+      <Name>CLCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

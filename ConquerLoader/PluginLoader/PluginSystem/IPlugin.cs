@@ -1,4 +1,4 @@
-﻿namespace ConquerLoader.PluginsLoader
+﻿namespace ConquerLoader.CLCore
 {
 	public interface IPlugin
 	{
@@ -15,4 +15,3 @@
 		ON_GAME_START
 	}
 }
-

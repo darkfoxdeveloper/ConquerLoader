@@ -1,4 +1,5 @@
-﻿using ConquerLoader.Models;
+﻿using ConquerLoader.CLCore;
+using ConquerLoader.Models;
 using ConquerLoader.PluginsLoader;
 using MetroFramework.Controls;
 using System;

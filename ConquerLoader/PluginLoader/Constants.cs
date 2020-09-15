@@ -1,4 +1,4 @@
-﻿namespace ConquerLoader.PluginsLoader
+﻿namespace ConquerLoader.CLCore
 {
 	public static class Constants
 	{

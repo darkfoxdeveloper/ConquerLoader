@@ -1,4 +1,4 @@
-﻿using ConquerLoader.PluginsLoader;
+﻿using ConquerLoader.CLCore;
 using System.IO;
 
 namespace ConquerLoader.Plugins
@@ -18,6 +18,14 @@ namespace ConquerLoader.Plugins
 			get
 			{
 				return "ExamplePlugin";
+			}
+		}
+
+		public LoadType LoadType
+		{
+			get
+			{
+				return LoadType.LOADER_EXECUTION;
 			}
 		}
 
