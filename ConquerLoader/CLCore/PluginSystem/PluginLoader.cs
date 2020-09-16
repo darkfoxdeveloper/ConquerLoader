@@ -1,11 +1,10 @@
-﻿using ConquerLoader.CLCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace ConquerLoader.PluginsLoader
+namespace ConquerLoader.CLCore
 {
 	public class PluginLoader
 	{

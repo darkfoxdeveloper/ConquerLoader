@@ -1,3 +1,0 @@
-﻿namespace ConquerLoader.CLCore
-{
-}

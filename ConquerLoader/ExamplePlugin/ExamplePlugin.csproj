@@ -49,7 +49,7 @@
       <Project>{af23285a-b4cd-46b1-962d-0cd66a55482b}</Project>
       <Name>ConquerLoader</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PluginLoader\CLCore.csproj">
+    <ProjectReference Include="..\CLCore\CLCore.csproj">
       <Project>{B3D527DF-7ED0-4F05-9119-989B47B09C63}</Project>
       <Name>CLCore</Name>
     </ProjectReference>

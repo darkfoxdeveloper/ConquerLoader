@@ -1,4 +1,5 @@
 ﻿using ConquerLoader.CLCore;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ConquerLoader.Plugins
@@ -26,6 +27,14 @@ namespace ConquerLoader.Plugins
 			get
 			{
 				return LoadType.LOADER_EXECUTION;
+			}
+		}
+
+		public List<Parameter> Parameters
+		{
+			get
+			{
+				return new List<Parameter>();
 			}
 		}
 

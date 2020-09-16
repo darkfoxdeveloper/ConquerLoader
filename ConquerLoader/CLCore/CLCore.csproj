@@ -8,8 +8,8 @@
     <ProjectGuid>{B3D527DF-7ED0-4F05-9119-989B47B09C63}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PluginLoader</RootNamespace>
-    <AssemblyName>PluginLoader</AssemblyName>
+    <RootNamespace>CLCore</RootNamespace>
+    <AssemblyName>CLCore</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -40,6 +40,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleTCP, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleTCP.1.0.24\lib\net45\SimpleTCP.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -53,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="PluginSystem\IPlugin.cs" />
+    <Compile Include="PluginSystem\Parameter.cs" />
     <Compile Include="PluginSystem\PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocketSystem.cs" />

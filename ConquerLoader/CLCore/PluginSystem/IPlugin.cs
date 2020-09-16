@@ -1,4 +1,6 @@
-﻿namespace ConquerLoader.CLCore
+﻿using System.Collections.Generic;
+
+namespace ConquerLoader.CLCore
 {
 	public interface IPlugin
 	{
@@ -6,6 +8,8 @@
 		string Explanation { get; }
 		LoadType LoadType { get; }
 		void Run();
+
+		List<Parameter> Parameters { get; set; }
 	}
 
 	public enum LoadType

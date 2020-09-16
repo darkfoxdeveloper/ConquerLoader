@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("PluginLoader")]
-[assembly: AssemblyDescription("A  PluginLoader for ConquerLoader")]
+[assembly: AssemblyTitle("CLServer")]
+[assembly: AssemblyDescription("ConquerLoader Server")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DaRkFoxDeveloper")]
-[assembly: AssemblyProduct("PluginLoader")]
+[assembly: AssemblyProduct("CLServer")]
 [assembly: AssemblyCopyright("Copyright DaRkFoxDeveloper © 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // El siguiente GUID sirve como id. de typelib si este proyecto se expone a COM.
-[assembly: Guid("b3d527df-7ed0-4f05-9119-989b47b09c63")]
+[assembly: Guid("dc6de0a1-3aa6-4aec-9320-73b2f2adf342")]
 
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //

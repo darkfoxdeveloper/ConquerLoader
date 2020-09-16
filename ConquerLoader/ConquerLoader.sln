@@ -9,7 +9,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenConquerHook", "..\Conqu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "ExamplePlugin\ExamplePlugin.csproj", "{2828D538-96AF-45EC-90FD-22555B20381B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLCore", "PluginLoader\CLCore.csproj", "{B3D527DF-7ED0-4F05-9119-989B47B09C63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLCore", "CLCore\CLCore.csproj", "{B3D527DF-7ED0-4F05-9119-989B47B09C63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLServer", "CLServer\CLServer.csproj", "{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,14 @@ Global
 		{B3D527DF-7ED0-4F05-9119-989B47B09C63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3D527DF-7ED0-4F05-9119-989B47B09C63}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3D527DF-7ED0-4F05-9119-989B47B09C63}.Release|x86.Build.0 = Release|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Debug|x86.Build.0 = Debug|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Release|x86.ActiveCfg = Release|Any CPU
+		{DC6DE0A1-3AA6-4AEC-9320-73B2F2ADF342}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

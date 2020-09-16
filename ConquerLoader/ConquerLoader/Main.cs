@@ -1,6 +1,5 @@
 ﻿using ConquerLoader.CLCore;
 using ConquerLoader.Models;
-using ConquerLoader.PluginsLoader;
 using MetroFramework.Controls;
 using System;
 using System.Diagnostics;
@@ -19,6 +18,7 @@ namespace ConquerLoader
         public string HookINI = "OpenConquerHook.ini";
         public string HookDLL = "OpenConquerHook.dll";
         public bool AllStarted = false;
+        public SocketClient Client = null;
         public Main()
         {
             InitializeComponent();
@@ -46,6 +46,7 @@ namespace ConquerLoader
             }
             RefreshServerList();
             Core.ExecAvailablePlugins();
+
             AllStarted = true;
         }
 
@@ -125,11 +126,6 @@ namespace ConquerLoader
                     );
                 Core.LogWritter.Write("Created the Hook Configuration");
                 worker.RunWorkerAsync();
-                foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_GAME_START))
-                {
-                    plugin.Run();
-                    Core.LogWritter.Write("Run plugin on start: " + plugin.Name + ".");
-                }
             }
         }
 
@@ -191,6 +187,15 @@ namespace ConquerLoader
             this.pBar.Value = e.ProgressPercentage;
             if (this.pBar.Value >= 100)
             {
+                foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_GAME_START))
+                {
+                    plugin.Parameters = new System.Collections.Generic.List<Parameter>
+                    {
+                        new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() }
+                    };
+                    plugin.Run();
+                    Core.LogWritter.Write("Run plugin on start: " + plugin.Name + ".");
+                }
                 if (LoaderConfig.CloseOnFinish) Environment.Exit(0);
             }
         }
