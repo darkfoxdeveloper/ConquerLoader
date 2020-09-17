@@ -191,7 +191,8 @@ namespace ConquerLoader
                 {
                     plugin.Parameters = new System.Collections.Generic.List<Parameter>
                     {
-                        new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() }
+                        new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() },
+                        new Parameter() { Id = "GameServerIP", Value = SelectedServer.GameHost }
                     };
                     plugin.Run();
                     Core.LogWritter.Write("Run plugin on start: " + plugin.Name + ".");
