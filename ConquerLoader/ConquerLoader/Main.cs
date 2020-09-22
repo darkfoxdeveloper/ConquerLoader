@@ -1,5 +1,7 @@
 ﻿using ConquerLoader.CLCore;
 using ConquerLoader.Models;
+using IniParser;
+using IniParser.Model;
 using MetroFramework.Controls;
 using System;
 using System.Diagnostics;
@@ -29,8 +31,6 @@ namespace ConquerLoader
         /*
          * TODO LIST
          * Change servername on new clients with encrypted Server.dat (Maybe the best option is find the String of first Server in Server.dat (Decrypting it with the tool in the oc forum) in memory and remplace this with the custom string of LoaderConfig.SelectedServer.ServerName
-         * Create a page with wordpress and storefront theme for anounce the ConquerLoader with the domain conquerloader.com (Simple page only for now, in future have complements for sell and implement in this loader)
-         * Premium Features (Control with IP of servername in some AccessList, json or via Database) with the features are payed for the user (User = Server IP)
          * */
 
         private void Main_Load(object sender, EventArgs e)
@@ -64,6 +64,7 @@ namespace ConquerLoader
             {
                 cbxServers.Items.Add(server.ServerName);
             }
+            RefreshServerList();
         }
 
         private void RefreshServerList(bool CheckServerStatus = true)
@@ -125,6 +126,27 @@ namespace ConquerLoader
                     + Environment.NewLine + "SERVER_VERSION=" + SelectedServer.ServerVersion
                     );
                 Core.LogWritter.Write("Created the Hook Configuration");
+                // Modify Setup of client
+                string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
+                var parser = new FileIniDataParser();
+                IniData data = parser.ReadFile(SetupIniPath);
+                if (LoaderConfig.HighResolution)
+                {
+                    /*
+                     * ScreenModeRecord
+                     *  0 = 800x600, windowed
+                        1 = 800x600, full-screen
+                        2 = 1024x768, windowed
+                        3 = 1024x768, full-screen
+                     * */
+                    data["ScreenMode"]["ScreenModeRecord"] = LoaderConfig.FullScreen ? "3" : "2";
+                    parser.WriteFile(SetupIniPath, data);
+                }
+                if (LoaderConfig.FullScreen)
+                {
+                    data["ScreenMode"]["FullScrType"] = LoaderConfig.FullScreen ? "1" : "0";
+                    parser.WriteFile(SetupIniPath, data);
+                }
                 worker.RunWorkerAsync();
             }
         }
@@ -145,6 +167,12 @@ namespace ConquerLoader
                     Core.LogWritter.Write("Found Env_DX8 Folder. Setting the folder for run executable...");
                     PathToConquerExe = CheckPathEnvDX8;
                     WorkingDir = Path.GetDirectoryName(PathToConquerExe);
+                    string OutputCopyDll = Path.Combine(Application.StartupPath, "Env_DX8", HookINI);
+                    if (File.Exists(OutputCopyDll))
+                    {
+                        File.Delete(OutputCopyDll);
+                    }
+                    File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
                 }
                 if (SelectedServer.UseDirectX9)
                 {
@@ -153,6 +181,12 @@ namespace ConquerLoader
                         Core.LogWritter.Write("Found Env_DX9 Folder. Setting the folder for run executable...");
                         PathToConquerExe = CheckPathEnvDX9;
                         WorkingDir = Path.GetDirectoryName(PathToConquerExe);
+                        string OutputCopyDll = Path.Combine(Application.StartupPath, "Env_DX9", HookINI);
+                        if (File.Exists(OutputCopyDll))
+                        {
+                            File.Delete(OutputCopyDll);
+                        }
+                        File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
                     }
                 }
                 Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });

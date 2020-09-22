@@ -9,6 +9,8 @@ namespace ConquerLoader.Models
         public ServerConfiguration DefaultServer { get; set; }
         public bool DebugMode { get; set; }
         public bool CloseOnFinish { get; set; }
+        public bool HighResolution { get; set; }
+        public bool FullScreen { get; set; }
         public string Title { get; set; }
 
         public LoaderConfig()

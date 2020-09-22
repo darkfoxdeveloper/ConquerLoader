@@ -28,6 +28,8 @@ namespace ConquerLoader
                 CurrentLoaderConfig = Core.GetLoaderConfig();
                 tglDebugMode.Checked = CurrentLoaderConfig.DebugMode;
                 tglCloseOnFinish.Checked = CurrentLoaderConfig.CloseOnFinish;
+                tglHighResolution.Checked = CurrentLoaderConfig.HighResolution;
+                tglFullscreen.Checked = CurrentLoaderConfig.FullScreen;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
@@ -52,6 +54,16 @@ namespace ConquerLoader
         private void TbxTitle_TextChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.Title = (sender as MetroTextBox).Text;
+        }
+
+        private void TglHighResolution_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.HighResolution = (sender as MetroToggle).Checked;
+        }
+
+        private void TglFullscreen_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.FullScreen = (sender as MetroToggle).Checked;
         }
     }
 }
