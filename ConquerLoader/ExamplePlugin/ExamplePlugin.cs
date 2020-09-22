@@ -29,14 +29,7 @@ namespace ConquerLoader.Plugins
 				return LoadType.LOADER_EXECUTION;
 			}
 		}
-
-		public List<Parameter> Parameters
-		{
-			get
-			{
-				return new List<Parameter>();
-			}
-		}
+		public List<Parameter> Parameters { get; set; }
 
 		public void Run()
 		{
