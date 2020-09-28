@@ -1,4 +1,5 @@
-﻿using ConquerLoader.CLCore;
+﻿using CLCore.Models;
+using ConquerLoader.CLCore;
 using ConquerLoader.Models;
 using IniParser;
 using IniParser.Model;
@@ -221,6 +222,15 @@ namespace ConquerLoader
             this.pBar.Value = e.ProgressPercentage;
             if (this.pBar.Value >= 100)
             {
+                try
+                {
+                    PluginLoader loader = new PluginLoader();
+                    loader.LoadPluginsFromAPI(SelectedServer);
+                    Core.LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " remote plugins.");
+                } catch(Exception ex)
+                {
+                    Core.LogWritter.Write("Error remote plugins init: " + ex.ToString());
+                }
                 foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_GAME_START))
                 {
                     plugin.Parameters = new System.Collections.Generic.List<Parameter>

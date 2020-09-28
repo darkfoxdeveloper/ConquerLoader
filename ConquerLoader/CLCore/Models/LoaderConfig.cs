@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace ConquerLoader.Models
+namespace CLCore.Models
 {
     public class LoaderConfig
     {

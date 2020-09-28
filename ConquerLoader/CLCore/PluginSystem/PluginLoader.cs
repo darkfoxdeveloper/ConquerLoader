@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CLCore.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 
 namespace ConquerLoader.CLCore
@@ -38,6 +40,41 @@ namespace ConquerLoader.CLCore
 				//Create a new instance of all found types
 				Plugins.Add((IPlugin)Activator.CreateInstance(type));
 			}
+		}
+
+		public void LoadPluginsFromAPI(ServerConfiguration ServerConfig)
+		{
+			Plugins = new List<IPlugin>();
+
+			HttpClient client = new HttpClient();
+			HttpResponseMessage response = client.GetAsync("http://localhost/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + ServerConfig.GameHost).Result;
+			if (response.IsSuccessStatusCode)
+			{
+				string result = response.Content.ReadAsStringAsync().Result;
+				List<APIRemoteModule> apiRemoteModules = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APIRemoteModule>>(result);
+				foreach(APIRemoteModule m in apiRemoteModules)
+				{
+					Assembly.Load(m.Content);
+				}
+			}
+
+			Type interfaceType = typeof(IPlugin);
+			//Fetch all types that implement the interface IPlugin and are a class
+			Type[] types = AppDomain.CurrentDomain.GetAssemblies()
+				.SelectMany(a => a.GetTypes())
+				.Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
+				.ToArray();
+			foreach (Type type in types)
+			{
+				//Create a new instance of all found types
+				Plugins.Add((IPlugin)Activator.CreateInstance(type));
+			}
+		}
+
+		protected class APIRemoteModule
+		{
+			public string Filename { get; set; }
+			public byte[] Content { get; set; }
 		}
 	}
 }

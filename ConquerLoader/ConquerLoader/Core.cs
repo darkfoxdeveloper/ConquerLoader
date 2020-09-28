@@ -1,4 +1,5 @@
-﻿using ConquerLoader.CLCore;
+﻿using CLCore.Models;
+using ConquerLoader.CLCore;
 using ConquerLoader.Models;
 using System;
 using System.IO;

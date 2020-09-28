@@ -1,4 +1,4 @@
-﻿namespace ConquerLoader.Models
+﻿namespace CLCore.Models
 {
     public class ServerConfiguration
     {

@@ -1,4 +1,4 @@
-﻿using ConquerLoader.Models;
+﻿using CLCore.Models;
 using MetroFramework.Controls;
 using System;
 using System.IO;
