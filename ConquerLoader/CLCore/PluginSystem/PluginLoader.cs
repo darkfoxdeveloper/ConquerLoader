@@ -42,12 +42,12 @@ namespace ConquerLoader.CLCore
 			}
 		}
 
-		public void LoadPluginsFromAPI(ServerConfiguration ServerConfig)
+		public void LoadPluginsFromAPI(LoaderConfig LoaderConfig)
 		{
 			Plugins = new List<IPlugin>();
 
 			HttpClient client = new HttpClient();
-			HttpResponseMessage response = client.GetAsync("http://localhost/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + ServerConfig.GameHost).Result;
+			HttpResponseMessage response = client.GetAsync("http://localhost/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + LoaderConfig.LicenseKey).Result;
 			if (response.IsSuccessStatusCode)
 			{
 				string result = response.Content.ReadAsStringAsync().Result;

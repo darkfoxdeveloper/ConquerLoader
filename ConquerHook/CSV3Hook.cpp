@@ -39,6 +39,7 @@ int ClientVersion = 0, EnableHostName = 0, UpdatedIPS = 0;
 BYTE patternDynamic = 0x4F;
 char HostName[32] = "";
 LPCSTR HeaderConfig = "OpenConquerHook";
+DWORD_PTR ServerNameMemoryAddress = 0x005726DC;
 BYTE pattern_66XX[] = { 0x85, 0xC0, 0x75, 0x2F, 0x8B, 0x4F, 0x14, 0xE8, 0x0D, 0xF1, 0xFF, 0xFF, 0x83, 0x4D, 0xFC, 0xFF, 0x8B, 0x4D, 0xF4 }; // Version = 66XX
 BYTE pattern2_66XX[] = { 0x85, 0xC9, 0x74, 0x0C, 0xFF, 0x75, 0x0C, 0x57, 0xE8, 0x53, 0xF2, 0xFF, 0xFF, 0x89, 0x45 }; // Version = 66XX
 BYTE pattern_60XX[] = { 0x85, 0xC0, 0x75, 0x00, 0x8B, 0x4F, 0x00, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x83, 0x4D, 0x00, 0x00, 0x8B, 0x00, 0x00 }; // Version = 60XX
@@ -128,6 +129,21 @@ int __stdcall csv3_connect(SOCKET s, sockaddr_in* name, int len)
 		int nPortDecrypt = atoi(szPortAddress);
 		name->sin_port = htons(nPortDecrypt);
 	}
+
+	//Servername Changer By DaRkFox
+	string input = "ConquerOnline";
+	GetPrivateProfileStringA(HeaderConfig, "SERVERNAME", "ConquerOnline", (LPSTR)input.c_str(), 128, szConfig);
+	char buffer[128];
+	if (ServerNameMemoryAddress != 0) {
+		if (ReadProcessMemory(GetCurrentProcess(), (LPCVOID)ServerNameMemoryAddress, &buffer, sizeof(buffer), NULL)) {
+			//Input Servername
+			if (!WriteProcessMemory(GetCurrentProcess(), (LPVOID)ServerNameMemoryAddress, input.c_str(), sizeof(buffer), NULL))
+			{
+				//MessageBoxA(NULL, "Error cannot WriteProcessMemory!", "Error", MB_OK + MB_ICONERROR);
+			}
+		}
+	}
+	//END Servername Changer
 
 	typedef int (__stdcall *LPFCONNECT)(SOCKET,sockaddr_in*,int);
 	return ((LPFCONNECT)connect_stub.Address)(s, name, len);
@@ -224,14 +240,20 @@ void csv3_init(HMODULE hModule)
 
 		bool wildcards[] = { 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1 };
 		PBYTE match = (PBYTE)FindMemoryPattern(pattern_OLD, wildcards, 19);
-		if (ClientVersion >= 5600) {
+		ServerNameMemoryAddress = 0x0097FAB8;
+		if (ClientVersion >= 5700) {
 			match = (PBYTE)FindMemoryPattern(pattern_56XX, wildcards, 19);
+			ServerNameMemoryAddress = 0;
 		}
 		if (ClientVersion >= 6000) {
 			match = (PBYTE)FindMemoryPattern(pattern_60XX, wildcards, 19);
+			ServerNameMemoryAddress = 0;
+			//ServerNameMemoryAddress = 0x00C67FD0;
 		}
 		if (ClientVersion >= 6600) {
 			match = (PBYTE)FindMemoryPattern(pattern_66XX, wildcards, 19);
+			ServerNameMemoryAddress = 0;
+			//ServerNameMemoryAddress = 0x00CD7240;
 		}
 
 		if (match == NULL)
@@ -251,7 +273,7 @@ void csv3_init(HMODULE hModule)
 
 		bool wildcards2[] = { 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0 };
 		match = (PBYTE)FindMemoryPattern(pattern2_OLD, wildcards2, 15);
-		if (ClientVersion >= 5600) {
+		if (ClientVersion >= 5700) {
 			match = (PBYTE)FindMemoryPattern(pattern2_56XX, wildcards2, 15);
 		}
 		if (ClientVersion >= 6000) {

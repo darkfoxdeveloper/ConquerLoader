@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Models\IniManager.cs" />
     <Compile Include="Models\LoaderConfig.cs" />
     <Compile Include="Models\ServerConfiguration.cs" />
     <Compile Include="PluginSystem\IPlugin.cs" />

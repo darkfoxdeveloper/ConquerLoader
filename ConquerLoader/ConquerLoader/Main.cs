@@ -1,8 +1,6 @@
 ﻿using CLCore.Models;
 using ConquerLoader.CLCore;
 using ConquerLoader.Models;
-using IniParser;
-using IniParser.Model;
 using MetroFramework.Controls;
 using System;
 using System.Diagnostics;
@@ -129,10 +127,12 @@ namespace ConquerLoader
                 Core.LogWritter.Write("Created the Hook Configuration");
                 // Modify Setup of client
                 string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
-                var parser = new FileIniDataParser();
-                IniData data = parser.ReadFile(SetupIniPath);
+                IniManager parser = new IniManager(SetupIniPath, "ScreenMode");
+                parser.Write("ScreenMode", "FullScrType", LoaderConfig.FullScreen ? "0" : "1");
                 if (LoaderConfig.HighResolution)
                 {
+                    parser.Write("ScreenMode", "ScrWidth", "1024");
+                    parser.Write("ScreenMode", "ScrHeight", "768");
                     /*
                      * ScreenModeRecord
                      *  0 = 800x600, windowed
@@ -140,13 +140,20 @@ namespace ConquerLoader
                         2 = 1024x768, windowed
                         3 = 1024x768, full-screen
                      * */
-                    data["ScreenMode"]["ScreenModeRecord"] = LoaderConfig.FullScreen ? "3" : "2";
-                    parser.WriteFile(SetupIniPath, data);
+                    parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "3" : "2");
                 }
-                if (LoaderConfig.FullScreen)
+                else
                 {
-                    data["ScreenMode"]["FullScrType"] = LoaderConfig.FullScreen ? "1" : "0";
-                    parser.WriteFile(SetupIniPath, data);
+                    parser.Write("ScreenMode", "ScrWidth", "800");
+                    parser.Write("ScreenMode", "ScrHeight", "600");
+                    /*
+                     * ScreenModeRecord
+                     *  0 = 800x600, windowed
+                        1 = 800x600, full-screen
+                        2 = 1024x768, windowed
+                        3 = 1024x768, full-screen
+                     * */
+                    parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
                 }
                 worker.RunWorkerAsync();
             }
@@ -225,7 +232,7 @@ namespace ConquerLoader
                 try
                 {
                     PluginLoader loader = new PluginLoader();
-                    loader.LoadPluginsFromAPI(SelectedServer);
+                    loader.LoadPluginsFromAPI(LoaderConfig);
                     Core.LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " remote plugins.");
                 } catch(Exception ex)
                 {
