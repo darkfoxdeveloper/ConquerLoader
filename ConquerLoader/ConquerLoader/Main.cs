@@ -27,11 +27,6 @@ namespace ConquerLoader
             this.Theme = MetroFramework.MetroThemeStyle.Light;
         }
 
-        /*
-         * TODO LIST
-         * Change servername on new clients with encrypted Server.dat (Maybe the best option is find the String of first Server in Server.dat (Decrypting it with the tool in the oc forum) in memory and remplace this with the custom string of LoaderConfig.SelectedServer.ServerName
-         * */
-
         private void Main_Load(object sender, EventArgs e)
         {
             LoaderConfig = Core.GetLoaderConfig();
@@ -100,64 +95,106 @@ namespace ConquerLoader
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            if (LoaderConfig == null) return;
-            if (cbxServers.SelectedItem == null) return;
-            SelectedServer = LoaderConfig.Servers.Where(x => x.ServerName == cbxServers.SelectedItem.ToString()).FirstOrDefault();
-            if (SelectedServer != null)
+            try
             {
-                // Save Last Selected
+                if (LoaderConfig == null) return;
+                if (cbxServers.SelectedItem == null) return;
                 SelectedServer = LoaderConfig.Servers.Where(x => x.ServerName == cbxServers.SelectedItem.ToString()).FirstOrDefault();
-                LoaderConfig.DefaultServer = SelectedServer;
-                Core.SaveLoaderConfig(LoaderConfig);
-                if (File.Exists(HookINI))
+                if (SelectedServer != null)
                 {
-                    File.Delete(HookINI);
+                    // Save Last Selected
+                    SelectedServer = LoaderConfig.Servers.Where(x => x.ServerName == cbxServers.SelectedItem.ToString()).FirstOrDefault();
+                    LoaderConfig.DefaultServer = SelectedServer;
+                    Core.SaveLoaderConfig(LoaderConfig);
+                    if (File.Exists(HookINI))
+                    {
+                        File.Delete(HookINI);
+                    }
+                    if (LoaderConfig.ServernameChange)
+                    {
+                        if (SelectedServer.ServerNameMemoryAddress != null && SelectedServer.ServerNameMemoryAddress.Length >= 8) // Detect valid memory address
+                        {
+                            // Nothing to do. Using the specified custom memory address 
+                        }
+                        else
+                        {
+                            // Set default recommended for each range of versions
+                            if (SelectedServer.ServerVersion < 5600)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x005726DC";
+                            }
+                            if (SelectedServer.ServerVersion >= 5600)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x0097FAB8";
+                            }
+                            if (SelectedServer.ServerVersion >= 5700)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x009BEA00";
+                            }
+                            if (SelectedServer.ServerVersion >= 6000)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x00A56348";
+                            }
+                            if (SelectedServer.ServerVersion >= 6600)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x00CD7240";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SelectedServer.ServerNameMemoryAddress = "0";
+                    }
+                    // Create first the config used by DLL
+                    File.WriteAllText(HookINI, "[OpenConquerHook]"
+                        + Environment.NewLine + "HOST=" + SelectedServer.LoginHost
+                        + Environment.NewLine + "GAMEHOST=" + SelectedServer.GameHost
+                        + Environment.NewLine + "PORT=" + SelectedServer.LoginPort
+                        + Environment.NewLine + "GAMEPORT=" + SelectedServer.GamePort
+                        + Environment.NewLine + "SERVERNAME=" + SelectedServer.ServerName
+                        + Environment.NewLine + "ENABLE_HOSTNAME=" + (SelectedServer.EnableHostName ? "1" : "0")
+                        + Environment.NewLine + "HOSTNAME=" + SelectedServer.Hostname
+                        + Environment.NewLine + "SERVER_VERSION=" + SelectedServer.ServerVersion
+                        + Environment.NewLine + "SERVERNAME_MEMORYADDRESS=" + SelectedServer.ServerNameMemoryAddress
+                        );
+                    Core.LogWritter.Write("Created the Hook Configuration");
+                    // Modify Setup of client
+                    string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
+                    IniManager parser = new IniManager(SetupIniPath, "ScreenMode");
+                    parser.Write("ScreenMode", "FullScrType", LoaderConfig.FullScreen ? "0" : "1");
+                    if (LoaderConfig.HighResolution)
+                    {
+                        parser.Write("ScreenMode", "ScrWidth", "1024");
+                        parser.Write("ScreenMode", "ScrHeight", "768");
+                        /*
+                         * ScreenModeRecord
+                         *  0 = 800x600, windowed
+                            1 = 800x600, full-screen
+                            2 = 1024x768, windowed
+                            3 = 1024x768, full-screen
+                         * */
+                        parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "3" : "2");
+                    }
+                    else
+                    {
+                        parser.Write("ScreenMode", "ScrWidth", "800");
+                        parser.Write("ScreenMode", "ScrHeight", "600");
+                        /*
+                         * ScreenModeRecord
+                         *  0 = 800x600, windowed
+                            1 = 800x600, full-screen
+                            2 = 1024x768, windowed
+                            3 = 1024x768, full-screen
+                         * */
+                        parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
+                    }
+                    worker.RunWorkerAsync();
                 }
-                // Create first the config used by DLL
-                File.WriteAllText(HookINI, "[OpenConquerHook]"
-                    + Environment.NewLine + "HOST=" + SelectedServer.LoginHost
-                    + Environment.NewLine + "GAMEHOST=" + SelectedServer.GameHost
-                    + Environment.NewLine + "PORT=" + SelectedServer.LoginPort
-                    + Environment.NewLine + "GAMEPORT=" + SelectedServer.GamePort
-                    + Environment.NewLine + "SERVERNAME=" + SelectedServer.ServerName
-                    + Environment.NewLine + "ENABLE_HOSTNAME=" + (SelectedServer.EnableHostName ? "1" : "0")
-                    + Environment.NewLine + "HOSTNAME=" + SelectedServer.Hostname
-                    + Environment.NewLine + "SERVER_VERSION=" + SelectedServer.ServerVersion
-                    );
-                Core.LogWritter.Write("Created the Hook Configuration");
-                // Modify Setup of client
-                string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
-                IniManager parser = new IniManager(SetupIniPath, "ScreenMode");
-                parser.Write("ScreenMode", "FullScrType", LoaderConfig.FullScreen ? "0" : "1");
-                if (LoaderConfig.HighResolution)
-                {
-                    parser.Write("ScreenMode", "ScrWidth", "1024");
-                    parser.Write("ScreenMode", "ScrHeight", "768");
-                    /*
-                     * ScreenModeRecord
-                     *  0 = 800x600, windowed
-                        1 = 800x600, full-screen
-                        2 = 1024x768, windowed
-                        3 = 1024x768, full-screen
-                     * */
-                    parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "3" : "2");
-                }
-                else
-                {
-                    parser.Write("ScreenMode", "ScrWidth", "800");
-                    parser.Write("ScreenMode", "ScrHeight", "600");
-                    /*
-                     * ScreenModeRecord
-                     *  0 = 800x600, windowed
-                        1 = 800x600, full-screen
-                        2 = 1024x768, windowed
-                        3 = 1024x768, full-screen
-                     * */
-                    parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
-                }
-                worker.RunWorkerAsync();
+            } catch(Exception ex)
+            {
+                Core.LogWritter.Write("Error found: " + ex);
             }
-        }
+}
 
         private void Worker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {

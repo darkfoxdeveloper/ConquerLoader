@@ -47,7 +47,7 @@ namespace ConquerLoader.CLCore
 			Plugins = new List<IPlugin>();
 
 			HttpClient client = new HttpClient();
-			HttpResponseMessage response = client.GetAsync("http://localhost/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + LoaderConfig.LicenseKey).Result;
+			HttpResponseMessage response = client.GetAsync("https://conquerloader.com/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + LoaderConfig.LicenseKey).Result;
 			if (response.IsSuccessStatusCode)
 			{
 				string result = response.Content.ReadAsStringAsync().Result;

@@ -30,6 +30,7 @@ namespace ConquerLoader
                 tglCloseOnFinish.Checked = CurrentLoaderConfig.CloseOnFinish;
                 tglHighResolution.Checked = CurrentLoaderConfig.HighResolution;
                 tglFullscreen.Checked = CurrentLoaderConfig.FullScreen;
+                tglServerNameChange.Checked = CurrentLoaderConfig.ServernameChange;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
@@ -64,6 +65,11 @@ namespace ConquerLoader
         private void TglFullscreen_CheckedChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.FullScreen = (sender as MetroToggle).Checked;
+        }
+
+        private void TglServerNameChange_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.ServernameChange = (sender as MetroToggle).Checked;
         }
     }
 }

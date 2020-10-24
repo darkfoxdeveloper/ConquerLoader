@@ -12,5 +12,6 @@
         public bool EnableHostName { get; set; }
         public bool UseDirectX9 { get; set; }
         public string Hostname { get; set; }
+        public string ServerNameMemoryAddress { get; set; }
     }
 }
