@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <windows.h>
 #include <tlhelp32.h>
+#include "CFlashFix.h"
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "user32.lib")
 
@@ -38,13 +39,13 @@ CLegacyCipher* legacy;
 int ClientVersion = 0, EnableHostName = 0, UpdatedIPS = 0;
 BYTE patternDynamic = 0x4F;
 char HostName[32] = "";
-LPCSTR HeaderConfig = "OpenConquerHook";
+LPCSTR HeaderConfig = "CLHook";
 // Variables of Settings from .ini file
 char ServerName[16] = "ConquerOnline";
-DWORD ServerNameMemoryAddress = 0x005726DC;
+int ServerNameMemoryAddress = 0x005726DC;
 // Patterns for working connection
-BYTE pattern_66XX[] = { 0x85, 0xC0, 0x75, 0x2F, 0x8B, 0x4F, 0x14, 0xE8, 0x0D, 0xF1, 0xFF, 0xFF, 0x83, 0x4D, 0xFC, 0xFF, 0x8B, 0x4D, 0xF4 }; // Version = 66XX
-BYTE pattern2_66XX[] = { 0x85, 0xC9, 0x74, 0x0C, 0xFF, 0x75, 0x0C, 0x57, 0xE8, 0x53, 0xF2, 0xFF, 0xFF, 0x89, 0x45 }; // Version = 66XX
+BYTE pattern_6617[] = { 0x85, 0xC0, 0x75, 0x2F, 0x8B, 0x4F, 0x14, 0xE8, 0x0D, 0xF1, 0xFF, 0xFF, 0x83, 0x4D, 0xFC, 0xFF, 0x8B, 0x4D, 0xF4 }; // Version = 6617
+BYTE pattern2_6617[] = { 0x85, 0xC9, 0x74, 0x0C, 0xFF, 0x75, 0x0C, 0x57, 0xE8, 0x53, 0xF2, 0xFF, 0xFF, 0x89, 0x45 }; // Version = 6617
 BYTE pattern_60XX[] = { 0x85, 0xC0, 0x75, 0x00, 0x8B, 0x4F, 0x00, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x83, 0x4D, 0x00, 0x00, 0x8B, 0x00, 0x00 }; // Version = 60XX
 BYTE pattern2_60XX[] = { 0x85, 0xC9, 0x00, 0x00, 0xFF, 0x75, 0x00, 0x57, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x89, 0x45 }; // Version = 60XX
 BYTE pattern_OLD[] = { 0x85, 0xC0, 0x75, 0x00, 0x8B, 0x4E, 0x00, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x83, 0x4D, 0x00, 0x00, 0x8B, 0x00, 0x00 }; // Version = Old Clients
@@ -137,7 +138,7 @@ int __stdcall csv3_connect(SOCKET s, sockaddr_in* name, int len)
 	char buffer[16];
 	if (ServerNameMemoryAddress != 0) {
 		//Input Servername
-		WriteProcessMemory(GetCurrentProcess(), (LPVOID)ServerNameMemoryAddress, ServerName, sizeof(buffer), NULL);
+		WriteProcessMemory(GetCurrentProcess(), (void*)ServerNameMemoryAddress, ServerName, sizeof(buffer), 0);
 	}
 	//END Servername Changer
 
@@ -222,7 +223,7 @@ void csv3_init(HMODULE hModule)
 			break;
 		}
 	}
-	strcat(szConfig, "OpenConquerHook.ini");
+	strcat(szConfig, "CLHook.ini");
 
 	// Find the correct version of client based in user config
 	char szVersionValue[5];
@@ -232,6 +233,12 @@ void csv3_init(HMODULE hModule)
 	// Get the servername
 	GetPrivateProfileStringA(HeaderConfig, "SERVERNAME", "ConquerOnline", ServerName, 16, szConfig);
 	ServerNameMemoryAddress = GetPrivateProfileIntA(HeaderConfig, "SERVERNAME_MEMORYADDRESS", 0, szConfig);
+
+	// Fix Flash for old clients
+	if (ClientVersion <= 6000) {
+		CFlashFix flash;
+		flash.Hook();
+	}
 
 	if (ClientVersion >= 5600) {
 		//
@@ -247,9 +254,8 @@ void csv3_init(HMODULE hModule)
 		if (ClientVersion >= 6000) {
 			match = (PBYTE)FindMemoryPattern(pattern_60XX, wildcards, 19);
 		}
-		if (ClientVersion >= 6600) {
-			match = (PBYTE)FindMemoryPattern(pattern_66XX, wildcards, 19);
-
+		if (ClientVersion >= 6617) {
+			match = (PBYTE)FindMemoryPattern(pattern_6617, wildcards, 19);
 		}
 
 		if (match == NULL)
@@ -275,8 +281,8 @@ void csv3_init(HMODULE hModule)
 		if (ClientVersion >= 6000) {
 			match = (PBYTE)FindMemoryPattern(pattern2_60XX, wildcards2, 15);
 		}
-		if (ClientVersion >= 6600) {
-			match = (PBYTE)FindMemoryPattern(pattern2_66XX, wildcards2, 15);
+		if (ClientVersion >= 6617) {
+			match = (PBYTE)FindMemoryPattern(pattern2_6617, wildcards2, 15);
 		}
 
 		if (match == NULL)

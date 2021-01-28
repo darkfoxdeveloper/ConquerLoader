@@ -47,5 +47,14 @@
     <ClCompile Include="Scan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CFlashFix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CFlashFix.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

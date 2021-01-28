@@ -1,4 +1,5 @@
 ﻿using CLCore.Models;
+using ConquerLoader.Forms;
 using MetroFramework.Controls;
 using System;
 using System.IO;
@@ -9,6 +10,7 @@ namespace ConquerLoader
     public partial class Settings : MetroFramework.Forms.MetroForm
     {
         public LoaderConfig CurrentLoaderConfig = null;
+        private Wizard WizardForm = null;
         public Settings()
         {
             InitializeComponent();
@@ -70,6 +72,35 @@ namespace ConquerLoader
         private void TglServerNameChange_CheckedChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.ServernameChange = (sender as MetroToggle).Checked;
+        }
+
+        private void BtnAdvancedMode_Click(object sender, EventArgs e)
+        {
+            if (gridViewSettings.ReadOnly)
+            {
+                gridViewSettings.ReadOnly = false;
+                btnAdvancedMode.Text = "Simple";
+                MetroFramework.MetroMessageBox.Show(this, $"Now can edit in the grid directly! This is a feature for Advanced Users.", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            } else
+            {
+                gridViewSettings.ReadOnly = true;
+                btnAdvancedMode.Text = "Advanced";
+            }
+        }
+
+        private void BtnWizard_Click(object sender, EventArgs e)
+        {
+            // TODO new wizard mode
+            if (WizardForm == null)
+            {
+                WizardForm = new Wizard();
+            }
+            DialogResult dRes = WizardForm.ShowDialog();
+            if (dRes == DialogResult.OK)
+            {
+                CurrentLoaderConfig = Core.GetLoaderConfig();
+                gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
+            }
         }
     }
 }

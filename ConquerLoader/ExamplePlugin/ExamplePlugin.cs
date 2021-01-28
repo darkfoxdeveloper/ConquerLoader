@@ -1,10 +1,11 @@
-﻿using ConquerLoader.CLCore;
+﻿using CLCore;
+using ConquerLoader.CLCore;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ConquerLoader.Plugins
 {
-	public class ExamplePlugin : IPlugin
+    public class ExamplePlugin : IPlugin
 	{
 		public string Explanation
 		{
@@ -22,18 +23,36 @@ namespace ConquerLoader.Plugins
 			}
 		}
 
-		public LoadType LoadType
-		{
-			get
-			{
-				return LoadType.LOADER_EXECUTION;
-			}
-		}
-		public List<Parameter> Parameters { get; set; }
-
 		public void Run()
 		{
-			File.WriteAllText("ExamplePlugin.log", "This is a example plugin. This text is writted in the file by Run Method of the plugin.");
+			LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
+			LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
+			LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
+		}
+
+		private void LoaderEvents_LauncherLoaded()
+		{
+			File.WriteAllText("ExamplePlugin_LauncherLoaded.log", "This is a example plugin. This text is writted in the file by Run Method of the plugin. => Writted in LauncherLoaded Event!");
+		}
+
+		private void LoaderEvents_ConquerLaunched(List<Parameter> parameters)
+		{
+			string ParametersTxt = "";
+			foreach (Parameter par in parameters)
+            {
+				ParametersTxt += $"Id={par.Id};Value={par.Value}";
+            }
+			File.WriteAllText("ExamplePlugin_ConquerLaunched.log", "This is a example plugin. This text is writted in the file by Run Method of the plugin. => Writted in ConquerLaunched Event! Parameters: " + ParametersTxt);
+		}
+
+		private void LoaderEvents_LauncherExit(List<Parameter> parameters)
+		{
+			string ParametersTxt = "";
+			foreach (Parameter par in parameters)
+			{
+				ParametersTxt += $"Id={par.Id};Value={par.Value}";
+			}
+			File.WriteAllText("ExamplePlugin_LauncherExit.log", "This is a example plugin. This text is writted in the file by Run Method of the plugin. => Writted in LauncherExit Event! Parameters: " + ParametersTxt);
 		}
 	}
 }

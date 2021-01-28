@@ -13,7 +13,6 @@ namespace ConquerLoader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Core.LoadAvailablePlugins();
             Application.Run(new Main());
         }
     }

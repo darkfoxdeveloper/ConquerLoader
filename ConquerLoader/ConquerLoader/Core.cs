@@ -35,19 +35,25 @@ namespace ConquerLoader
                 LogWritter.Write(string.Format("Plugins couldn't be loaded: {0}", e.Message));
                 Environment.Exit(0);
             }
-            foreach(IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.LOADER_EXECUTION))
+            foreach(IPlugin plugin in PluginLoader.Plugins)
             {
                 plugin.Run();
                 LogWritter.Write("Run plugin on loader execution: " + plugin.Name + ".");
             }
         }
 
-        internal static void ExecAvailablePlugins()
+        public static void LoadRemotePlugins()
         {
-            foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_FORM_LOAD))
+            // Remote plugins
+            try
             {
-                plugin.Run();
-                LogWritter.Write("Run plugin on form load: " + plugin.Name + ".");
+                PluginLoader loader = new PluginLoader();
+                loader.LoadPluginsFromAPI(GetLoaderConfig());
+                Core.LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " remote plugins.");
+            }
+            catch (Exception ex)
+            {
+                Core.LogWritter.Write("Error remote plugins init: " + ex.ToString());
             }
         }
 

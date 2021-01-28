@@ -1,12 +1,15 @@
-﻿using CLCore.Models;
+﻿using CLCore;
+using CLCore.Models;
 using ConquerLoader.CLCore;
 using ConquerLoader.Models;
 using MetroFramework.Controls;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ConquerLoader
@@ -16,8 +19,8 @@ namespace ConquerLoader
         public LoaderConfig LoaderConfig = null;
         public ServerConfiguration SelectedServer = null;
         public Process CurrentConquerProcess = null;
-        public string HookINI = "OpenConquerHook.ini";
-        public string HookDLL = "OpenConquerHook.dll";
+        public string HookINI = "CLHook.ini";
+        public string HookDLL = "CLHook.dll";
         public bool AllStarted = false;
         public SocketClient Client = null;
         public Main()
@@ -25,8 +28,12 @@ namespace ConquerLoader
             InitializeComponent();
             this.Resizable = false;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
+            LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
+            LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
+            LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
+            Core.LoadAvailablePlugins();
+            Core.LoadRemotePlugins();
         }
-
         private void Main_Load(object sender, EventArgs e)
         {
             LoaderConfig = Core.GetLoaderConfig();
@@ -34,14 +41,30 @@ namespace ConquerLoader
             {
                 Settings s = new Settings();
                 s.ShowDialog(this);
-            } else
+            }
+            else
             {
                 LoadConfigInForm();
             }
             RefreshServerList();
-            Core.ExecAvailablePlugins();
 
             AllStarted = true;
+            LoaderEvents.LauncherLoadedStartEvent();
+        }
+
+        private void LoaderEvents_LauncherLoaded()
+        {
+            Core.LogWritter.Write("Event LauncherLoaded Fired!");
+        }
+
+        private void LoaderEvents_ConquerLaunched(List<Parameter> parameters)
+        {
+            Core.LogWritter.Write("Event ConquerLaunched Fired!");
+        }
+
+        private void LoaderEvents_LauncherExit(List<Parameter> parameters)
+        {
+            try { Core.LogWritter.Write("Event LauncherExit Fired!"); } catch(Exception) {}
         }
 
         private void LoadConfigInForm()
@@ -135,7 +158,11 @@ namespace ConquerLoader
                             {
                                 SelectedServer.ServerNameMemoryAddress = "0x00A56348";
                             }
-                            if (SelectedServer.ServerVersion >= 6600)
+                            if (SelectedServer.ServerVersion >= 6609)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x00CE8180";
+                            }
+                            if (SelectedServer.ServerVersion >= 6617)
                             {
                                 SelectedServer.ServerNameMemoryAddress = "0x00CD7240";
                             }
@@ -146,7 +173,7 @@ namespace ConquerLoader
                         SelectedServer.ServerNameMemoryAddress = "0";
                     }
                     // Create first the config used by DLL
-                    File.WriteAllText(HookINI, "[OpenConquerHook]"
+                    File.WriteAllText(HookINI, "[CLHook]"
                         + Environment.NewLine + "HOST=" + SelectedServer.LoginHost
                         + Environment.NewLine + "GAMEHOST=" + SelectedServer.GameHost
                         + Environment.NewLine + "PORT=" + SelectedServer.LoginPort
@@ -239,10 +266,18 @@ namespace ConquerLoader
                 {
                     Core.LogWritter.Write("Process launched!");
                     CurrentConquerProcess = conquerProc;
+                    LoaderEvents.ConquerLaunchedStartEvent(new List<Parameter>
+                    {
+                        new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() },
+                        new Parameter() { Id = "GameServerIP", Value = SelectedServer.GameHost }
+                    });
                     DllInjector.GetInstance.worker = worker;
                     Core.LogWritter.Write("Injecting DLL...");
+                    worker.ReportProgress(5);
+                    Thread.Sleep(7000);
                     if (DllInjector.GetInstance.Inject((uint)conquerProc.Id, Application.StartupPath + @"\" + HookDLL) != DllInjectionResult.Success)
                     {
+                        Core.LogWritter.Write("Injection failed!");
                         MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
@@ -266,26 +301,11 @@ namespace ConquerLoader
             this.pBar.Value = e.ProgressPercentage;
             if (this.pBar.Value >= 100)
             {
-                try
+                if (LoaderConfig.CloseOnFinish)
                 {
-                    PluginLoader loader = new PluginLoader();
-                    loader.LoadPluginsFromAPI(LoaderConfig);
-                    Core.LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " remote plugins.");
-                } catch(Exception ex)
-                {
-                    Core.LogWritter.Write("Error remote plugins init: " + ex.ToString());
+                    LoaderEvents.LauncherExitStartEvent(new List<Parameter>() { new Parameter() { Id = "CLOSE_MESSAGE", Value = "Finished" } });
+                    Environment.Exit(0);
                 }
-                foreach (IPlugin plugin in PluginLoader.Plugins.Where(p => p.LoadType == LoadType.ON_GAME_START))
-                {
-                    plugin.Parameters = new System.Collections.Generic.List<Parameter>
-                    {
-                        new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() },
-                        new Parameter() { Id = "GameServerIP", Value = SelectedServer.GameHost }
-                    };
-                    plugin.Run();
-                    Core.LogWritter.Write("Run plugin on start: " + plugin.Name + ".");
-                }
-                if (LoaderConfig.CloseOnFinish) Environment.Exit(0);
             }
         }
 
