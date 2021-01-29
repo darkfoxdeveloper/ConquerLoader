@@ -215,6 +215,7 @@ namespace ConquerLoader
                          * */
                         parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
                     }
+                    Core.LoaderWorker = worker;
                     worker.RunWorkerAsync();
                 }
             } catch(Exception ex)
@@ -265,17 +266,17 @@ namespace ConquerLoader
                 if (conquerProc != null)
                 {
                     Core.LogWritter.Write("Process launched!");
+                    worker.ReportProgress(10);
                     CurrentConquerProcess = conquerProc;
                     LoaderEvents.ConquerLaunchedStartEvent(new List<Parameter>
                     {
                         new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() },
                         new Parameter() { Id = "GameServerIP", Value = SelectedServer.GameHost }
                     });
-                    DllInjector.GetInstance.worker = worker;
                     Core.LogWritter.Write("Injecting DLL...");
-                    worker.ReportProgress(5);
-                    Thread.Sleep(7000);
-                    if (DllInjector.GetInstance.Inject((uint)conquerProc.Id, Application.StartupPath + @"\" + HookDLL) != DllInjectionResult.Success)
+                    worker.ReportProgress(20);
+                    Thread.Sleep(10000);
+                    if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id))
                     {
                         Core.LogWritter.Write("Injection failed!");
                         MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);

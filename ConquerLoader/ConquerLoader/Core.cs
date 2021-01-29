@@ -2,8 +2,8 @@
 using ConquerLoader.CLCore;
 using ConquerLoader.Models;
 using System;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 
 namespace ConquerLoader
@@ -12,6 +12,7 @@ namespace ConquerLoader
     {
         public static LogWritter LogWritter = new LogWritter("conquerloader.log");
         public static string ConfigJsonPath = "config.json";
+        public static BackgroundWorker LoaderWorker = null;
         public static LoaderConfig GetLoaderConfig()
         {
             LoaderConfig lConfig = null;
