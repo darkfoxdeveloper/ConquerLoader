@@ -275,7 +275,7 @@ namespace ConquerLoader
                     });
                     Core.LogWritter.Write("Injecting DLL...");
                     worker.ReportProgress(20);
-                    Thread.Sleep(10000);
+                    conquerProc.WaitForInputIdle(35000);
                     if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id))
                     {
                         Core.LogWritter.Write("Injection failed!");
