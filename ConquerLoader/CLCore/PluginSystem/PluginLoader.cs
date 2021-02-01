@@ -1,4 +1,5 @@
-﻿using CLCore.Models;
+﻿using CLCore;
+using CLCore.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Reflection;
 
 namespace ConquerLoader.CLCore
 {
-	public class PluginLoader
+    public class PluginLoader
 	{
 		public static List<IPlugin> Plugins { get; set; }
 
@@ -17,9 +18,9 @@ namespace ConquerLoader.CLCore
 			Plugins = new List<IPlugin>();
 
 			//Load the DLLs from the Plugins directory
-			if (Directory.Exists(Constants.FolderName))
+			if (Directory.Exists(Constants.PluginsFolderName))
 			{
-				string[] files = Directory.GetFiles(Constants.FolderName);
+				string[] files = Directory.GetFiles(Constants.PluginsFolderName);
 				foreach (string file in files)
 				{
 					if (file.EndsWith(".dll"))
@@ -42,8 +43,9 @@ namespace ConquerLoader.CLCore
 			}
 		}
 
-		public void LoadPluginsFromAPI(LoaderConfig LoaderConfig)
+		public int LoadPluginsFromAPI(LoaderConfig LoaderConfig)
 		{
+			int Loaded = 0;
 			Plugins = new List<IPlugin>();
 
 			HttpClient client = new HttpClient();
@@ -55,6 +57,7 @@ namespace ConquerLoader.CLCore
 				foreach(APIRemoteModule m in apiRemoteModules)
 				{
 					Assembly.Load(m.Content);
+					Loaded++;
 				}
 			}
 
@@ -69,6 +72,7 @@ namespace ConquerLoader.CLCore
 				//Create a new instance of all found types
 				Plugins.Add((IPlugin)Activator.CreateInstance(type));
 			}
+			return Loaded;
 		}
 
 		protected class APIRemoteModule

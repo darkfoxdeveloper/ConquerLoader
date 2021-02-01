@@ -1,12 +1,11 @@
-﻿using ConquerLoader.CLCore;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace CLServer
 {
     public partial class Main : MetroFramework.Forms.MetroForm
     {
-        public SocketServer Server = null;
+        public CLServer Server = null;
         public Main()
         {
             InitializeComponent();
@@ -17,7 +16,7 @@ namespace CLServer
             Resizable = false;
 
             // Setup a socket server
-            SocketServer Server = new SocketServer(5000);
+            CLServer Server = new CLServer(5000);
             Server.Server.ClientConnected += Server_ClientConnected;
             Server.Server.ClientDisconnected += Server_ClientDisconnected;
             Server.Server.Delimiter = 0x13;

@@ -49,8 +49,8 @@ namespace ConquerLoader
             try
             {
                 PluginLoader loader = new PluginLoader();
-                loader.LoadPluginsFromAPI(GetLoaderConfig());
-                Core.LogWritter.Write("Loaded " + PluginLoader.Plugins.Count + " remote plugins.");
+                int loaded = loader.LoadPluginsFromAPI(GetLoaderConfig());
+                Core.LogWritter.Write("Loaded " + loaded + " remote plugins.");
             }
             catch (Exception ex)
             {

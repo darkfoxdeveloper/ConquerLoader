@@ -11,6 +11,7 @@ namespace ConquerLoader
     {
         public LoaderConfig CurrentLoaderConfig = null;
         private Wizard WizardForm = null;
+        private Plugins PluginsForm = null;
         public Settings()
         {
             InitializeComponent();
@@ -33,6 +34,7 @@ namespace ConquerLoader
                 tglHighResolution.Checked = CurrentLoaderConfig.HighResolution;
                 tglFullscreen.Checked = CurrentLoaderConfig.FullScreen;
                 tglServerNameChange.Checked = CurrentLoaderConfig.ServernameChange;
+                tglCLServer.Checked = CurrentLoaderConfig.CLServer;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
@@ -74,6 +76,11 @@ namespace ConquerLoader
             CurrentLoaderConfig.ServernameChange = (sender as MetroToggle).Checked;
         }
 
+        private void TglCLServer_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.CLServer = (sender as MetroToggle).Checked;
+        }
+
         private void BtnAdvancedMode_Click(object sender, EventArgs e)
         {
             if (gridViewSettings.ReadOnly)
@@ -90,7 +97,6 @@ namespace ConquerLoader
 
         private void BtnWizard_Click(object sender, EventArgs e)
         {
-            // TODO new wizard mode
             if (WizardForm == null)
             {
                 WizardForm = new Wizard();
@@ -101,6 +107,15 @@ namespace ConquerLoader
                 CurrentLoaderConfig = Core.GetLoaderConfig();
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
+        }
+
+        private void BtnPlugins_Click(object sender, EventArgs e)
+        {
+            if (PluginsForm == null)
+            {
+                PluginsForm = new Plugins();
+            }
+            PluginsForm.ShowDialog();
         }
     }
 }

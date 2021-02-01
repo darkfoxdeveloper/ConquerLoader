@@ -2,6 +2,7 @@
 using ConquerLoader.CLCore;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ConquerLoader.Plugins
 {
@@ -28,6 +29,11 @@ namespace ConquerLoader.Plugins
 			LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
 			LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
 			LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
+		}
+
+		public void Configure()
+		{
+			MessageBox.Show($"Its a example plugin, not require configuration.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void LoaderEvents_LauncherLoaded()

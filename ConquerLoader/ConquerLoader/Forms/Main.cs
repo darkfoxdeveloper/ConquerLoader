@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -22,7 +23,6 @@ namespace ConquerLoader
         public string HookINI = "CLHook.ini";
         public string HookDLL = "CLHook.dll";
         public bool AllStarted = false;
-        public SocketClient Client = null;
         public Main()
         {
             InitializeComponent();
@@ -59,7 +59,12 @@ namespace ConquerLoader
 
         private void LoaderEvents_ConquerLaunched(List<Parameter> parameters)
         {
-            Core.LogWritter.Write("Event ConquerLaunched Fired!");
+            string parametersTxt = "";
+            foreach (Parameter p in parameters)
+            {
+                parametersTxt += $"Id={p.Id };Value={p.Value}";
+            }
+            Core.LogWritter.Write($"Event ConquerLaunched Fired! Parameters: {parametersTxt}");
         }
 
         private void LoaderEvents_LauncherExit(List<Parameter> parameters)
@@ -77,6 +82,7 @@ namespace ConquerLoader
             Core.LogWritter.Write("Loaded config.json");
             btnLogModules.Enabled = LoaderConfig.DebugMode;
             btnLogModules.Visible = LoaderConfig.DebugMode;
+            Constants.LicenseKey = LoaderConfig.LicenseKey;
             foreach (ServerConfiguration server in LoaderConfig.Servers)
             {
                 cbxServers.Items.Add(server.ServerName);
@@ -268,6 +274,20 @@ namespace ConquerLoader
                     Core.LogWritter.Write("Process launched!");
                     worker.ReportProgress(10);
                     CurrentConquerProcess = conquerProc;
+                    if (LoaderConfig.CLServer)
+                    {
+                        Core.LogWritter.Write("Connecting to CLServer");
+                        // Try connect to CLServer
+                        try
+                        {
+                            SocketSystem.CurrentSocketClient = new CLClient(SelectedServer.LoginHost, 8000);
+                            Core.LogWritter.Write(string.Format("CLClient connected at CLServer with port {0}.", 8000));
+                        }
+                        catch (Exception ex) // Prevent break process of loader
+                        {
+                            Console.WriteLine("Cannot connect to CLServer: {0}", ex);
+                        }
+                    }
                     LoaderEvents.ConquerLaunchedStartEvent(new List<Parameter>
                     {
                         new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() },

@@ -47,5 +47,14 @@ namespace ConquerLoader.Forms
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
         }
+
+        private void Wizard_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+        {
+            // Prevent the form from closing.
+            e.Cancel = true;
+
+            // Hide it instead.
+            this.Hide();
+        }
     }
 }
