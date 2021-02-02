@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ConquerLoader.Models
+namespace CLCore.Models
 {
     public class LogWritter
     {

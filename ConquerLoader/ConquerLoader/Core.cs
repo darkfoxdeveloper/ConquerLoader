@@ -1,8 +1,6 @@
 ﻿using CLCore.Models;
 using ConquerLoader.CLCore;
-using ConquerLoader.Models;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Net.Sockets;
 
@@ -12,7 +10,6 @@ namespace ConquerLoader
     {
         public static LogWritter LogWritter = new LogWritter("conquerloader.log");
         public static string ConfigJsonPath = "config.json";
-        public static BackgroundWorker LoaderWorker = null;
         public static LoaderConfig GetLoaderConfig()
         {
             LoaderConfig lConfig = null;
@@ -36,11 +33,6 @@ namespace ConquerLoader
                 LogWritter.Write(string.Format("Plugins couldn't be loaded: {0}", e.Message));
                 Environment.Exit(0);
             }
-            foreach(IPlugin plugin in PluginLoader.Plugins)
-            {
-                plugin.Run();
-                LogWritter.Write("Run plugin on loader execution: " + plugin.Name + ".");
-            }
         }
 
         public static void LoadRemotePlugins()
@@ -55,6 +47,15 @@ namespace ConquerLoader
             catch (Exception ex)
             {
                 Core.LogWritter.Write("Error remote plugins init: " + ex.ToString());
+            }
+        }
+
+        public static void InitPlugins()
+        {
+            foreach (IPlugin plugin in PluginLoader.Plugins)
+            {
+                plugin.Init();
+                LogWritter.Write("Init plugin: " + plugin.Name + ".");
             }
         }
 

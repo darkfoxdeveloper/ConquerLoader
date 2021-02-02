@@ -1,17 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-
-namespace ConquerLoader.Models
+﻿namespace ConquerLoader.Models
 {
     #region References
 
     using System;
     using System.Runtime.InteropServices;
     using System.Text;
-    using System.Windows.Forms;
 
     #endregion
     public static class Injector
@@ -59,7 +52,7 @@ namespace ConquerLoader.Models
         /// </summary>
         /// <param name="DllName">Name of dll for inject.</param>
         /// <param name="ProcessName">Nombre del proceso en el que sera injectada la Dll.</param>
-        public static bool StartInjection(string DllName, uint ProcessID)
+        public static bool StartInjection(string DllName, uint ProcessID, System.ComponentModel.BackgroundWorker Worker)
         {
             bool Injected = false;
             try
@@ -75,21 +68,21 @@ namespace ConquerLoader.Models
                     hModule = VirtualAllocEx(hProcess, IntPtr.Zero, (UIntPtr)LenWrite, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
                     if (hModule != IntPtr.Zero)
                     {
-                        Core.LoaderWorker.ReportProgress(30);
+                        Worker.ReportProgress(30);
                         ASCIIEncoding Encoder = new ASCIIEncoding();
                         int Written = 0;
                         if (WriteProcessMemory(hProcess, hModule, Encoder.GetBytes(DllName), LenWrite, Written))
                         {
                             Injector = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
 
-                            Core.LoaderWorker.ReportProgress(40);
+                            Worker.ReportProgress(40);
                             if (Injector != IntPtr.Zero)
                             {
                                 hThread = CreateRemoteThread(hProcess, IntPtr.Zero, 0, Injector, hModule, 0, 0);
 
                                 if (hThread != IntPtr.Zero)
                                 {
-                                    Core.LoaderWorker.ReportProgress(50);
+                                    Worker.ReportProgress(50);
                                     uint Result = WaitForSingleObject(hThread, 10 * 1000);
                                     if (Result != WAIT_FAILED || Result != WAIT_ABANDONED
                                        || Result != WAIT_OBJECT_0 || Result != WAIT_TIMEOUT)
@@ -98,7 +91,7 @@ namespace ConquerLoader.Models
                                         {
                                             if (hThread != IntPtr.Zero)
                                             {
-                                                Core.LoaderWorker.ReportProgress(100);
+                                                Worker.ReportProgress(100);
                                                 CloseHandle(hThread);
                                                 Injected = true;
                                                 return Injected;

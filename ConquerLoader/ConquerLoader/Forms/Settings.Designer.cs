@@ -32,6 +32,7 @@
             this.tglDebugMode = new MetroFramework.Controls.MetroToggle();
             this.tglCloseOnFinish = new MetroFramework.Controls.MetroToggle();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.btnPlugins = new MetroFramework.Controls.MetroButton();
             this.lblCLServer = new MetroFramework.Controls.MetroLabel();
             this.tglCLServer = new MetroFramework.Controls.MetroToggle();
             this.btnWizard = new MetroFramework.Controls.MetroButton();
@@ -48,7 +49,6 @@
             this.tbxTitle = new MetroFramework.Controls.MetroTextBox();
             this.lblCloseOnFinish = new MetroFramework.Controls.MetroLabel();
             this.lblDebugMode = new MetroFramework.Controls.MetroLabel();
-            this.btnPlugins = new MetroFramework.Controls.MetroButton();
             this.metroPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewSettings)).BeginInit();
             this.SuspendLayout();
@@ -108,15 +108,26 @@
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 15;
             // 
+            // btnPlugins
+            // 
+            this.btnPlugins.Location = new System.Drawing.Point(746, 141);
+            this.btnPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnPlugins.Name = "btnPlugins";
+            this.btnPlugins.Size = new System.Drawing.Size(112, 46);
+            this.btnPlugins.TabIndex = 19;
+            this.btnPlugins.Text = "Plugins";
+            this.btnPlugins.UseSelectable = true;
+            this.btnPlugins.Click += new System.EventHandler(this.BtnPlugins_Click);
+            // 
             // lblCLServer
             // 
             this.lblCLServer.AutoSize = true;
             this.lblCLServer.Location = new System.Drawing.Point(987, 29);
             this.lblCLServer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCLServer.Name = "lblCLServer";
-            this.lblCLServer.Size = new System.Drawing.Size(100, 19);
+            this.lblCLServer.Size = new System.Drawing.Size(150, 19);
             this.lblCLServer.TabIndex = 18;
-            this.lblCLServer.Text = "CLServer (Beta)";
+            this.lblCLServer.Text = "CLServer (Experimental)";
             // 
             // tglCLServer
             // 
@@ -299,17 +310,6 @@
             this.lblDebugMode.Size = new System.Drawing.Size(87, 19);
             this.lblDebugMode.TabIndex = 3;
             this.lblDebugMode.Text = "Debug Mode";
-            // 
-            // btnPlugins
-            // 
-            this.btnPlugins.Location = new System.Drawing.Point(746, 141);
-            this.btnPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnPlugins.Name = "btnPlugins";
-            this.btnPlugins.Size = new System.Drawing.Size(112, 46);
-            this.btnPlugins.TabIndex = 19;
-            this.btnPlugins.Text = "Plugins";
-            this.btnPlugins.UseSelectable = true;
-            this.btnPlugins.Click += new System.EventHandler(this.BtnPlugins_Click);
             // 
             // Settings
             // 

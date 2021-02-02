@@ -97,7 +97,6 @@
     <Compile Include="Forms\Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\DebugWriter.cs" />
     <Compile Include="Models\Injector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

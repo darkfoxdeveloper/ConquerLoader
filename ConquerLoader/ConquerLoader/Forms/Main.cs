@@ -9,8 +9,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace ConquerLoader
@@ -31,8 +29,10 @@ namespace ConquerLoader
             LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
             LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
             LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
+            Constants.ClientPath = Directory.GetCurrentDirectory();
             Core.LoadAvailablePlugins();
             Core.LoadRemotePlugins();
+            Core.InitPlugins();
         }
         private void Main_Load(object sender, EventArgs e)
         {
@@ -49,6 +49,7 @@ namespace ConquerLoader
             RefreshServerList();
 
             AllStarted = true;
+            Constants.MainWorker = worker;
             LoaderEvents.LauncherLoadedStartEvent();
         }
 
@@ -221,7 +222,6 @@ namespace ConquerLoader
                          * */
                         parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
                     }
-                    Core.LoaderWorker = worker;
                     worker.RunWorkerAsync();
                 }
             } catch(Exception ex)
@@ -296,7 +296,7 @@ namespace ConquerLoader
                     Core.LogWritter.Write("Injecting DLL...");
                     worker.ReportProgress(20);
                     conquerProc.WaitForInputIdle(35000);
-                    if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id))
+                    if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
                     {
                         Core.LogWritter.Write("Injection failed!");
                         MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);

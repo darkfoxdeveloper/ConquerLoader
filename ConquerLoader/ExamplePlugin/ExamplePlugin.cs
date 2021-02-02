@@ -24,6 +24,8 @@ namespace ConquerLoader.Plugins
 			}
 		}
 
+		public PluginType PluginType { get; } = PluginType.FREE;
+
 		public void Run()
 		{
 			LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
