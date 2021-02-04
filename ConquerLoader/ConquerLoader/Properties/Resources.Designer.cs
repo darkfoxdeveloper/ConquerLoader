@@ -59,5 +59,15 @@ namespace ConquerLoader.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
+        /// </summary>
+        internal static System.Drawing.Icon ConquerLoaderLogo {
+            get {
+                object obj = ResourceManager.GetObject("ConquerLoaderLogo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

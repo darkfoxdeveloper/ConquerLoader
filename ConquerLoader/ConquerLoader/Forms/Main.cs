@@ -26,17 +26,19 @@ namespace ConquerLoader
             InitializeComponent();
             this.Resizable = false;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
+            LoaderConfig = Core.GetLoaderConfig();
             LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
             LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
             LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
             Constants.ClientPath = Directory.GetCurrentDirectory();
+            if (LoaderConfig != null) Constants.CloseOnFinish = LoaderConfig.CloseOnFinish;
+            Constants.MainWorker = worker;
             Core.LoadAvailablePlugins();
             Core.LoadRemotePlugins();
             Core.InitPlugins();
         }
         private void Main_Load(object sender, EventArgs e)
         {
-            LoaderConfig = Core.GetLoaderConfig();
             if (LoaderConfig == null)
             {
                 Settings s = new Settings();
@@ -49,8 +51,43 @@ namespace ConquerLoader
             RefreshServerList();
 
             AllStarted = true;
-            Constants.MainWorker = worker;
             LoaderEvents.LauncherLoadedStartEvent();
+        }
+
+        //  The NotifyIcon object
+        private void TrayMinimizerForm_Resize(object sender, EventArgs e)
+        {
+            if (Constants.HideInTrayOnFinish)
+            {
+                noty.Text = ProductName;
+                noty.Icon = Properties.Resources.ConquerLoaderLogo;
+
+                if (FormWindowState.Minimized == this.WindowState)
+                {
+                    noty.Visible = true;
+                    Hide();
+                    noty.BalloonTipTitle = $"{ProductName} {ProductVersion}";
+                    noty.BalloonTipText = "The best loader for ConquerOnline";
+                    noty.ShowBalloonTip(1000);
+                }
+                else if (FormWindowState.Normal == this.WindowState)
+                {
+                    noty.Visible = false;
+                }
+            }
+        }
+
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            bool Exists = CurrentConquerProcess != null;
+            if (Exists)
+            {
+                CurrentConquerProcess.Kill();
+                if (Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count() > 0)
+                {
+                    Environment.Exit(0);
+                }
+            }
         }
 
         private void LoaderEvents_LauncherLoaded()
@@ -274,7 +311,7 @@ namespace ConquerLoader
                     Core.LogWritter.Write("Process launched!");
                     worker.ReportProgress(10);
                     CurrentConquerProcess = conquerProc;
-                    if (LoaderConfig.CLServer)
+                    if (LoaderConfig.CLServer && Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count() <= 0) // Only if not have other Conquer.exe opened
                     {
                         Core.LogWritter.Write("Connecting to CLServer");
                         // Try connect to CLServer
@@ -295,7 +332,10 @@ namespace ConquerLoader
                     });
                     Core.LogWritter.Write("Injecting DLL...");
                     worker.ReportProgress(20);
-                    conquerProc.WaitForInputIdle(35000);
+                    if (SelectedServer.ServerVersion > 6000)
+                    {
+                        conquerProc.WaitForInputIdle(35000);
+                    }
                     if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
                     {
                         Core.LogWritter.Write("Injection failed!");
@@ -322,10 +362,21 @@ namespace ConquerLoader
             this.pBar.Value = e.ProgressPercentage;
             if (this.pBar.Value >= 100)
             {
-                if (LoaderConfig.CloseOnFinish)
+                if (Constants.CloseOnFinish)
                 {
                     LoaderEvents.LauncherExitStartEvent(new List<Parameter>() { new Parameter() { Id = "CLOSE_MESSAGE", Value = "Finished" } });
                     Environment.Exit(0);
+                }
+                if (Constants.HideInTrayOnFinish)
+                {
+                    if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Count() > 0)
+                    {
+                        LoaderEvents.LauncherExitStartEvent(new List<Parameter>() { new Parameter() { Id = "CLOSE_MESSAGE", Value = "Finished" } });
+                        Environment.Exit(0);
+                    } else
+                    {
+                        WindowState = FormWindowState.Minimized;
+                    }
                 }
             }
         }

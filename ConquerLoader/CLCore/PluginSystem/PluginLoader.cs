@@ -46,31 +46,34 @@ namespace ConquerLoader.CLCore
 		public int LoadPluginsFromAPI(LoaderConfig LoaderConfig)
 		{
 			int Loaded = 0;
-			Plugins = new List<IPlugin>();
-
-			HttpClient client = new HttpClient();
-			HttpResponseMessage response = client.GetAsync("https://conquerloader.com/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + LoaderConfig.LicenseKey).Result;
-			if (response.IsSuccessStatusCode)
+			if (LoaderConfig != null)
 			{
-				string result = response.Content.ReadAsStringAsync().Result;
-				List<APIRemoteModule> apiRemoteModules = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APIRemoteModule>>(result);
-				foreach(APIRemoteModule m in apiRemoteModules)
+				Plugins = new List<IPlugin>();
+
+				HttpClient client = new HttpClient();
+				HttpResponseMessage response = client.GetAsync("https://conquerloader.com/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + LoaderConfig.LicenseKey).Result;
+				if (response.IsSuccessStatusCode)
 				{
-					Assembly.Load(m.Content);
-					Loaded++;
+					string result = response.Content.ReadAsStringAsync().Result;
+					List<APIRemoteModule> apiRemoteModules = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APIRemoteModule>>(result);
+					foreach (APIRemoteModule m in apiRemoteModules)
+					{
+						Assembly.Load(m.Content);
+						Loaded++;
+					}
 				}
-			}
 
-			Type interfaceType = typeof(IPlugin);
-			//Fetch all types that implement the interface IPlugin and are a class
-			Type[] types = AppDomain.CurrentDomain.GetAssemblies()
-				.SelectMany(a => a.GetTypes())
-				.Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
-				.ToArray();
-			foreach (Type type in types)
-			{
-				//Create a new instance of all found types
-				Plugins.Add((IPlugin)Activator.CreateInstance(type));
+				Type interfaceType = typeof(IPlugin);
+				//Fetch all types that implement the interface IPlugin and are a class
+				Type[] types = AppDomain.CurrentDomain.GetAssemblies()
+					.SelectMany(a => a.GetTypes())
+					.Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
+					.ToArray();
+				foreach (Type type in types)
+				{
+					//Create a new instance of all found types
+					Plugins.Add((IPlugin)Activator.CreateInstance(type));
+				}
 			}
 			return Loaded;
 		}

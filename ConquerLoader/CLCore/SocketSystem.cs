@@ -108,6 +108,12 @@ namespace CLCore
         {
             return Client.WriteLineAndGetReply(content, TimeSpan.FromSeconds(seconds));
         }
+
+        public void Disconnect()
+        {
+            Client.Disconnect();
+            Client.Dispose();
+        }
     }
 
     public static class SocketSystem

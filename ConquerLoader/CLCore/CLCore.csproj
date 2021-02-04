@@ -87,9 +87,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigFilesEncryption.cs" />
+    <Compile Include="Helpers\ConfigFilesEncryption.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="LoaderEvents.cs" />
+    <Compile Include="Models\LoaderEvents.cs" />
     <Compile Include="Models\LogWritter.cs" />
     <Compile Include="Models\IniManager.cs" />
     <Compile Include="Models\LoaderConfig.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="PluginSystem\Parameter.cs" />
     <Compile Include="PluginSystem\PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests.cs" />
+    <Compile Include="Helpers\Requests.cs" />
     <Compile Include="SocketSystem.cs" />
   </ItemGroup>
   <ItemGroup>

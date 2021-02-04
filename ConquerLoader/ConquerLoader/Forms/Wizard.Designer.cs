@@ -68,7 +68,6 @@ namespace ConquerLoader.Forms
             this.tbxIP.MaxLength = 32767;
             this.tbxIP.Name = "tbxIP";
             this.tbxIP.PasswordChar = '\0';
-            this.tbxIP.PromptText = "IP";
             this.tbxIP.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbxIP.SelectedText = "";
             this.tbxIP.SelectionLength = 0;
@@ -102,7 +101,6 @@ namespace ConquerLoader.Forms
             this.tbxServerName.MaxLength = 32767;
             this.tbxServerName.Name = "tbxServerName";
             this.tbxServerName.PasswordChar = '\0';
-            this.tbxServerName.PromptText = "ServerName";
             this.tbxServerName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbxServerName.SelectedText = "";
             this.tbxServerName.SelectionLength = 0;
@@ -136,7 +134,6 @@ namespace ConquerLoader.Forms
             this.tbxVersion.MaxLength = 32767;
             this.tbxVersion.Name = "tbxVersion";
             this.tbxVersion.PasswordChar = '\0';
-            this.tbxVersion.PromptText = "Version";
             this.tbxVersion.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbxVersion.SelectedText = "";
             this.tbxVersion.SelectionLength = 0;
@@ -180,7 +177,6 @@ namespace ConquerLoader.Forms
             this.tbxConquerExe.MaxLength = 32767;
             this.tbxConquerExe.Name = "tbxConquerExe";
             this.tbxConquerExe.PasswordChar = '\0';
-            this.tbxConquerExe.PromptText = "ConquerExecutable";
             this.tbxConquerExe.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbxConquerExe.SelectedText = "";
             this.tbxConquerExe.SelectionLength = 0;
@@ -286,7 +282,6 @@ namespace ConquerLoader.Forms
             this.tbxLoginPort.MaxLength = 32767;
             this.tbxLoginPort.Name = "tbxLoginPort";
             this.tbxLoginPort.PasswordChar = '\0';
-            this.tbxLoginPort.PromptText = "LoginPort";
             this.tbxLoginPort.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbxLoginPort.SelectedText = "";
             this.tbxLoginPort.SelectionLength = 0;
@@ -330,7 +325,6 @@ namespace ConquerLoader.Forms
             this.tbxGamePort.MaxLength = 32767;
             this.tbxGamePort.Name = "tbxGamePort";
             this.tbxGamePort.PasswordChar = '\0';
-            this.tbxGamePort.PromptText = "GamePort";
             this.tbxGamePort.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbxGamePort.SelectedText = "";
             this.tbxGamePort.SelectionLength = 0;
