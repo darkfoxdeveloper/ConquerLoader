@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.logBox = new System.Windows.Forms.RichTextBox();
+            this.btnTest = new MetroFramework.Controls.MetroButton();
+            this.btnConnections = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // logBox
@@ -44,11 +46,33 @@
             this.logBox.TabIndex = 0;
             this.logBox.Text = "";
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(658, 98);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(102, 31);
+            this.btnTest.TabIndex = 1;
+            this.btnTest.Text = "Test Connected";
+            this.btnTest.UseSelectable = true;
+            this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
+            // 
+            // btnConnections
+            // 
+            this.btnConnections.Location = new System.Drawing.Point(550, 98);
+            this.btnConnections.Name = "btnConnections";
+            this.btnConnections.Size = new System.Drawing.Size(102, 31);
+            this.btnConnections.TabIndex = 2;
+            this.btnConnections.Text = "Connections?";
+            this.btnConnections.UseSelectable = true;
+            this.btnConnections.Click += new System.EventHandler(this.BtnConnections_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnConnections);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.logBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -62,6 +86,8 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox logBox;
+        private MetroFramework.Controls.MetroButton btnTest;
+        private MetroFramework.Controls.MetroButton btnConnections;
     }
 }
 

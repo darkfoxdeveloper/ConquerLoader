@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{01358812-493C-4A24-8630-F71DF28D47D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>OpenConquerHook</RootNamespace>
+    <RootNamespace>CLHook</RootNamespace>
     <ProjectName>CLHook</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -87,7 +87,7 @@
   <ItemGroup>
     <ClCompile Include="CFlashFix.cpp" />
     <ClCompile Include="CFlashFix.h" />
-    <ClCompile Include="CSV3Hook.cpp" />
+    <ClCompile Include="CLHook.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

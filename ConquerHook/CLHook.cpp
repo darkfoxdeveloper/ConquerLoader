@@ -36,7 +36,7 @@ char szConfig[MAX_PATH];
 HOOK_STUB snprintf_stub, send_stub, connect_stub, shellexec_stub;
 PBYTE handler_stub;
 CLegacyCipher* legacy;
-int ClientVersion = 0, EnableHostName = 0, UpdatedIPS = 0;
+int ClientVersion = 0, EnableHostName = 0, UpdatedIPS = 0, DisableAutoFixFlash = 0;
 BYTE patternDynamic = 0x4F;
 char HostName[32] = "";
 LPCSTR HeaderConfig = "CLHook";
@@ -44,6 +44,8 @@ LPCSTR HeaderConfig = "CLHook";
 char ServerName[16] = "ConquerOnline";
 int ServerNameMemoryAddress = 0x005726DC;
 // Patterns for working connection
+BYTE pattern_6711[] = { 0x85, 0xC0, 0x75, 0x2F, 0x8B, 0x4F, 0x14, 0xE8, 0x95, 0xF1, 0xFF, 0xFF, 0x83, 0x4D, 0xFC, 0xFF, 0x8B, 0x4D, 0xF4 }; // Version = 67XX
+BYTE pattern2_6711[] = { 0x85, 0xC9, 0x74, 0x0C, 0xFF, 0x75, 0x0C, 0x57, 0xE8, 0x53, 0xF2, 0xFF, 0xFF, 0x89, 0x45 }; // Version = 67XX (Creo que no es el correcto, no se puede reconectar despues del primer connect)
 BYTE pattern_6617[] = { 0x85, 0xC0, 0x75, 0x2F, 0x8B, 0x4F, 0x14, 0xE8, 0x0D, 0xF1, 0xFF, 0xFF, 0x83, 0x4D, 0xFC, 0xFF, 0x8B, 0x4D, 0xF4 }; // Version = 6617
 BYTE pattern2_6617[] = { 0x85, 0xC9, 0x74, 0x0C, 0xFF, 0x75, 0x0C, 0x57, 0xE8, 0x53, 0xF2, 0xFF, 0xFF, 0x89, 0x45 }; // Version = 6617
 BYTE pattern_60XX[] = { 0x85, 0xC0, 0x75, 0x00, 0x8B, 0x4F, 0x00, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x83, 0x4D, 0x00, 0x00, 0x8B, 0x00, 0x00 }; // Version = 60XX
@@ -228,6 +230,7 @@ void csv3_init(HMODULE hModule)
 	// Find the correct version of client based in user config
 	char szVersionValue[5];
 	GetPrivateProfileStringA(HeaderConfig, "SERVER_VERSION", "0", szVersionValue, 5, szConfig);
+	DisableAutoFixFlash = GetPrivateProfileIntA(HeaderConfig, "DISABLE_AUTOFIX_FLASH", 0, szConfig);
 	ClientVersion = atoi(szVersionValue);
 
 	// Get the servername
@@ -235,9 +238,11 @@ void csv3_init(HMODULE hModule)
 	ServerNameMemoryAddress = GetPrivateProfileIntA(HeaderConfig, "SERVERNAME_MEMORYADDRESS", 0, szConfig);
 
 	// Fix Flash for old clients
-	if (ClientVersion <= 6000) {
-		CFlashFix flash;
-		flash.Hook();
+	if (ClientVersion <= 6186) {
+		if (!DisableAutoFixFlash) {
+			CFlashFix flash;
+			flash.Hook();
+		}
 	}
 
 	if (ClientVersion >= 5600) {
@@ -256,6 +261,9 @@ void csv3_init(HMODULE hModule)
 		}
 		if (ClientVersion >= 6617) {
 			match = (PBYTE)FindMemoryPattern(pattern_6617, wildcards, 19);
+		}
+		if (ClientVersion >= 6711 && ClientVersion <= 6737) { // 6711 to 6737
+			match = (PBYTE)FindMemoryPattern(pattern_6711, wildcards, 19);
 		}
 
 		if (match == NULL)
@@ -283,6 +291,9 @@ void csv3_init(HMODULE hModule)
 		}
 		if (ClientVersion >= 6617) {
 			match = (PBYTE)FindMemoryPattern(pattern2_6617, wildcards2, 15);
+		}
+		if (ClientVersion >= 6711 && ClientVersion <= 6737) { // 6711 to 6737
+			match = (PBYTE)FindMemoryPattern(pattern2_6711, wildcards2, 15);
 		}
 
 		if (match == NULL)

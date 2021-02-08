@@ -227,6 +227,7 @@ namespace ConquerLoader
                         + Environment.NewLine + "HOSTNAME=" + SelectedServer.Hostname
                         + Environment.NewLine + "SERVER_VERSION=" + SelectedServer.ServerVersion
                         + Environment.NewLine + "SERVERNAME_MEMORYADDRESS=" + SelectedServer.ServerNameMemoryAddress
+                        + Environment.NewLine + "DISABLE_AUTOFIX_FLASH=" + (LoaderConfig.DisableAutoFixFlash ? "1" : "0")
                         );
                     Core.LogWritter.Write("Created the Hook Configuration");
                     // Modify Setup of client
@@ -311,7 +312,9 @@ namespace ConquerLoader
                     Core.LogWritter.Write("Process launched!");
                     worker.ReportProgress(10);
                     CurrentConquerProcess = conquerProc;
-                    if (LoaderConfig.CLServer && Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count() <= 0) // Only if not have other Conquer.exe opened
+                    int ConquerOpened = Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count();
+                    Core.LogWritter.Write($"CLServer Enabled: {LoaderConfig.CLServer} . Processes of Conquer opened: {ConquerOpened} (Only connect if have less or equal to 1)");
+                    if (LoaderConfig.CLServer && ConquerOpened <= 1) // Only if not have other Conquer.exe opened
                     {
                         Core.LogWritter.Write("Connecting to CLServer");
                         // Try connect to CLServer
@@ -332,7 +335,7 @@ namespace ConquerLoader
                     });
                     Core.LogWritter.Write("Injecting DLL...");
                     worker.ReportProgress(20);
-                    if (SelectedServer.ServerVersion > 6000)
+                    if (SelectedServer.ServerVersion >= 6187)
                     {
                         conquerProc.WaitForInputIdle(35000);
                     }

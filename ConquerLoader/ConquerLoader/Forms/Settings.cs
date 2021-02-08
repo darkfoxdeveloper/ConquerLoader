@@ -34,6 +34,7 @@ namespace ConquerLoader
                 tglHighResolution.Checked = CurrentLoaderConfig.HighResolution;
                 tglFullscreen.Checked = CurrentLoaderConfig.FullScreen;
                 tglServerNameChange.Checked = CurrentLoaderConfig.ServernameChange;
+                tglDisableAutoFixFlash.Checked = CurrentLoaderConfig.DisableAutoFixFlash;
                 tglCLServer.Checked = CurrentLoaderConfig.CLServer;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
@@ -76,6 +77,11 @@ namespace ConquerLoader
             CurrentLoaderConfig.ServernameChange = (sender as MetroToggle).Checked;
         }
 
+        private void TglDisableAutoFixFlash_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.DisableAutoFixFlash = (sender as MetroToggle).Checked;
+        }
+
         private void TglCLServer_CheckedChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.CLServer = (sender as MetroToggle).Checked;
@@ -101,12 +107,9 @@ namespace ConquerLoader
             {
                 WizardForm = new Wizard();
             }
-            DialogResult dRes = WizardForm.ShowDialog();
-            if (dRes == DialogResult.OK)
-            {
-                CurrentLoaderConfig = Core.GetLoaderConfig();
-                gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
-            }
+            WizardForm.ShowDialog();
+            CurrentLoaderConfig = Core.GetLoaderConfig();
+            gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
         }
 
         private void BtnPlugins_Click(object sender, EventArgs e)

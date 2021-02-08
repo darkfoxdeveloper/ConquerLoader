@@ -5,7 +5,7 @@ namespace CLServer
 {
     public partial class Main : MetroFramework.Forms.MetroForm
     {
-        public CLServer Server = null;
+        public CLCore.CLServer _CLServer = null;
         public Main()
         {
             InitializeComponent();
@@ -16,39 +16,14 @@ namespace CLServer
             Resizable = false;
 
             // Setup a socket server
-            CLServer Server = new CLServer(5000);
-            Server.Server.ClientConnected += Server_ClientConnected;
-            Server.Server.ClientDisconnected += Server_ClientDisconnected;
-            Server.Server.Delimiter = 0x13;
-            Server.Server.DelimiterDataReceived += (sendr, msg) =>
+            _CLServer = new CLCore.CLServer("SKSK-B6FC-JFOQ-7DTQ", 8000);
+            _CLServer.DetectedNotAllowedIP += CLServer_DetectedNotAllowedIP;
+            _CLServer.TcpServer.ClientConnected += Server_ClientConnected;
+            _CLServer.TcpServer.ClientDisconnected += Server_ClientDisconnected;
+            Invoke(new MethodInvoker(() =>
             {
-                // Implement some actions for commands /autoclick_detected
-                if (msg.MessageString.StartsWith("/"))
-                {
-                    string[] parameters = msg.MessageString.TrimStart('/').Split(' ');
-                    switch (parameters[0])
-                    {
-                        case "autoclick_detected":
-                            Invoke(new MethodInvoker(() =>
-                            {
-                                logBox.AppendText($"Autoclick detected in client: {msg.TcpClient.Client.GetHashCode()}" + Environment.NewLine);
-                            }));
-                            break;
-                        default:
-                            Invoke(new MethodInvoker(() =>
-                            {
-                                logBox.AppendText($"Command not found sended from client: {msg.MessageString}" + Environment.NewLine);
-                            }));
-                            break;
-                    }
-                } else
-                {
-                    Invoke(new MethodInvoker(() =>
-                    {
-                        logBox.AppendText($"Client talk: {msg.MessageString}" + Environment.NewLine);
-                    }));
-                }
-            };
+                logBox.AppendText(string.Format("CLServer is started in Port 8000") + Environment.NewLine);
+            }));
         }
 
         private void Server_ClientDisconnected(object sender, System.Net.Sockets.TcpClient e)
@@ -65,6 +40,25 @@ namespace CLServer
             {
                 logBox.AppendText($"Client {e.Client.GetHashCode()} connected." + Environment.NewLine);
             }));
+        }
+
+        private void CLServer_DetectedNotAllowedIP(string IPAddress)
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                logBox.AppendText(string.Format("Detected a IP {0} not connected to CLServer. Warning!", IPAddress) + Environment.NewLine);
+            }));
+        }
+
+        private void BtnTest_Click(object sender, EventArgs e)
+        {
+            CLCore.CLServer sTest = new CLCore.CLServer("SKSK-B6FC-JFOQ-7DTQ");
+            MessageBox.Show(sTest.CheckConnectionByIP("127.0.0.1")+"");
+        }
+
+        private void BtnConnections_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(_CLServer.Connections.Count+"");
         }
     }
 }

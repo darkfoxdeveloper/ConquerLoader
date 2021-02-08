@@ -32,6 +32,8 @@
             this.tglDebugMode = new MetroFramework.Controls.MetroToggle();
             this.tglCloseOnFinish = new MetroFramework.Controls.MetroToggle();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.lblDisableAutoFixFlash = new MetroFramework.Controls.MetroLabel();
+            this.tglDisableAutoFixFlash = new MetroFramework.Controls.MetroToggle();
             this.btnPlugins = new MetroFramework.Controls.MetroButton();
             this.lblCLServer = new MetroFramework.Controls.MetroLabel();
             this.tglCLServer = new MetroFramework.Controls.MetroToggle();
@@ -56,9 +58,10 @@
             // tglDebugMode
             // 
             this.tglDebugMode.AutoSize = true;
-            this.tglDebugMode.Location = new System.Drawing.Point(30, 63);
+            this.tglDebugMode.Location = new System.Drawing.Point(20, 41);
+            this.tglDebugMode.Margin = new System.Windows.Forms.Padding(2);
             this.tglDebugMode.Name = "tglDebugMode";
-            this.tglDebugMode.Size = new System.Drawing.Size(80, 24);
+            this.tglDebugMode.Size = new System.Drawing.Size(80, 17);
             this.tglDebugMode.TabIndex = 0;
             this.tglDebugMode.Text = "Off";
             this.tglDebugMode.UseSelectable = true;
@@ -67,9 +70,10 @@
             // tglCloseOnFinish
             // 
             this.tglCloseOnFinish.AutoSize = true;
-            this.tglCloseOnFinish.Location = new System.Drawing.Point(220, 63);
+            this.tglCloseOnFinish.Location = new System.Drawing.Point(147, 41);
+            this.tglCloseOnFinish.Margin = new System.Windows.Forms.Padding(2);
             this.tglCloseOnFinish.Name = "tglCloseOnFinish";
-            this.tglCloseOnFinish.Size = new System.Drawing.Size(80, 24);
+            this.tglCloseOnFinish.Size = new System.Drawing.Size(80, 17);
             this.tglCloseOnFinish.TabIndex = 1;
             this.tglCloseOnFinish.Text = "Off";
             this.tglCloseOnFinish.UseSelectable = true;
@@ -77,6 +81,8 @@
             // 
             // metroPanel1
             // 
+            this.metroPanel1.Controls.Add(this.lblDisableAutoFixFlash);
+            this.metroPanel1.Controls.Add(this.tglDisableAutoFixFlash);
             this.metroPanel1.Controls.Add(this.btnPlugins);
             this.metroPanel1.Controls.Add(this.lblCLServer);
             this.metroPanel1.Controls.Add(this.tglCLServer);
@@ -98,22 +104,41 @@
             this.metroPanel1.Controls.Add(this.tglDebugMode);
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 15;
-            this.metroPanel1.Location = new System.Drawing.Point(24, 106);
-            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.Location = new System.Drawing.Point(16, 69);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(1236, 618);
+            this.metroPanel1.Size = new System.Drawing.Size(1044, 402);
             this.metroPanel1.TabIndex = 0;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 15;
+            this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // lblDisableAutoFixFlash
+            // 
+            this.lblDisableAutoFixFlash.AutoSize = true;
+            this.lblDisableAutoFixFlash.Location = new System.Drawing.Point(714, 19);
+            this.lblDisableAutoFixFlash.Name = "lblDisableAutoFixFlash";
+            this.lblDisableAutoFixFlash.Size = new System.Drawing.Size(132, 19);
+            this.lblDisableAutoFixFlash.TabIndex = 21;
+            this.lblDisableAutoFixFlash.Text = "Disable AutoFix Flash";
+            // 
+            // tglDisableAutoFixFlash
+            // 
+            this.tglDisableAutoFixFlash.AutoSize = true;
+            this.tglDisableAutoFixFlash.Location = new System.Drawing.Point(714, 41);
+            this.tglDisableAutoFixFlash.Margin = new System.Windows.Forms.Padding(2);
+            this.tglDisableAutoFixFlash.Name = "tglDisableAutoFixFlash";
+            this.tglDisableAutoFixFlash.Size = new System.Drawing.Size(80, 17);
+            this.tglDisableAutoFixFlash.TabIndex = 20;
+            this.tglDisableAutoFixFlash.Text = "Off";
+            this.tglDisableAutoFixFlash.UseSelectable = true;
+            this.tglDisableAutoFixFlash.CheckedChanged += new System.EventHandler(this.TglDisableAutoFixFlash_CheckedChanged);
             // 
             // btnPlugins
             // 
-            this.btnPlugins.Location = new System.Drawing.Point(746, 141);
-            this.btnPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnPlugins.Location = new System.Drawing.Point(714, 99);
             this.btnPlugins.Name = "btnPlugins";
-            this.btnPlugins.Size = new System.Drawing.Size(112, 46);
+            this.btnPlugins.Size = new System.Drawing.Size(75, 30);
             this.btnPlugins.TabIndex = 19;
             this.btnPlugins.Text = "Plugins";
             this.btnPlugins.UseSelectable = true;
@@ -122,30 +147,31 @@
             // lblCLServer
             // 
             this.lblCLServer.AutoSize = true;
-            this.lblCLServer.Location = new System.Drawing.Point(987, 29);
-            this.lblCLServer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCLServer.Location = new System.Drawing.Point(881, 19);
             this.lblCLServer.Name = "lblCLServer";
             this.lblCLServer.Size = new System.Drawing.Size(150, 19);
             this.lblCLServer.TabIndex = 18;
             this.lblCLServer.Text = "CLServer (Experimental)";
+            this.lblCLServer.Visible = false;
             // 
             // tglCLServer
             // 
             this.tglCLServer.AutoSize = true;
-            this.tglCLServer.Location = new System.Drawing.Point(987, 63);
+            this.tglCLServer.Location = new System.Drawing.Point(881, 41);
+            this.tglCLServer.Margin = new System.Windows.Forms.Padding(2);
             this.tglCLServer.Name = "tglCLServer";
-            this.tglCLServer.Size = new System.Drawing.Size(80, 24);
+            this.tglCLServer.Size = new System.Drawing.Size(80, 17);
             this.tglCLServer.TabIndex = 17;
             this.tglCLServer.Text = "Off";
             this.tglCLServer.UseSelectable = true;
+            this.tglCLServer.Visible = false;
             this.tglCLServer.CheckedChanged += new System.EventHandler(this.TglCLServer_CheckedChanged);
             // 
             // btnWizard
             // 
-            this.btnWizard.Location = new System.Drawing.Point(987, 142);
-            this.btnWizard.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnWizard.Location = new System.Drawing.Point(875, 99);
             this.btnWizard.Name = "btnWizard";
-            this.btnWizard.Size = new System.Drawing.Size(112, 46);
+            this.btnWizard.Size = new System.Drawing.Size(75, 30);
             this.btnWizard.TabIndex = 16;
             this.btnWizard.Text = "New +";
             this.btnWizard.UseSelectable = true;
@@ -153,10 +179,9 @@
             // 
             // btnAdvancedMode
             // 
-            this.btnAdvancedMode.Location = new System.Drawing.Point(866, 142);
-            this.btnAdvancedMode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAdvancedMode.Location = new System.Drawing.Point(794, 99);
             this.btnAdvancedMode.Name = "btnAdvancedMode";
-            this.btnAdvancedMode.Size = new System.Drawing.Size(112, 46);
+            this.btnAdvancedMode.Size = new System.Drawing.Size(75, 30);
             this.btnAdvancedMode.TabIndex = 15;
             this.btnAdvancedMode.Text = "Advanced";
             this.btnAdvancedMode.UseSelectable = true;
@@ -165,8 +190,7 @@
             // lblServerNameChange
             // 
             this.lblServerNameChange.AutoSize = true;
-            this.lblServerNameChange.Location = new System.Drawing.Point(790, 29);
-            this.lblServerNameChange.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblServerNameChange.Location = new System.Drawing.Point(543, 19);
             this.lblServerNameChange.Name = "lblServerNameChange";
             this.lblServerNameChange.Size = new System.Drawing.Size(132, 19);
             this.lblServerNameChange.TabIndex = 14;
@@ -175,9 +199,10 @@
             // tglServerNameChange
             // 
             this.tglServerNameChange.AutoSize = true;
-            this.tglServerNameChange.Location = new System.Drawing.Point(790, 63);
+            this.tglServerNameChange.Location = new System.Drawing.Point(543, 41);
+            this.tglServerNameChange.Margin = new System.Windows.Forms.Padding(2);
             this.tglServerNameChange.Name = "tglServerNameChange";
-            this.tglServerNameChange.Size = new System.Drawing.Size(80, 24);
+            this.tglServerNameChange.Size = new System.Drawing.Size(80, 17);
             this.tglServerNameChange.TabIndex = 13;
             this.tglServerNameChange.Text = "Off";
             this.tglServerNameChange.UseSelectable = true;
@@ -186,8 +211,7 @@
             // lblFullscreen
             // 
             this.lblFullscreen.AutoSize = true;
-            this.lblFullscreen.Location = new System.Drawing.Point(642, 29);
-            this.lblFullscreen.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFullscreen.Location = new System.Drawing.Point(428, 19);
             this.lblFullscreen.Name = "lblFullscreen";
             this.lblFullscreen.Size = new System.Drawing.Size(68, 19);
             this.lblFullscreen.TabIndex = 12;
@@ -196,9 +220,10 @@
             // tglFullscreen
             // 
             this.tglFullscreen.AutoSize = true;
-            this.tglFullscreen.Location = new System.Drawing.Point(630, 63);
+            this.tglFullscreen.Location = new System.Drawing.Point(420, 41);
+            this.tglFullscreen.Margin = new System.Windows.Forms.Padding(2);
             this.tglFullscreen.Name = "tglFullscreen";
-            this.tglFullscreen.Size = new System.Drawing.Size(80, 24);
+            this.tglFullscreen.Size = new System.Drawing.Size(80, 17);
             this.tglFullscreen.TabIndex = 11;
             this.tglFullscreen.Text = "Off";
             this.tglFullscreen.UseSelectable = true;
@@ -207,8 +232,7 @@
             // lblHighResolution
             // 
             this.lblHighResolution.AutoSize = true;
-            this.lblHighResolution.Location = new System.Drawing.Point(410, 29);
-            this.lblHighResolution.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblHighResolution.Location = new System.Drawing.Point(273, 19);
             this.lblHighResolution.Name = "lblHighResolution";
             this.lblHighResolution.Size = new System.Drawing.Size(139, 19);
             this.lblHighResolution.TabIndex = 10;
@@ -217,9 +241,10 @@
             // tglHighResolution
             // 
             this.tglHighResolution.AutoSize = true;
-            this.tglHighResolution.Location = new System.Drawing.Point(428, 63);
+            this.tglHighResolution.Location = new System.Drawing.Point(285, 41);
+            this.tglHighResolution.Margin = new System.Windows.Forms.Padding(2);
             this.tglHighResolution.Name = "tglHighResolution";
-            this.tglHighResolution.Size = new System.Drawing.Size(80, 24);
+            this.tglHighResolution.Size = new System.Drawing.Size(80, 17);
             this.tglHighResolution.TabIndex = 9;
             this.tglHighResolution.Text = "Off";
             this.tglHighResolution.UseSelectable = true;
@@ -229,20 +254,18 @@
             // 
             this.gridViewSettings.AllowUserToOrderColumns = true;
             this.gridViewSettings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridViewSettings.Location = new System.Drawing.Point(30, 217);
-            this.gridViewSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gridViewSettings.Location = new System.Drawing.Point(20, 141);
             this.gridViewSettings.Name = "gridViewSettings";
             this.gridViewSettings.ReadOnly = true;
             this.gridViewSettings.RowHeadersWidth = 62;
-            this.gridViewSettings.Size = new System.Drawing.Size(1184, 375);
+            this.gridViewSettings.Size = new System.Drawing.Size(1011, 244);
             this.gridViewSettings.TabIndex = 8;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(1108, 142);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSave.Location = new System.Drawing.Point(956, 99);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(105, 46);
+            this.btnSave.Size = new System.Drawing.Size(70, 30);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Save";
             this.btnSave.UseSelectable = true;
@@ -251,8 +274,7 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(32, 152);
-            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTitle.Location = new System.Drawing.Point(21, 99);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(92, 19);
             this.lblTitle.TabIndex = 6;
@@ -264,18 +286,16 @@
             // 
             // 
             this.tbxTitle.CustomButton.Image = null;
-            this.tbxTitle.CustomButton.Location = new System.Drawing.Point(264, 1);
-            this.tbxTitle.CustomButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbxTitle.CustomButton.Location = new System.Drawing.Point(169, 1);
             this.tbxTitle.CustomButton.Name = "";
-            this.tbxTitle.CustomButton.Size = new System.Drawing.Size(33, 33);
+            this.tbxTitle.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.tbxTitle.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxTitle.CustomButton.TabIndex = 1;
             this.tbxTitle.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbxTitle.CustomButton.UseSelectable = true;
             this.tbxTitle.CustomButton.Visible = false;
             this.tbxTitle.Lines = new string[0];
-            this.tbxTitle.Location = new System.Drawing.Point(194, 152);
-            this.tbxTitle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbxTitle.Location = new System.Drawing.Point(129, 99);
             this.tbxTitle.MaxLength = 32767;
             this.tbxTitle.Name = "tbxTitle";
             this.tbxTitle.PasswordChar = '\0';
@@ -284,7 +304,7 @@
             this.tbxTitle.SelectionLength = 0;
             this.tbxTitle.SelectionStart = 0;
             this.tbxTitle.ShortcutsEnabled = true;
-            this.tbxTitle.Size = new System.Drawing.Size(298, 35);
+            this.tbxTitle.Size = new System.Drawing.Size(191, 23);
             this.tbxTitle.TabIndex = 5;
             this.tbxTitle.UseSelectable = true;
             this.tbxTitle.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -294,8 +314,7 @@
             // lblCloseOnFinish
             // 
             this.lblCloseOnFinish.AutoSize = true;
-            this.lblCloseOnFinish.Location = new System.Drawing.Point(220, 29);
-            this.lblCloseOnFinish.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCloseOnFinish.Location = new System.Drawing.Point(147, 19);
             this.lblCloseOnFinish.Name = "lblCloseOnFinish";
             this.lblCloseOnFinish.Size = new System.Drawing.Size(96, 19);
             this.lblCloseOnFinish.TabIndex = 4;
@@ -304,8 +323,7 @@
             // lblDebugMode
             // 
             this.lblDebugMode.AutoSize = true;
-            this.lblDebugMode.Location = new System.Drawing.Point(30, 29);
-            this.lblDebugMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDebugMode.Location = new System.Drawing.Point(20, 19);
             this.lblDebugMode.Name = "lblDebugMode";
             this.lblDebugMode.Size = new System.Drawing.Size(87, 19);
             this.lblDebugMode.TabIndex = 3;
@@ -313,14 +331,15 @@
             // 
             // Settings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1272, 749);
+            this.ClientSize = new System.Drawing.Size(1076, 487);
             this.Controls.Add(this.metroPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Settings";
-            this.Padding = new System.Windows.Forms.Padding(20, 92, 20, 20);
+            this.Padding = new System.Windows.Forms.Padding(13, 60, 13, 13);
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.Settings_Load);
             this.metroPanel1.ResumeLayout(false);
@@ -352,5 +371,7 @@
         private MetroFramework.Controls.MetroLabel lblCLServer;
         private MetroFramework.Controls.MetroToggle tglCLServer;
         private MetroFramework.Controls.MetroButton btnPlugins;
+        private MetroFramework.Controls.MetroLabel lblDisableAutoFixFlash;
+        private MetroFramework.Controls.MetroToggle tglDisableAutoFixFlash;
     }
 }
