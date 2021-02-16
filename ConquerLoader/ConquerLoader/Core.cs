@@ -76,7 +76,7 @@ namespace ConquerLoader
                     var waitHandle = asyncResult.AsyncWaitHandle;
                     try
                     {
-                        if (!asyncResult.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1), false))
+                        if (!asyncResult.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(0.6), false))
                         {
                             // wait handle didn't came back in time
                             client.Close();
@@ -85,9 +85,12 @@ namespace ConquerLoader
                         {
                             // The result was positiv
                             result = client.Connected;
+                            // ensure the ending-call
+                            client.EndConnect(asyncResult);
                         }
-                        // ensure the ending-call
-                        client.EndConnect(asyncResult);
+                    }
+                    catch(Exception)
+                    {
                     }
                     finally
                     {
@@ -95,7 +98,7 @@ namespace ConquerLoader
                         waitHandle.Close();
                     }
                 }
-                catch
+                catch(Exception)
                 {
                 }
             }

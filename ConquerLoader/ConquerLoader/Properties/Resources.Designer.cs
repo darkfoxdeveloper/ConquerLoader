@@ -61,12 +61,58 @@ namespace ConquerLoader.Properties {
         }
         
         /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] COHook_60XX {
+            get {
+                object obj = ResourceManager.GetObject("COHook_60XX", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] COHook_66XX {
+            get {
+                object obj = ResourceManager.GetObject("COHook_66XX", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
         /// </summary>
         internal static System.Drawing.Icon ConquerLoaderLogo {
             get {
                 object obj = ResourceManager.GetObject("ConquerLoaderLogo", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///&lt;mysqldump xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+        ///&lt;database name=&quot;serverdat&quot;&gt;
+        ///	&lt;table_structure name=&quot;outenserver&quot;&gt;
+        ///		&lt;field Field=&quot;id&quot; Type=&quot;int(10) unsigned&quot; Null=&quot;NO&quot; Key=&quot;PRI&quot; Default=&quot;&quot; Extra=&quot;&quot; /&gt;
+        ///		&lt;field Field=&quot;ServerName&quot; Type=&quot;varchar(50)&quot; Null=&quot;NO&quot; Key=&quot;&quot; Default=&quot;0&quot; Extra=&quot;&quot; /&gt;
+        ///		&lt;field Field=&quot;ServerIP&quot; Type=&quot;varchar(128)&quot; Null=&quot;NO&quot; Key=&quot;&quot; Default=&quot;0&quot; Extra=&quot;&quot; /&gt;
+        ///		&lt;field Field=&quot;ServerPort&quot; Type=&quot;int(10) unsigned&quot; Null=&quot;NO&quot; Key=&quot;&quot; Default=&quot;0&quot; Extra=&quot;&quot; [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        internal static string ServersXML {
+            get {
+                return ResourceManager.GetString("ServersXML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] TQAnp {
+            get {
+                object obj = ResourceManager.GetObject("TQAnp", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="serverdat">
+	<table_structure name="outenserver">
+		<field Field="id" Type="int(10) unsigned" Null="NO" Key="PRI" Default="" Extra="" />
+		<field Field="ServerName" Type="varchar(50)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="ServerIP" Type="varchar(128)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="ServerPort" Type="int(10) unsigned" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="FlashName" Type="varchar(50)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="FlashIcon" Type="varchar(50)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="FlashHint" Type="varchar(50)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="Child" Type="int(10) unsigned" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="PicServerIP" Type="varchar(50)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="PicServerPort" Type="int(10) unsigned" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="BindServerIP" Type="varchar(50)" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="BindServerPort" Type="int(10) unsigned" Null="NO" Key="" Default="0" Extra="" />
+		<field Field="Charges" Type="int(10) unsigned" Null="NO" Key="" Default="0" Extra="" />
+		<key Table="outenserver" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Cardinality="165" Null="" Index_type="BTREE" Comment="" />
+		<options Name="outenserver" Engine="MyISAM" Version="10" Row_format="Dynamic" Rows="165" Avg_row_length="80" Data_length="13316" Max_data_length="281474976710655" Index_length="4096" Data_free="0" Create_time="2016-05-09 06:42:48" Update_time="2017-05-18 02:21:22" Collation="utf8_general_ci" Create_options="" Comment="" />
+	</table_structure>
+	<table_data name="outenserver">
+	<row>
+		<field name="id">0</field>
+		<field name="ServerName"></field>
+		<field name="ServerIP"></field>
+		<field name="ServerPort">0</field>
+		<field name="FlashName"></field>
+		<field name="FlashIcon"></field>
+		<field name="FlashHint"></field>
+		<field name="Child">17</field>
+		<field name="PicServerIP">0</field>
+		<field name="PicServerPort">0</field>
+		<field name="BindServerIP">0</field>
+		<field name="BindServerPort">0</field>
+		<field name="Charges">0</field>
+	</row>
+	<row>
+		<field name="id">1</field>
+		<field name="ServerName"></field>
+		<field name="ServerIP"></field>
+		<field name="ServerPort">0</field>
+		<field name="FlashName">Group1</field>
+		<field name="FlashIcon">Group1.swf</field>
+		<field name="FlashHint"></field>
+		<field name="Child">1</field>
+		<field name="PicServerIP">0</field>
+		<field name="PicServerPort">0</field>
+		<field name="BindServerIP">0</field>
+		<field name="BindServerPort">0</field>
+		<field name="Charges">0</field>
+	</row>
+	</table_data>
+</database>
+</mysqldump>

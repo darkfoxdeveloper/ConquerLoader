@@ -34,7 +34,7 @@ namespace ConquerLoader
             if (LoaderConfig != null) Constants.CloseOnFinish = LoaderConfig.CloseOnFinish;
             Constants.MainWorker = worker;
             Core.LoadAvailablePlugins();
-            Core.LoadRemotePlugins();
+            //Core.LoadRemotePlugins(); Is a slow method for this :( for now this is disabled
             Core.InitPlugins();
         }
         private void Main_Load(object sender, EventArgs e)
@@ -48,9 +48,9 @@ namespace ConquerLoader
             {
                 LoadConfigInForm();
             }
+            AllStarted = true;
             RefreshServerList();
 
-            AllStarted = true;
             LoaderEvents.LauncherLoadedStartEvent();
         }
 
@@ -149,14 +149,18 @@ namespace ConquerLoader
 
         private void SetServerStatus()
         {
-            bool Online = Core.ServerAvailable(LoaderConfig.DefaultServer.LoginHost, LoaderConfig.DefaultServer.GamePort);
-            serverStatus.Text = Online ? "ONLINE" : "OFFLINE";
-            if (Online)
+            if (AllStarted)
             {
-                serverStatus.ForeColor = Color.DarkGreen;
-            } else
-            {
-                serverStatus.ForeColor = Color.DarkRed;
+                bool Online = Core.ServerAvailable(LoaderConfig.DefaultServer.LoginHost, LoaderConfig.DefaultServer.GamePort);
+                serverStatus.Text = Online ? "ONLINE" : "OFFLINE";
+                if (Online)
+                {
+                    serverStatus.ForeColor = Color.DarkGreen;
+                }
+                else
+                {
+                    serverStatus.ForeColor = Color.DarkRed;
+                }
             }
         }
 
@@ -262,11 +266,17 @@ namespace ConquerLoader
                     }
                     worker.RunWorkerAsync();
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Core.LogWritter.Write("Error found: " + ex);
             }
-}
+        }
+
+        private void RebuildServerDat()
+        {
+            new ServersDatGenerator(LoaderConfig.Servers);
+        }
 
         private void Worker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
@@ -274,6 +284,8 @@ namespace ConquerLoader
             Core.LogWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
             string PathToConquerExe = Path.Combine(Application.StartupPath, SelectedServer.ExecutableName);
             string WorkingDir = Path.GetDirectoryName(PathToConquerExe);
+            bool UsingCustomServerDat = false;
+            bool NoUseDX8_DX9 = true;
             if (File.Exists(PathToConquerExe))
             {
                 string CheckPathEnvDX8 = Path.Combine(Application.StartupPath, "Env_DX8", SelectedServer.ExecutableName);
@@ -290,6 +302,22 @@ namespace ConquerLoader
                         File.Delete(OutputCopyDll);
                     }
                     File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
+                    RebuildServerDat();
+                    if (SelectedServer.ServerVersion >= 6600)
+                    {
+                        File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                        File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
+                        Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
+                        UsingCustomServerDat = true;
+                    }
+                    else
+                    {
+                        File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                        File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_60XX);
+                        Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
+                        UsingCustomServerDat = true;
+                    }
+                    NoUseDX8_DX9 = false;
                 }
                 if (SelectedServer.UseDirectX9)
                 {
@@ -304,7 +332,27 @@ namespace ConquerLoader
                             File.Delete(OutputCopyDll);
                         }
                         File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
+                        RebuildServerDat();
+                        if (SelectedServer.ServerVersion >= 6600)
+                        {
+                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
+                            Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
+                            UsingCustomServerDat = true;
+                        }
+                        else
+                        {
+                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_60XX);
+                            Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
+                            UsingCustomServerDat = true;
+                        }
+                        NoUseDX8_DX9 = false;
                     }
+                }
+                if (NoUseDX8_DX9 && SelectedServer.ServerVersion >= 6000)
+                {
+                    RebuildServerDat();
                 }
                 Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });
                 if (conquerProc != null)
@@ -335,7 +383,7 @@ namespace ConquerLoader
                     });
                     Core.LogWritter.Write("Injecting DLL...");
                     worker.ReportProgress(20);
-                    if (SelectedServer.ServerVersion >= 6187)
+                    if (SelectedServer.ServerVersion >= 6187 && !UsingCustomServerDat)
                     {
                         conquerProc.WaitForInputIdle(35000);
                     }

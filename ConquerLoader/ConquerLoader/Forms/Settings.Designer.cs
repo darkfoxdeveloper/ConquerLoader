@@ -38,7 +38,7 @@
             this.lblCLServer = new MetroFramework.Controls.MetroLabel();
             this.tglCLServer = new MetroFramework.Controls.MetroToggle();
             this.btnWizard = new MetroFramework.Controls.MetroButton();
-            this.btnAdvancedMode = new MetroFramework.Controls.MetroButton();
+            this.btnEdit = new MetroFramework.Controls.MetroButton();
             this.lblServerNameChange = new MetroFramework.Controls.MetroLabel();
             this.tglServerNameChange = new MetroFramework.Controls.MetroToggle();
             this.lblFullscreen = new MetroFramework.Controls.MetroLabel();
@@ -87,7 +87,7 @@
             this.metroPanel1.Controls.Add(this.lblCLServer);
             this.metroPanel1.Controls.Add(this.tglCLServer);
             this.metroPanel1.Controls.Add(this.btnWizard);
-            this.metroPanel1.Controls.Add(this.btnAdvancedMode);
+            this.metroPanel1.Controls.Add(this.btnEdit);
             this.metroPanel1.Controls.Add(this.lblServerNameChange);
             this.metroPanel1.Controls.Add(this.tglServerNameChange);
             this.metroPanel1.Controls.Add(this.lblFullscreen);
@@ -177,15 +177,15 @@
             this.btnWizard.UseSelectable = true;
             this.btnWizard.Click += new System.EventHandler(this.BtnWizard_Click);
             // 
-            // btnAdvancedMode
+            // btnEdit
             // 
-            this.btnAdvancedMode.Location = new System.Drawing.Point(794, 99);
-            this.btnAdvancedMode.Name = "btnAdvancedMode";
-            this.btnAdvancedMode.Size = new System.Drawing.Size(75, 30);
-            this.btnAdvancedMode.TabIndex = 15;
-            this.btnAdvancedMode.Text = "Advanced";
-            this.btnAdvancedMode.UseSelectable = true;
-            this.btnAdvancedMode.Click += new System.EventHandler(this.BtnAdvancedMode_Click);
+            this.btnEdit.Location = new System.Drawing.Point(794, 99);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 30);
+            this.btnEdit.TabIndex = 15;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseSelectable = true;
+            this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
             // lblServerNameChange
             // 
@@ -256,7 +256,6 @@
             this.gridViewSettings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridViewSettings.Location = new System.Drawing.Point(20, 141);
             this.gridViewSettings.Name = "gridViewSettings";
-            this.gridViewSettings.ReadOnly = true;
             this.gridViewSettings.RowHeadersWidth = 62;
             this.gridViewSettings.Size = new System.Drawing.Size(1011, 244);
             this.gridViewSettings.TabIndex = 8;
@@ -366,7 +365,7 @@
         private MetroFramework.Controls.MetroToggle tglFullscreen;
         private MetroFramework.Controls.MetroLabel lblServerNameChange;
         private MetroFramework.Controls.MetroToggle tglServerNameChange;
-        private MetroFramework.Controls.MetroButton btnAdvancedMode;
+        private MetroFramework.Controls.MetroButton btnEdit;
         private MetroFramework.Controls.MetroButton btnWizard;
         private MetroFramework.Controls.MetroLabel lblCLServer;
         private MetroFramework.Controls.MetroToggle tglCLServer;

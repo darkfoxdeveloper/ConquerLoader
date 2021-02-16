@@ -3,6 +3,7 @@ using ConquerLoader.Forms;
 using MetroFramework.Controls;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ConquerLoader
@@ -11,6 +12,7 @@ namespace ConquerLoader
     {
         public LoaderConfig CurrentLoaderConfig = null;
         private Wizard WizardForm = null;
+        private Wizard WizardEditForm = null;
         private Plugins PluginsForm = null;
         public Settings()
         {
@@ -87,20 +89,6 @@ namespace ConquerLoader
             CurrentLoaderConfig.CLServer = (sender as MetroToggle).Checked;
         }
 
-        private void BtnAdvancedMode_Click(object sender, EventArgs e)
-        {
-            if (gridViewSettings.ReadOnly)
-            {
-                gridViewSettings.ReadOnly = false;
-                btnAdvancedMode.Text = "Simple";
-                MetroFramework.MetroMessageBox.Show(this, $"Now can edit in the grid directly! This is a feature for Advanced Users.", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } else
-            {
-                gridViewSettings.ReadOnly = true;
-                btnAdvancedMode.Text = "Advanced";
-            }
-        }
-
         private void BtnWizard_Click(object sender, EventArgs e)
         {
             if (WizardForm == null)
@@ -119,6 +107,24 @@ namespace ConquerLoader
                 PluginsForm = new Plugins();
             }
             PluginsForm.ShowDialog();
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            if (gridViewSettings.CurrentRow != null)
+            {
+                if (WizardEditForm != null)
+                {
+                    WizardEditForm.Dispose();
+                }
+                if (Core.GetLoaderConfig().Servers.Count > gridViewSettings.CurrentRow.Index)
+                {
+                    WizardEditForm = new Wizard(gridViewSettings.CurrentRow.Index);
+                    WizardEditForm.ShowDialog();
+                    CurrentLoaderConfig = Core.GetLoaderConfig();
+                    gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
+                }
+            }
         }
     }
 }
