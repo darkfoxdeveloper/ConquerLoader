@@ -15,6 +15,8 @@ namespace ConquerLoader.Models
     {
         private readonly string _Template = "";
         private BindingList<ServerConfiguration> _Servers { get; set; }
+        private LoaderConfig Config { get; set; }
+        private ServerConfiguration SelectedServer { get; set; }
 
         public ServersDatGenerator(BindingList<ServerConfiguration> Servers)
         {
@@ -23,10 +25,10 @@ namespace ConquerLoader.Models
             _Template = Properties.Resources.ServersXML;
             XDocument doc = XDocument.Parse(_Template);
             int initialId = 1;
-            LoaderConfig lConfig = Core.GetLoaderConfig();
+            Config = Core.GetLoaderConfig();
             XElement tableRowsBase = doc.Element("mysqldump").Element("database").Element("table_data");
             XElement elGroup = tableRowsBase.Elements("row").Where(x => x.Elements("field").Where(y => y.Attribute("name").Value == "id" && y.Value == "0").Count() > 0).FirstOrDefault();
-            List<ServerDatGroup> Groups = lConfig.GetGroups();
+            List<ServerDatGroup> Groups = Config.GetGroups();
             elGroup.Elements("field").Where(x => x.Attribute("name").Value == "Child").FirstOrDefault().Value = Groups.Count.ToString();
             uint GroupId = 1;
             List<XElement> groupElements = new List<XElement>();
@@ -85,6 +87,12 @@ namespace ConquerLoader.Models
                 GroupId++;
                 foreach (ServerConfiguration serv in group.Servers)
                 {
+                    if (Config.DefaultServer.ServerName == serv.ServerName && Config.DefaultServer.ServerVersion == serv.ServerVersion) // Its the selected server
+                    {
+                        uint GroupIndex = GroupId-2;
+                        uint ServerIndex = (uint)initialId-1;
+                        SetSelectedServer(GroupIndex, ServerIndex);
+                    }
                     XElement rowElement = new XElement("row");
                     try
                     {
@@ -158,6 +166,14 @@ namespace ConquerLoader.Models
                     memStream.CopyTo(compressionStream);
                 }
             }
+        }
+
+        public void SetSelectedServer(uint GroupIndex, uint ServerIndex)
+        {
+            string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
+            IniManager parser = new IniManager(SetupIniPath, "ScreenMode");
+            parser.Write("Group", "GroupRecord", GroupIndex);
+            parser.Write("Server", "ServerRecord", ServerIndex);
         }
     }
 }

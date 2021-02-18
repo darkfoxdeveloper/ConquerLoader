@@ -305,14 +305,14 @@ namespace ConquerLoader
                     RebuildServerDat();
                     if (SelectedServer.ServerVersion >= 6600)
                     {
-                        File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                        File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
                         File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
                         Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
                         UsingCustomServerDat = true;
                     }
                     else
                     {
-                        File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                        File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
                         File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_60XX);
                         Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
                         UsingCustomServerDat = true;
@@ -335,14 +335,14 @@ namespace ConquerLoader
                         RebuildServerDat();
                         if (SelectedServer.ServerVersion >= 6600)
                         {
-                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                            File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
                             File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
                             Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
                             UsingCustomServerDat = true;
                         }
                         else
                         {
-                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                            File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
                             File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_60XX);
                             Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
                             UsingCustomServerDat = true;
