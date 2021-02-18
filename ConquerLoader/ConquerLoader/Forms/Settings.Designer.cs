@@ -51,6 +51,7 @@
             this.tbxTitle = new MetroFramework.Controls.MetroTextBox();
             this.lblCloseOnFinish = new MetroFramework.Controls.MetroLabel();
             this.lblDebugMode = new MetroFramework.Controls.MetroLabel();
+            this.btnServerDat = new MetroFramework.Controls.MetroButton();
             this.metroPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewSettings)).BeginInit();
             this.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             // metroPanel1
             // 
+            this.metroPanel1.Controls.Add(this.btnServerDat);
             this.metroPanel1.Controls.Add(this.lblDisableAutoFixFlash);
             this.metroPanel1.Controls.Add(this.tglDisableAutoFixFlash);
             this.metroPanel1.Controls.Add(this.btnPlugins);
@@ -136,9 +138,9 @@
             // 
             // btnPlugins
             // 
-            this.btnPlugins.Location = new System.Drawing.Point(714, 99);
+            this.btnPlugins.Location = new System.Drawing.Point(820, 113);
             this.btnPlugins.Name = "btnPlugins";
-            this.btnPlugins.Size = new System.Drawing.Size(75, 30);
+            this.btnPlugins.Size = new System.Drawing.Size(67, 22);
             this.btnPlugins.TabIndex = 19;
             this.btnPlugins.Text = "Plugins";
             this.btnPlugins.UseSelectable = true;
@@ -169,9 +171,9 @@
             // 
             // btnWizard
             // 
-            this.btnWizard.Location = new System.Drawing.Point(875, 99);
+            this.btnWizard.Location = new System.Drawing.Point(893, 85);
             this.btnWizard.Name = "btnWizard";
-            this.btnWizard.Size = new System.Drawing.Size(75, 30);
+            this.btnWizard.Size = new System.Drawing.Size(57, 22);
             this.btnWizard.TabIndex = 16;
             this.btnWizard.Text = "New +";
             this.btnWizard.UseSelectable = true;
@@ -179,9 +181,9 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(794, 99);
+            this.btnEdit.Location = new System.Drawing.Point(893, 113);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 30);
+            this.btnEdit.Size = new System.Drawing.Size(57, 22);
             this.btnEdit.TabIndex = 15;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseSelectable = true;
@@ -262,9 +264,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(956, 99);
+            this.btnSave.Location = new System.Drawing.Point(956, 85);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(70, 30);
+            this.btnSave.Size = new System.Drawing.Size(70, 50);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Save";
             this.btnSave.UseSelectable = true;
@@ -328,6 +330,16 @@
             this.lblDebugMode.TabIndex = 3;
             this.lblDebugMode.Text = "Debug Mode";
             // 
+            // btnServerDat
+            // 
+            this.btnServerDat.Location = new System.Drawing.Point(820, 85);
+            this.btnServerDat.Name = "btnServerDat";
+            this.btnServerDat.Size = new System.Drawing.Size(67, 22);
+            this.btnServerDat.TabIndex = 22;
+            this.btnServerDat.Text = "Server.dat";
+            this.btnServerDat.UseSelectable = true;
+            this.btnServerDat.Click += new System.EventHandler(this.BtnServerDat_Click);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -372,5 +384,6 @@
         private MetroFramework.Controls.MetroButton btnPlugins;
         private MetroFramework.Controls.MetroLabel lblDisableAutoFixFlash;
         private MetroFramework.Controls.MetroToggle tglDisableAutoFixFlash;
+        private MetroFramework.Controls.MetroButton btnServerDat;
     }
 }

@@ -13,6 +13,12 @@
         public bool UseDirectX9 { get; set; }
         public string Hostname { get; set; }
         public string ServerNameMemoryAddress { get; set; }
-        public string FlashIcon { get; set; }
+        public string ServerIcon { get; set; }
+        public ServerDatGroup Group { get; set; }
+
+        override public string ToString()
+        {
+            return $"{ServerName} [{ServerVersion}]";
+        }
     }
 }

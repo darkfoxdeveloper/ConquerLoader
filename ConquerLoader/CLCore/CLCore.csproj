@@ -94,6 +94,7 @@
     <Compile Include="Models\IniManager.cs" />
     <Compile Include="Models\LoaderConfig.cs" />
     <Compile Include="Models\ServerConfiguration.cs" />
+    <Compile Include="Models\ServerDatGroup.cs" />
     <Compile Include="PluginSystem\IPlugin.cs" />
     <Compile Include="PluginSystem\Parameter.cs" />
     <Compile Include="PluginSystem\PluginLoader.cs" />

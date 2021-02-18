@@ -1,5 +1,7 @@
 ﻿using CLCore;
 using CLCore.Models;
+using MetroFramework.Controls;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
@@ -28,6 +30,11 @@ namespace ConquerLoader
             if (_IndexSelectedServer >= 0)
             {
                 _SelectedServer = _LoaderConfig.Servers[_IndexSelectedServer];
+                if (_SelectedServer.Group == null)
+                {
+                    _SelectedServer.Group = new ServerDatGroup();
+                }
+                LoadServerDatGroups();
                 Text = "Edit Server";
                 btnAdd.Text = "Edit in List";
                 tbxServerName.Text = _SelectedServer.ServerName;
@@ -35,7 +42,8 @@ namespace ConquerLoader
                 tbxConquerExe.Text = _SelectedServer.ExecutableName;
                 tbxLoginPort.Text = _SelectedServer.LoginPort.ToString();
                 tbxGamePort.Text = _SelectedServer.GamePort.ToString();
-                tbxGroupIcon.Text = _SelectedServer.FlashIcon;
+                tbxGroupIcon.Text = _SelectedServer.ServerIcon;
+                tbxGroup.Text = _SelectedServer.Group.GroupName;
                 tbxVersion.Text = _SelectedServer.ServerVersion.ToString();
                 tglUseDX9.Checked = _SelectedServer.UseDirectX9;
             } else
@@ -62,6 +70,22 @@ namespace ConquerLoader
                 tbxConquerExe.Text = "Conquer.exe"; // Default Conquer Executable
                 tbxLoginPort.Text = "9958";
                 tbxGamePort.Text = "5816";
+                LoadServerDatGroups();
+            }
+        }
+
+        private void LoadServerDatGroups()
+        {
+            string p = Path.Combine(Constants.ClientPath, "data", "main", "flash");
+            if (Directory.Exists(p))
+            {
+                List<string> Groups = new List<string>();
+                foreach (string s in Directory.GetDirectories(p, "Group*"))
+                {
+                    string dir = Path.GetFileName(s);
+                    Groups.Add(dir);
+                }
+                tbxGroup.DataSource = Groups;
             }
         }
 
@@ -69,6 +93,12 @@ namespace ConquerLoader
         {
             if (_IndexSelectedServer >= 0)
             {
+                List<string> valids = ServerDatGroupIcons();
+                if (!valids.Contains(tbxGroupIcon.Text) && int.Parse(tbxVersion.Text) >= 6000)
+                {
+                    MessageBox.Show("This group icon is invalid for this client. You don't see this group icon.", "Error detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 _SelectedServer.ServerName = tbxServerName.Text;
                 _SelectedServer.LoginHost = tbxIP.Text;
                 _SelectedServer.GameHost = tbxIP.Text;
@@ -76,11 +106,25 @@ namespace ConquerLoader
                 _SelectedServer.ExecutableName = tbxConquerExe.Text;
                 _SelectedServer.LoginPort = uint.Parse(tbxLoginPort.Text);
                 _SelectedServer.GamePort = uint.Parse(tbxGamePort.Text);
-                _SelectedServer.FlashIcon = tbxGroupIcon.Text;
                 _SelectedServer.UseDirectX9 = tglUseDX9.Checked;
+                _SelectedServer.ServerIcon = tbxGroupIcon.Text;
+                if (_SelectedServer.Group != null)
+                {
+                    _SelectedServer.Group.GroupIcon = $"{tbxGroup.Text}.swf";
+                    _SelectedServer.Group.GroupName = tbxGroup.Text;
+                } else
+                {
+                    _SelectedServer.Group = new ServerDatGroup() { GroupIcon = $"{tbxGroup.Text}.swf", GroupName = tbxGroup.Text };
+                }
             }
             else
             {
+                List<string> valids = ServerDatGroupIcons();
+                if (!valids.Contains(tbxGroupIcon.Text) && int.Parse(tbxVersion.Text) >= 6000)
+                {
+                    MessageBox.Show("This group icon is invalid for this client. You don't see this group icon.", "Error detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 _LoaderConfig.Servers.Add(new ServerConfiguration()
                 {
                     GameHost = tbxIP.Text,
@@ -90,7 +134,9 @@ namespace ConquerLoader
                     UseDirectX9 = tglUseDX9.Checked,
                     ServerVersion = uint.Parse(tbxVersion.Text),
                     LoginPort = 9958,
-                    GamePort = 5816
+                    GamePort = 5816,
+                    Group = new ServerDatGroup() { GroupIcon = $"{tbxGroup.Text}.swf", GroupName = tbxGroup.Text },
+                    ServerIcon = tbxGroupIcon.Text
                 });
             }
             Core.SaveLoaderConfig(_LoaderConfig);
@@ -118,12 +164,14 @@ namespace ConquerLoader
                     tbxGroupIcon.Visible = true;
                     lblGroupIcon.Visible = true;
                     btnHelpGroupIcon.Visible = true;
+                    tbxGroup.Visible = true;
                 }
                 else
                 {
                     tbxGroupIcon.Visible = false;
                     lblGroupIcon.Visible = false;
                     btnHelpGroupIcon.Visible = false;
+                    tbxGroup.Visible = false;
                 }
             }
         }
@@ -159,11 +207,15 @@ namespace ConquerLoader
 
         private void BtnHelpGroupIcon_Click(object sender, System.EventArgs e)
         {
+            if (tbxGroup.Text.Length <= 0) {
+                MessageBox.Show("Any group specified", "Specify one valid group", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             string p = Path.Combine(Constants.ClientPath, "data", "main", "flash");
             string AvailableGroupsNameInClient = "";
             if (Directory.Exists(p))
             {
-                foreach (string s in Directory.GetDirectories(p, "Group*"))
+                foreach (string s in Directory.GetDirectories(p, $"{tbxGroup.Text}"))
                 {
                     string dir = Path.GetFileName(s);
                     foreach(string f in Directory.GetFiles(s))
@@ -171,12 +223,35 @@ namespace ConquerLoader
                         AvailableGroupsNameInClient += dir + "/" + Path.GetFileName(f) + System.Environment.NewLine;
                     }
                 }
-                MessageBox.Show(AvailableGroupsNameInClient, "Available Group Names", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(AvailableGroupsNameInClient, "Available Group Icons", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
                 MessageBox.Show("Any found", "Not detected swf files!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private List<string> ServerDatGroupIcons()
+        {
+            List<string> GroupIcons = new List<string>();
+            string p = Path.Combine(Constants.ClientPath, "data", "main", "flash");
+            if (Directory.Exists(p))
+            {
+                foreach (string s in Directory.GetDirectories(p, $"{tbxGroup.Text}"))
+                {
+                    string dir = Path.GetFileName(s);
+                    foreach (string f in Directory.GetFiles(s))
+                    {
+                        GroupIcons.Add(dir + "/" + Path.GetFileName(f));
+                    }
+                }
+            }
+            return GroupIcons;
+        }
+
+        private void TbxGroupIcon_TextChanged(object sender, System.EventArgs e)
+        {
+           
         }
     }
 }

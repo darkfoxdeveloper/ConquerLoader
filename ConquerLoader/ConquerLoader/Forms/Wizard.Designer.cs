@@ -48,6 +48,8 @@ namespace ConquerLoader
             this.lblGroupIcon = new MetroFramework.Controls.MetroLabel();
             this.tbxGroupIcon = new MetroFramework.Controls.MetroTextBox();
             this.btnHelpGroupIcon = new MetroFramework.Controls.MetroButton();
+            this.tbxGroup = new System.Windows.Forms.ComboBox();
+            this.lblHelpGroup = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // tbxIP
@@ -381,11 +383,31 @@ namespace ConquerLoader
             this.btnHelpGroupIcon.UseSelectable = true;
             this.btnHelpGroupIcon.Click += new System.EventHandler(this.BtnHelpGroupIcon_Click);
             // 
+            // tbxGroup
+            // 
+            this.tbxGroup.ItemHeight = 23;
+            this.tbxGroup.Location = new System.Drawing.Point(23, 287);
+            this.tbxGroup.MaxLength = 32767;
+            this.tbxGroup.Name = "tbxGroup";
+            this.tbxGroup.Size = new System.Drawing.Size(147, 29);
+            this.tbxGroup.TabIndex = 17;
+            // 
+            // lblHelpGroup
+            // 
+            this.lblHelpGroup.AutoSize = true;
+            this.lblHelpGroup.Location = new System.Drawing.Point(180, 287);
+            this.lblHelpGroup.Name = "lblHelpGroup";
+            this.lblHelpGroup.Size = new System.Drawing.Size(218, 19);
+            this.lblHelpGroup.TabIndex = 19;
+            this.lblHelpGroup.Text = "Group of this server in Login Screen";
+            // 
             // Wizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(511, 417);
+            this.Controls.Add(this.lblHelpGroup);
+            this.Controls.Add(this.tbxGroup);
             this.Controls.Add(this.btnHelpGroupIcon);
             this.Controls.Add(this.lblGroupIcon);
             this.Controls.Add(this.tbxGroupIcon);
@@ -436,5 +458,7 @@ namespace ConquerLoader
         private MetroFramework.Controls.MetroLabel lblGroupIcon;
         private MetroFramework.Controls.MetroTextBox tbxGroupIcon;
         private MetroFramework.Controls.MetroButton btnHelpGroupIcon;
+        private System.Windows.Forms.ComboBox tbxGroup;
+        private MetroFramework.Controls.MetroLabel lblHelpGroup;
     }
 }

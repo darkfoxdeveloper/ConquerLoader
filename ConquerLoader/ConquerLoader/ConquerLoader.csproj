@@ -179,6 +179,12 @@
     <Compile Include="Forms\Plugins.Designer.cs">
       <DependentUpon>Plugins.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ServerDatManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ServerDatManager.Designer.cs">
+      <DependentUpon>ServerDatManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Plugins.resx">
       <DependentUpon>Plugins.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ServerDatManager.resx">
+      <DependentUpon>ServerDatManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>

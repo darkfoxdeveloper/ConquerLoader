@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace CLCore.Models
 {
@@ -22,6 +24,28 @@ namespace CLCore.Models
             {
                 Servers = new BindingList<ServerConfiguration>();
             }
+        }
+
+        public List<ServerDatGroup> GetGroups()
+        {
+            List<ServerDatGroup> Groups = new List<ServerDatGroup>();
+            foreach (ServerConfiguration Server in Servers)
+            {
+                ServerDatGroup g = Groups.Where(x => x.GroupName == Server.Group.GroupName && x.GroupIcon == Server.Group.GroupIcon).FirstOrDefault();
+                if (g != null)
+                {
+                    g.Servers.Add(Server);
+                } else
+                {
+                    if (Server.Group.Servers == null)
+                    {
+                        Server.Group.Servers = new List<ServerConfiguration>();
+                    }
+                    Server.Group.Servers.Add(Server);
+                    Groups.Add(Server.Group);
+                }
+            }
+            return Groups;
         }
     }
 }

@@ -34,21 +34,6 @@
 		<field name="BindServerPort">0</field>
 		<field name="Charges">0</field>
 	</row>
-	<row>
-		<field name="id">1</field>
-		<field name="ServerName"></field>
-		<field name="ServerIP"></field>
-		<field name="ServerPort">0</field>
-		<field name="FlashName">Group1</field>
-		<field name="FlashIcon">Group1.swf</field>
-		<field name="FlashHint"></field>
-		<field name="Child">1</field>
-		<field name="PicServerIP">0</field>
-		<field name="PicServerPort">0</field>
-		<field name="BindServerIP">0</field>
-		<field name="BindServerPort">0</field>
-		<field name="Charges">0</field>
-	</row>
 	</table_data>
 </database>
 </mysqldump>

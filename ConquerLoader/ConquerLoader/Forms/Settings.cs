@@ -13,6 +13,7 @@ namespace ConquerLoader
         public LoaderConfig CurrentLoaderConfig = null;
         private Wizard WizardForm = null;
         private Wizard WizardEditForm = null;
+        private ServerDatManager ServerDatForm = null;
         private Plugins PluginsForm = null;
         public Settings()
         {
@@ -125,6 +126,16 @@ namespace ConquerLoader
                     gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
                 }
             }
+        }
+
+        private void BtnServerDat_Click(object sender, EventArgs e)
+        {
+            if (ServerDatForm != null)
+            {
+                ServerDatForm.Dispose();
+            }
+            ServerDatForm = new ServerDatManager();
+            ServerDatForm.ShowDialog();
         }
     }
 }
