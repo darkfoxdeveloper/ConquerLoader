@@ -63,6 +63,16 @@ namespace ConquerLoader.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        internal static byte[] COFlashFixer {
+            get {
+                object obj = ResourceManager.GetObject("COFlashFixer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         internal static byte[] COHook_60XX {
             get {
                 object obj = ResourceManager.GetObject("COHook_60XX", resourceCulture);

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ConquerLoader
@@ -286,6 +287,13 @@ namespace ConquerLoader
             string WorkingDir = Path.GetDirectoryName(PathToConquerExe);
             bool UsingCustomServerDat = false;
             bool NoUseDX8_DX9 = true;
+            bool InjectFlashFixer = false;
+            // If using 6000 Version or more the HookDLL Used is COHook.dll
+            if (SelectedServer.ServerVersion >= 6000)
+            {
+                HookDLL = "COHook.dll";
+                UsingCustomServerDat = true;
+            }
             if (File.Exists(PathToConquerExe))
             {
                 string CheckPathEnvDX8 = Path.Combine(Application.StartupPath, "Env_DX8", SelectedServer.ExecutableName);
@@ -308,14 +316,6 @@ namespace ConquerLoader
                         File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
                         File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
                         Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
-                        UsingCustomServerDat = true;
-                    }
-                    else
-                    {
-                        File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
-                        File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_60XX);
-                        Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
-                        UsingCustomServerDat = true;
                     }
                     NoUseDX8_DX9 = false;
                 }
@@ -338,21 +338,18 @@ namespace ConquerLoader
                             File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
                             File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
                             Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
-                            UsingCustomServerDat = true;
-                        }
-                        else
-                        {
-                            File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
-                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_60XX);
-                            Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
-                            UsingCustomServerDat = true;
                         }
                         NoUseDX8_DX9 = false;
                     }
                 }
                 if (NoUseDX8_DX9 && SelectedServer.ServerVersion >= 6000)
                 {
+                    File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
+                    File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook_60XX);
+                    Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
                     RebuildServerDat();
+                    File.WriteAllBytes(Path.Combine(Application.StartupPath, "COFlashFixer.dll"), Properties.Resources.COFlashFixer);
+                    InjectFlashFixer = true;
                 }
                 Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });
                 if (conquerProc != null)
@@ -383,18 +380,30 @@ namespace ConquerLoader
                     });
                     Core.LogWritter.Write("Injecting DLL...");
                     worker.ReportProgress(20);
+                    if (InjectFlashFixer)
+                    {
+                        if (!Injector.StartInjection(Application.StartupPath + @"\" + "COFlashFixer.dll", (uint)conquerProc.Id, worker))
+                        {
+                            Core.LogWritter.Write("Injection FlashFixer failed!");
+                            MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            Core.LogWritter.Write("Injected FlashFixer successfully!");
+                        }
+                    }
                     if (SelectedServer.ServerVersion >= 6187 && !UsingCustomServerDat)
                     {
                         conquerProc.WaitForInputIdle(35000);
                     }
                     if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
                     {
-                        Core.LogWritter.Write("Injection failed!");
+                        Core.LogWritter.Write("Injection Hook failed!");
                         MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
                     {
-                        Core.LogWritter.Write("Injected successfully!");
+                        Core.LogWritter.Write("Injected Hook successfully!");
                     }
                 }
                 else
