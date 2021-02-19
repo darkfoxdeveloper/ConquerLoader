@@ -293,6 +293,7 @@ namespace ConquerLoader
             {
                 HookDLL = "COHook.dll";
                 UsingCustomServerDat = true;
+                Core.LogWritter.Write("Using Custom Server.dat...");
             }
             if (File.Exists(PathToConquerExe))
             {
@@ -304,18 +305,21 @@ namespace ConquerLoader
                     Core.LogWritter.Write("Found Env_DX8 Folder. Setting the folder for run executable...");
                     PathToConquerExe = CheckPathEnvDX8;
                     WorkingDir = Path.GetDirectoryName(PathToConquerExe);
-                    string OutputCopyDll = Path.Combine(Application.StartupPath, "Env_DX8", HookINI);
-                    if (File.Exists(OutputCopyDll))
+                    if (CurrentConquerProcess == null)
                     {
-                        File.Delete(OutputCopyDll);
-                    }
-                    File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
-                    RebuildServerDat();
-                    if (SelectedServer.ServerVersion >= 6600)
-                    {
-                        File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
-                        File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
-                        Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
+                        string OutputCopyDll = Path.Combine(Application.StartupPath, "Env_DX8", HookINI);
+                        if (File.Exists(OutputCopyDll))
+                        {
+                            File.Delete(OutputCopyDll);
+                        }
+                        File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
+                        if (SelectedServer.ServerVersion >= 6600)
+                        {
+                            RebuildServerDat();
+                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                            File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook_66XX);
+                            Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
+                        }
                     }
                     NoUseDX8_DX9 = false;
                 }
@@ -326,29 +330,35 @@ namespace ConquerLoader
                         Core.LogWritter.Write("Found Env_DX9 Folder. Setting the folder for run executable...");
                         PathToConquerExe = CheckPathEnvDX9;
                         WorkingDir = Path.GetDirectoryName(PathToConquerExe);
-                        string OutputCopyDll = Path.Combine(Application.StartupPath, "Env_DX9", HookINI);
-                        if (File.Exists(OutputCopyDll))
+                        if (CurrentConquerProcess == null)
                         {
-                            File.Delete(OutputCopyDll);
-                        }
-                        File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
-                        RebuildServerDat();
-                        if (SelectedServer.ServerVersion >= 6600)
-                        {
-                            File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
-                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook_66XX);
-                            Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
+                            string OutputCopyDll = Path.Combine(Application.StartupPath, "Env_DX9", HookINI);
+                            if (File.Exists(OutputCopyDll))
+                            {
+                                File.Delete(OutputCopyDll);
+                            }
+                            File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
+                            if (SelectedServer.ServerVersion >= 6600)
+                            {
+                                RebuildServerDat();
+                                File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                                File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook_66XX);
+                                Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
+                            }
                         }
                         NoUseDX8_DX9 = false;
                     }
                 }
                 if (NoUseDX8_DX9 && SelectedServer.ServerVersion >= 6000)
                 {
-                    File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
-                    File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook_60XX);
-                    Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
-                    RebuildServerDat();
-                    File.WriteAllBytes(Path.Combine(Application.StartupPath, "COFlashFixer.dll"), Properties.Resources.COFlashFixer);
+                    if (File.Exists(CheckPathEnvDX9))
+                    {
+                        File.WriteAllBytes(Path.Combine(Application.StartupPath, "TQAnp.dll"), Properties.Resources.TQAnp);
+                        File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook_60XX);
+                        Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
+                        RebuildServerDat();
+                        File.WriteAllBytes(Path.Combine(Application.StartupPath, "COFlashFixer.dll"), Properties.Resources.COFlashFixer);
+                    }
                     InjectFlashFixer = true;
                 }
                 Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });
@@ -378,7 +388,7 @@ namespace ConquerLoader
                         new Parameter() { Id = "ConquerProcessId", Value = CurrentConquerProcess.Id.ToString() },
                         new Parameter() { Id = "GameServerIP", Value = SelectedServer.GameHost }
                     });
-                    Core.LogWritter.Write("Injecting DLL...");
+                    Core.LogWritter.Write("Injecting " + HookDLL + "...");
                     worker.ReportProgress(20);
                     if (InjectFlashFixer)
                     {
