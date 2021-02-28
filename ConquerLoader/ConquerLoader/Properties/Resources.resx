@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="COFlashFixer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\coflashfixer.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="COFlashFixer_DLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COFlashFixer_DLL.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="COHook_60XX" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COHook_60XX.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="COHook5827" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COHook5827.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="COHook_66XX" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cohook_66xx.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="COHook6176" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COHook6176.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="COHook6371" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COHook6371.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ConquerLoaderLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ConquerLoaderLogo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ServersXML" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\serversxml.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="TQAnp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TQAnp.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

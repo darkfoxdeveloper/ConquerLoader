@@ -63,9 +63,9 @@ namespace ConquerLoader.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        internal static byte[] COFlashFixer {
+        internal static byte[] COFlashFixer_DLL {
             get {
-                object obj = ResourceManager.GetObject("COFlashFixer", resourceCulture);
+                object obj = ResourceManager.GetObject("COFlashFixer_DLL", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace ConquerLoader.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        internal static byte[] COHook_60XX {
+        internal static byte[] COHook5827 {
             get {
-                object obj = ResourceManager.GetObject("COHook_60XX", resourceCulture);
+                object obj = ResourceManager.GetObject("COHook5827", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -83,9 +83,19 @@ namespace ConquerLoader.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        internal static byte[] COHook_66XX {
+        internal static byte[] COHook6176 {
             get {
-                object obj = ResourceManager.GetObject("COHook_66XX", resourceCulture);
+                object obj = ResourceManager.GetObject("COHook6176", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] COHook6371 {
+            get {
+                object obj = ResourceManager.GetObject("COHook6371", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -113,16 +123,6 @@ namespace ConquerLoader.Properties {
         internal static string ServersXML {
             get {
                 return ResourceManager.GetString("ServersXML", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Byte[].
-        /// </summary>
-        internal static byte[] TQAnp {
-            get {
-                object obj = ResourceManager.GetObject("TQAnp", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }

@@ -55,11 +55,17 @@ namespace ConquerLoader
                     VersionDatLines = File.ReadAllLines(VersionDatFilename);
                 }
                 int RealVersion = 0;
+                if (VersionDatLines.Length == 1) // Default Version.dat detected
+                {
+                    File.WriteAllText("Version.dat", "99999" + System.Environment.NewLine + $"#{VersionDatLines[0]}");
+                    VersionDatLines = File.ReadAllLines(VersionDatFilename);
+                }
                 foreach (string str in VersionDatLines)
                 {
-                    if (!str.StartsWith("#"))
+                    if (str.StartsWith("#"))
                     {
-                        int nVersion = int.Parse(str);
+                        string strFixed = str.Replace("#", "");
+                        int nVersion = int.Parse(strFixed);
                         if (nVersion > 4000)
                         {
                             RealVersion = nVersion;

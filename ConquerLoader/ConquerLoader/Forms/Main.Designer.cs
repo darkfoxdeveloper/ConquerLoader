@@ -38,6 +38,7 @@
             this.serverStatus = new System.Windows.Forms.Label();
             this.btnSettings = new MetroFramework.Controls.MetroButton();
             this.noty = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btnCloseCO = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // btnStart
@@ -81,11 +82,11 @@
             // btnLogModules
             // 
             this.btnLogModules.ForeColor = System.Drawing.Color.White;
-            this.btnLogModules.Location = new System.Drawing.Point(357, 95);
+            this.btnLogModules.Location = new System.Drawing.Point(406, 95);
             this.btnLogModules.Name = "btnLogModules";
-            this.btnLogModules.Size = new System.Drawing.Size(158, 37);
+            this.btnLogModules.Size = new System.Drawing.Size(108, 37);
             this.btnLogModules.TabIndex = 4;
-            this.btnLogModules.Text = "LOG MODULES";
+            this.btnLogModules.Text = "Log Modules";
             this.btnLogModules.UseSelectable = true;
             this.btnLogModules.Click += new System.EventHandler(this.BtnLogModules_Click);
             // 
@@ -115,11 +116,23 @@
             this.noty.Visible = true;
             this.noty.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseDoubleClick);
             // 
+            // btnCloseCO
+            // 
+            this.btnCloseCO.ForeColor = System.Drawing.Color.White;
+            this.btnCloseCO.Location = new System.Drawing.Point(289, 95);
+            this.btnCloseCO.Name = "btnCloseCO";
+            this.btnCloseCO.Size = new System.Drawing.Size(111, 37);
+            this.btnCloseCO.TabIndex = 7;
+            this.btnCloseCO.Text = "Close CO Process";
+            this.btnCloseCO.UseSelectable = true;
+            this.btnCloseCO.Click += new System.EventHandler(this.BtnCloseCO_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 260);
+            this.Controls.Add(this.btnCloseCO);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.serverStatus);
             this.Controls.Add(this.btnLogModules);
@@ -148,6 +161,7 @@
         private System.Windows.Forms.Label serverStatus;
         private MetroFramework.Controls.MetroButton btnSettings;
         private System.Windows.Forms.NotifyIcon noty;
+        private MetroFramework.Controls.MetroButton btnCloseCO;
     }
 }
 
