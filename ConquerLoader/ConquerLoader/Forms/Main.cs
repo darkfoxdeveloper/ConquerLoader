@@ -391,39 +391,36 @@ namespace ConquerLoader
                     worker.ReportProgress(20);
                     if (UseDecryptedServerDat)
                     {
-                        Injector.StartInjection(Application.StartupPath + @"\" + "COFlashFixer.dll", (uint)conquerProc.Id, worker);
-                        Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker);
-                        Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker);
-                        //if (SelectedServer.ServerVersion <= 6186)
-                        //{
-                        //    if (!Injector.StartInjection(Application.StartupPath + @"\COFlashFixer.dll", (uint)conquerProc.Id, worker))
-                        //    {
-                        //        Core.LogWritter.Write("Injection COFlashFixer failed!");
-                        //        MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject COFlashFixer.dll", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        //    }
-                        //    else
-                        //    {
-                        //        Core.LogWritter.Write("Injected COFlashFixer successfully!");
-                        //    }
-                        //}
-                        //if (!Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker))
-                        //{
-                        //    Core.LogWritter.Write("Injection ConquerCipherHook failed!");
-                        //    MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject ConquerCipherHook.dll", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        //}
-                        //else
-                        //{
-                        //    Core.LogWritter.Write("Injected ConquerCipherHook successfully!");
-                        //}
-                        //if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
-                        //{
-                        //    Core.LogWritter.Write($"Injection {HookDLL} failed!");
-                        //    MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject {HookDLL}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        //}
-                        //else
-                        //{
-                        //    Core.LogWritter.Write($"Injected {HookDLL} successfully!");
-                        //}
+                        if (SelectedServer.ServerVersion <= 6186)
+                        {
+                            if (!Injector.StartInjection(Application.StartupPath + @"\COFlashFixer.dll", (uint)conquerProc.Id, worker))
+                            {
+                                Core.LogWritter.Write("Injection COFlashFixer failed!");
+                                MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject COFlashFixer.dll", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                Core.LogWritter.Write("Injected COFlashFixer successfully!");
+                            }
+                        }
+                        if (!Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker))
+                        {
+                            Core.LogWritter.Write("Injection ConquerCipherHook failed!");
+                            MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject ConquerCipherHook.dll", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            Core.LogWritter.Write("Injected ConquerCipherHook successfully!");
+                        }
+                        if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
+                        {
+                            Core.LogWritter.Write($"Injection {HookDLL} failed!");
+                            MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject {HookDLL}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            Core.LogWritter.Write($"Injected {HookDLL} successfully!");
+                        }
                     } else
                     {
                         if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
