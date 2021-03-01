@@ -243,7 +243,7 @@
   <ItemGroup>
     <Content Include="ConquerLoaderLogo.ico" />
     <None Include="Resources\COFlashFixer_DLL.dll" />
-    <None Include="Resources\COHook5827.dll" />
+    <None Include="Resources\COHook6022.dll" />
     <None Include="Resources\COHook6371.dll" />
     <None Include="Resources\COHook6176.dll" />
     <None Include="Resources\TQAnp.dll" />

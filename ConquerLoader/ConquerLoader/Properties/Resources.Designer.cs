@@ -73,9 +73,9 @@ namespace ConquerLoader.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        internal static byte[] COHook5827 {
+        internal static byte[] COHook6022 {
             get {
-                object obj = ResourceManager.GetObject("COHook5827", resourceCulture);
+                object obj = ResourceManager.GetObject("COHook6022", resourceCulture);
                 return ((byte[])(obj));
             }
         }

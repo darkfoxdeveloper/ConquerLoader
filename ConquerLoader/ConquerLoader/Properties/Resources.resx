@@ -121,8 +121,8 @@
   <data name="COFlashFixer_DLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\COFlashFixer_DLL.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="COHook5827" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COHook5827.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="COHook6022" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\cohook6022.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="COHook6176" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\COHook6176.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
