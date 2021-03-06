@@ -121,6 +121,8 @@ namespace ConquerLoader
             Core.LogWritter.Write("Loaded config.json");
             btnLogModules.Enabled = LoaderConfig.DebugMode;
             btnLogModules.Visible = LoaderConfig.DebugMode;
+            btnCloseCO.Enabled = LoaderConfig.DebugMode;
+            btnCloseCO.Visible = LoaderConfig.DebugMode;
             Constants.LicenseKey = LoaderConfig.LicenseKey;
             foreach (ServerConfiguration server in LoaderConfig.Servers)
             {
@@ -403,7 +405,7 @@ namespace ConquerLoader
                                 Core.LogWritter.Write("Injected COFlashFixer successfully!");
                             }
                         }
-                        if (SelectedServer.ServerVersion >= 6022)
+                        if (SelectedServer.ServerVersion >= MinVersionUseServerDat)
                         {
                             if (!Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker))
                             {

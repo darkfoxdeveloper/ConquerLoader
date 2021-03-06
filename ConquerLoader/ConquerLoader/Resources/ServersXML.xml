@@ -27,7 +27,7 @@
 		<field name="FlashName"></field>
 		<field name="FlashIcon"></field>
 		<field name="FlashHint"></field>
-		<field name="Child">17</field>
+		<field name="Child">0</field>
 		<field name="PicServerIP">0</field>
 		<field name="PicServerPort">0</field>
 		<field name="BindServerIP">0</field>
