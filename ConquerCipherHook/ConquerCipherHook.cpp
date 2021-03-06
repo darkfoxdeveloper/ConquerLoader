@@ -16,7 +16,7 @@ using namespace std;
 
 char tqFormat[] = { 0x25, 0x73, 0xA3, 0xAC, 0xA1, 0xA3, 0x66, 0x64, 0x6A, 0x66, 0x2C, 0x6A, 0x6B, 0x67, 0x66, 0x6B, 0x6C, 0x00 };
 char szPassword[32];
-HOOK_STUB snprintf_stub, send_stub, connect_stub;
+HOOK_STUB snprintf_stub, send_stub, connect_stub, shellexec_stub;
 CLegacyCipher* legacy;
 
 
@@ -72,6 +72,13 @@ int __stdcall csv3_send(SOCKET s, PBYTE buf, int len, int flags)
 	typedef int (__stdcall *LPFSEND)(SOCKET,PBYTE,int,int);
 	return ((LPFSEND)send_stub.Address)(s,buf,len,flags);
 }
+int __stdcall Shellexec(HWND hWnd, CHAR* lpOperation, CHAR* lpFile, CHAR* lpParams, CHAR* lpDir, INT nCmd) {
+	if (strcmp("http://co.99.com/signout/", lpFile) == 0) {
+		lpFile = "https://www.conquerloader.com";
+	}
+	typedef INT(__stdcall* Shellexec)(HWND, CHAR*, CHAR*, CHAR*, CHAR*, INT);
+	return ((Shellexec)shellexec_stub.Address)(hWnd, lpOperation, lpFile, lpParams, lpDir, nCmd);
+}
 
 BOOL __stdcall csv3_handler(PBYTE msg)
 {
@@ -123,4 +130,5 @@ void csv3_init(HMODULE hModule)
 	CreateHook32(lib_func("msvcr90.dll", "_snprintf"), csv3_snprintf, &snprintf_stub);
 	CreateHook32(lib_func("ws2_32.dll", "send"), csv3_send, &send_stub);
 	CreateHook32(lib_func("ws2_32.dll", "connect"), csv3_connect, &connect_stub);
+	CreateHook32(lib_func("Shell32.dll", "ShellExecuteA"), Shellexec, &shellexec_stub);
 }

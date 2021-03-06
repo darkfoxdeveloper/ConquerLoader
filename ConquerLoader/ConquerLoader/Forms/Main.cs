@@ -319,6 +319,7 @@ namespace ConquerLoader
                         if (SelectedServer.ServerVersion >= 6371 && SelectedServer.ServerVersion <= MaxVersionUseServerDat)
                         {
                             RebuildServerDat();
+                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
                             File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
                             Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
                         }
@@ -343,6 +344,7 @@ namespace ConquerLoader
                             if (SelectedServer.ServerVersion >= 6600)
                             {
                                 RebuildServerDat();
+                                File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
                                 File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
                                 Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
                             }

@@ -130,15 +130,26 @@ namespace ConquerLoader.Properties {
         ///   Busca una cadena traducida similar a &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;mysqldump xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
         ///&lt;database name=&quot;serverdat&quot;&gt;
-        ///	&lt;table_structure name=&quot;outenserver&quot;&gt;
-        ///		&lt;field Field=&quot;id&quot; Type=&quot;int(10) unsigned&quot; Null=&quot;NO&quot; Key=&quot;PRI&quot; Default=&quot;&quot; Extra=&quot;&quot; /&gt;
-        ///		&lt;field Field=&quot;ServerName&quot; Type=&quot;varchar(50)&quot; Null=&quot;NO&quot; Key=&quot;&quot; Default=&quot;0&quot; Extra=&quot;&quot; /&gt;
-        ///		&lt;field Field=&quot;ServerIP&quot; Type=&quot;varchar(128)&quot; Null=&quot;NO&quot; Key=&quot;&quot; Default=&quot;0&quot; Extra=&quot;&quot; /&gt;
-        ///		&lt;field Field=&quot;ServerPort&quot; Type=&quot;int(10) unsigned&quot; Null=&quot;NO&quot; Key=&quot;&quot; Default=&quot;0&quot; Extra=&quot;&quot; [resto de la cadena truncado]&quot;;.
+        ///  &lt;table_structure name=&quot;outenserver&quot;&gt;
+        ///    &lt;field Field=&quot;id&quot; Type=&quot;smallint(1) unsigned zerofill&quot; Null=&quot;NO&quot; Key=&quot;PRI&quot; Default=&quot;0&quot; Extra=&quot;&quot; /&gt;
+        ///    &lt;field Field=&quot;ServerName&quot; Type=&quot;varchar(32)&quot; Null=&quot;YES&quot; Key=&quot;&quot; Extra=&quot;&quot; /&gt;
+        ///    &lt;field Field=&quot;ServerIP&quot; Type=&quot;varchar(15)&quot; Null=&quot;YES&quot; Key=&quot;&quot; Extra=&quot;&quot; /&gt;
+        ///    &lt;field Field=&quot;ServerPort&quot; Type=&quot;int(1) unsigned&quot; Null=&quot;YES&quot; Key=&quot;&quot; Extra=&quot;&quot; /&gt;
+        ///    &lt;fi [resto de la cadena truncado]&quot;;.
         /// </summary>
         internal static string ServersXML_5717 {
             get {
                 return ResourceManager.GetString("ServersXML_5717", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] TQAnp {
+            get {
+                object obj = ResourceManager.GetObject("TQAnp", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }
