@@ -1,5 +1,4 @@
-﻿using ConquerLoader.CLCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CLCore
 {

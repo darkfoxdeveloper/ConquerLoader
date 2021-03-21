@@ -1,4 +1,4 @@
-﻿namespace ConquerLoader.CLCore
+﻿namespace CLCore
 {
     public class Parameter
     {

@@ -1,18 +1,18 @@
 ﻿using CLCore;
 using CLCore.Models;
-using ConquerLoader.CLCore;
 using ConquerLoader.Models;
 using MetroFramework.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace ConquerLoader
+namespace ConquerLoader.Forms
 {
     public partial class Main : MetroFramework.Forms.MetroForm
     {
@@ -28,6 +28,16 @@ namespace ConquerLoader
             this.Resizable = false;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
             LoaderConfig = Core.GetLoaderConfig();
+            if (LoaderConfig.Lang != null)
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(LoaderConfig.Lang);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(LoaderConfig.Lang);
+            } else
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en");
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+            }
+            Core.LoadControlTranslations(Controls);
             LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
             LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
             LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
@@ -61,7 +71,7 @@ namespace ConquerLoader
             if (Constants.HideInTrayOnFinish)
             {
                 noty.Text = ProductName;
-                noty.Icon = Properties.Resources.ConquerLoaderLogo;
+                noty.Icon = Properties.Resources.ConquerLoaderIco;
 
                 if (FormWindowState.Minimized == this.WindowState)
                 {
@@ -83,10 +93,18 @@ namespace ConquerLoader
             bool Exists = CurrentConquerProcess != null;
             if (Exists)
             {
-                CurrentConquerProcess.Kill();
-                if (Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count() > 0)
+                try
                 {
-                    Environment.Exit(0);
+                    CurrentConquerProcess.Kill();
+                }
+                catch (Exception)
+                {
+                } finally
+                {
+                    if (Process.GetProcessesByName("Conquer.exe").Count() <= 0)
+                    {
+                        Environment.Exit(0);
+                    }
                 }
             }
         }
@@ -288,11 +306,14 @@ namespace ConquerLoader
             string PathToConquerExe = Path.Combine(Application.StartupPath, SelectedServer.ExecutableName);
             string WorkingDir = Path.GetDirectoryName(PathToConquerExe);
             bool NoUseDX8_DX9 = true;
-            int MinVersionUseServerDat = 5717;
-            int MaxVersionUseServerDat = 6736;
             bool UseDecryptedServerDat = false;
+            bool AlreadyUsingLoader = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length >= 2;
+            if (AlreadyUsingLoader)
+            {
+                Core.LogWritter.Write("Detected already using ConnquerLoader.");
+            }
             // If using 6000 Version or more the HookDLL Used is COHook.dll
-            if (SelectedServer.ServerVersion >= MinVersionUseServerDat && SelectedServer.ServerVersion <= MaxVersionUseServerDat)
+            if (SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat)
             {
                 HookDLL = "COHook.dll";
                 Core.LogWritter.Write("Using Custom Server.dat...");
@@ -315,12 +336,18 @@ namespace ConquerLoader
                         {
                             File.Delete(OutputCopyDll);
                         }
-                        File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
-                        if (SelectedServer.ServerVersion >= 6371 && SelectedServer.ServerVersion <= MaxVersionUseServerDat)
+                        if (!AlreadyUsingLoader)
+                        {
+                            File.Copy(Path.Combine(Application.StartupPath, HookINI), OutputCopyDll);
+                        }
+                        if (SelectedServer.ServerVersion >= 6371 && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat)
                         {
                             RebuildServerDat();
-                            File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
-                            File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
+                            if (!AlreadyUsingLoader)
+                            {
+                                File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                                File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
+                            }
                             Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
                         }
                     }
@@ -344,23 +371,35 @@ namespace ConquerLoader
                             if (SelectedServer.ServerVersion >= 6600)
                             {
                                 RebuildServerDat();
-                                File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
-                                File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
+                                if (!AlreadyUsingLoader)
+                                {
+                                    File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
+                                    File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
+                                }
                                 Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
                             }
                         }
                         NoUseDX8_DX9 = false;
                     }
                 }
-                if (NoUseDX8_DX9 && UseDecryptedServerDat  && SelectedServer.ServerVersion >= MinVersionUseServerDat)
+                if (NoUseDX8_DX9 && UseDecryptedServerDat  && SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat)
                 {
-                    File.WriteAllBytes(Path.Combine(WorkingDir, "COFlashFixer.dll"), Properties.Resources.COFlashFixer_DLL); // Fix for flash
+                    if (!AlreadyUsingLoader)
+                    {
+                        File.WriteAllBytes(Path.Combine(WorkingDir, "COFlashFixer.dll"), Properties.Resources.COFlashFixer_DLL); // Fix for flash
+                    }
                     if (SelectedServer.ServerVersion >= 6176 && SelectedServer.ServerVersion <= 6370)
                     {
-                        File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6176); // 6176 TO 6370 Hook
+                        if (!AlreadyUsingLoader)
+                        {
+                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6176); // 6176 TO 6370 Hook
+                        }
                     } else
                     {
-                        File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6022); // V6022 TO V6175 Hook (5717+ Compatible with errors)
+                        if (!AlreadyUsingLoader)
+                        {
+                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6022); // V5717 TO V6175 Hook
+                        }
                     }
                     Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
                     RebuildServerDat();
@@ -407,7 +446,7 @@ namespace ConquerLoader
                                 Core.LogWritter.Write("Injected COFlashFixer successfully!");
                             }
                         }
-                        if (SelectedServer.ServerVersion >= MinVersionUseServerDat)
+                        if (SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat)
                         {
                             if (!Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker))
                             {
@@ -440,6 +479,7 @@ namespace ConquerLoader
                             Core.LogWritter.Write("Injected Hook successfully!");
                         }
                     }
+                    worker.ReportProgress(100);
                 }
                 else
                 {
@@ -464,7 +504,7 @@ namespace ConquerLoader
                 }
                 if (Constants.HideInTrayOnFinish)
                 {
-                    if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Count() > 0)
+                    if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Count() > 1)
                     {
                         LoaderEvents.LauncherExitStartEvent(new List<Parameter>() { new Parameter() { Id = "CLOSE_MESSAGE", Value = "Finished" } });
                         Environment.Exit(0);
@@ -508,6 +548,7 @@ namespace ConquerLoader
         private void BtnSettings_Click(object sender, EventArgs e)
         {
             Settings s = new Settings();
+            s.Tag = this;
             s.ShowDialog(this);
             LoaderConfig = s.CurrentLoaderConfig;
             LoadConfigInForm();
@@ -515,7 +556,18 @@ namespace ConquerLoader
 
         private void BtnCloseCO_Click(object sender, EventArgs e)
         {
-            CurrentConquerProcess.Kill();
+            try
+            {
+                CurrentConquerProcess.Kill();
+            } catch(Exception)
+            {
+            }
+        }
+
+        private void LblAbout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            About ab = new About();
+            ab.ShowDialog();
         }
     }
 }

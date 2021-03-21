@@ -16,11 +16,13 @@ namespace ConquerLoader
         public Wizard()
         {
             InitializeComponent();
+            Core.LoadControlTranslations(Controls);
             _LoaderConfig = Core.GetLoaderConfig();
         }
         public Wizard(int IndexSelectedServer)
         {
             InitializeComponent();
+            Core.LoadControlTranslations(Controls);
             _IndexSelectedServer = IndexSelectedServer;
             _LoaderConfig = Core.GetLoaderConfig();
         }
@@ -164,12 +166,13 @@ namespace ConquerLoader
             bool isNumber = int.TryParse(tbxVersion.Text, out _);
             if (isNumber)
             {
-                if (tbxVersion.Text.Length > 0 && int.Parse(tbxVersion.Text) >= 6000)
+                if (tbxVersion.Text.Length > 0 && int.Parse(tbxVersion.Text) >= Constants.MinVersionUseServerDat)
                 {
                     tbxGamePort.Text = "5816";
                     tbxGroupIcon.Visible = true;
                     lblGroupIcon.Visible = true;
                     btnHelpGroupIcon.Visible = true;
+                    lblHelpGroup.Visible = true;
                     tbxGroup.Visible = true;
                 }
                 else
@@ -177,6 +180,7 @@ namespace ConquerLoader
                     tbxGroupIcon.Visible = false;
                     lblGroupIcon.Visible = false;
                     btnHelpGroupIcon.Visible = false;
+                    lblHelpGroup.Visible = false;
                     tbxGroup.Visible = false;
                 }
             }
@@ -253,11 +257,6 @@ namespace ConquerLoader
                 }
             }
             return GroupIcons;
-        }
-
-        private void TbxGroupIcon_TextChanged(object sender, System.EventArgs e)
-        {
-           
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using CLCore.Models;
-using ConquerLoader.CLCore;
+﻿using CLCore;
+using CLCore.Models;
 using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace ConquerLoader
 {
@@ -103,6 +104,33 @@ namespace ConquerLoader
                 }
             }
             return result;
+        }
+
+        public static void LoadControlTranslations(Control.ControlCollection Controls)
+        {
+            foreach (Control c in Controls)
+            {
+                if (c is MetroFramework.Controls.MetroLabel || c is MetroFramework.Controls.MetroButton)
+                {
+                    string str = Strings.ResourceManager.GetString(c.Name);
+                    if (str != null && str.Length > 0)
+                    {
+                        c.Text = str;
+                    }
+                    else
+                    {
+                        if (c.Text != "-")
+                        {
+                            c.Text = c.Name;
+                        }
+                    }
+                }
+
+                if (c.HasChildren)
+                {
+                    LoadControlTranslations(c.Controls);
+                }
+            }
         }
     }
 }

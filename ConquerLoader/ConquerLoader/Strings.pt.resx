@@ -117,41 +117,91 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="COHook6176" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COHook6176.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnAdd" xml:space="preserve">
+    <value>Adicionar a Lista</value>
   </data>
-  <data name="COHook6371" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COHook6371.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnCloseCO" xml:space="preserve">
+    <value>Fechar CO</value>
   </data>
-  <data name="COHook6022" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cohook6022.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnHelpGroupIcon" xml:space="preserve">
+    <value>Detectar</value>
   </data>
-  <data name="ConquerLoaderLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ConquerLoaderLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btnLogModules" xml:space="preserve">
+    <value>Log dos Módulos</value>
   </data>
-  <data name="TQAnp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TQAnp.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnSettings" xml:space="preserve">
+    <value>Configurações</value>
   </data>
-  <data name="ServersXML" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\serversxml.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="btnStart" xml:space="preserve">
+    <value>INICIAR</value>
   </data>
-  <data name="ServersXML_5717" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\serversxml_5717.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="lblGroupIcon" xml:space="preserve">
+    <value>Ícone do Servidor na Tela de Login do Servidor</value>
   </data>
-  <data name="COFlashFixer_DLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COFlashFixer_DLL.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblHelpConquerExe" xml:space="preserve">
+    <value>Nome do executável do Conquer</value>
   </data>
-  <data name="ConquerLoaderIco" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ConquerLoaderLogo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="lblHelpGPort" xml:space="preserve">
+    <value>Porta de Jogo (Game Port) do seu servidor</value>
   </data>
-  <data name="en" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\en.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="lblHelpGroup" xml:space="preserve">
+    <value>Grupo deste servidor na Tela de Login</value>
   </data>
-  <data name="es" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\es.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="lblHelpIP" xml:space="preserve">
+    <value>Endereço IP do seu servidor</value>
   </data>
-  <data name="pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="lblHelpLPort" xml:space="preserve">
+    <value>Porta de Login (Login Port) do seu servidor</value>
+  </data>
+  <data name="lblHelpServerName" xml:space="preserve">
+    <value>O nome do servidor</value>
+  </data>
+  <data name="lblHelpVersion" xml:space="preserve">
+    <value>Versão do Cliente (IMPORTANTE)</value>
+  </data>
+  <data name="lblUseDX9" xml:space="preserve">
+    <value>Usar de DirectX 9 (Pode haver problemas em alguns clientes)</value>
+  </data>
+  <data name="btnClose" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="lblDebugMode" xml:space="preserve">
+    <value>Modo de Depuração</value>
+  </data>
+  <data name="lblCloseOnFinish" xml:space="preserve">
+    <value>Fechar ao finalizar</value>
+  </data>
+  <data name="lblHighResolution" xml:space="preserve">
+    <value>Modo HD</value>
+  </data>
+  <data name="lblFullscreen" xml:space="preserve">
+    <value>Tela cheia</value>
+  </data>
+  <data name="lblServerNameChange" xml:space="preserve">
+    <value>Mudança de nome de servidor (V5717-)</value>
+  </data>
+  <data name="lblDisableAutoFixFlash" xml:space="preserve">
+    <value>Desativar correção de flash</value>
+  </data>
+  <data name="lblCLServer" xml:space="preserve">
+    <value>CLServer (Experimental)</value>
+  </data>
+  <data name="btnServerDat" xml:space="preserve">
+    <value>Server.dat</value>
+  </data>
+  <data name="btnWizard" xml:space="preserve">
+    <value>Novo +</value>
+  </data>
+  <data name="btnSave" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="btnPlugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="btnEdit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="lblTitle" xml:space="preserve">
+    <value>Título no Loader</value>
   </data>
 </root>

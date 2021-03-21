@@ -1,5 +1,4 @@
 ﻿using CLCore;
-using ConquerLoader.CLCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;

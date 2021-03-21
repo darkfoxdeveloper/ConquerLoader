@@ -9,6 +9,7 @@ namespace ConquerLoader.Forms
         public ServerDatManager()
         {
             InitializeComponent();
+            Core.LoadControlTranslations(Controls);
         }
 
         private void ServerDatManager_Load(object sender, EventArgs e)

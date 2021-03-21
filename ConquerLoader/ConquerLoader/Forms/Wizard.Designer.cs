@@ -39,7 +39,7 @@ namespace ConquerLoader
             this.lblHelpConquerExe = new MetroFramework.Controls.MetroLabel();
             this.lblHelpIP = new MetroFramework.Controls.MetroLabel();
             this.tglUseDX9 = new MetroFramework.Controls.MetroToggle();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.lblUseDX9 = new MetroFramework.Controls.MetroLabel();
             this.btnAdd = new MetroFramework.Controls.MetroButton();
             this.lblHelpLPort = new MetroFramework.Controls.MetroLabel();
             this.tbxLoginPort = new MetroFramework.Controls.MetroTextBox();
@@ -58,9 +58,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxIP.CustomButton.Image = null;
-            this.tbxIP.CustomButton.Location = new System.Drawing.Point(125, 1);
+            this.tbxIP.CustomButton.Location = new System.Drawing.Point(83, 1);
             this.tbxIP.CustomButton.Name = "";
-            this.tbxIP.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxIP.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxIP.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxIP.CustomButton.TabIndex = 1;
             this.tbxIP.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -91,9 +91,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxServerName.CustomButton.Image = null;
-            this.tbxServerName.CustomButton.Location = new System.Drawing.Point(125, 1);
+            this.tbxServerName.CustomButton.Location = new System.Drawing.Point(83, 1);
             this.tbxServerName.CustomButton.Name = "";
-            this.tbxServerName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxServerName.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxServerName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxServerName.CustomButton.TabIndex = 1;
             this.tbxServerName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -123,9 +123,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxVersion.CustomButton.Image = null;
-            this.tbxVersion.CustomButton.Location = new System.Drawing.Point(125, 1);
+            this.tbxVersion.CustomButton.Location = new System.Drawing.Point(83, 1);
             this.tbxVersion.CustomButton.Name = "";
-            this.tbxVersion.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxVersion.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxVersion.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxVersion.CustomButton.TabIndex = 1;
             this.tbxVersion.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -166,9 +166,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxConquerExe.CustomButton.Image = null;
-            this.tbxConquerExe.CustomButton.Location = new System.Drawing.Point(125, 1);
+            this.tbxConquerExe.CustomButton.Location = new System.Drawing.Point(83, 1);
             this.tbxConquerExe.CustomButton.Name = "";
-            this.tbxConquerExe.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxConquerExe.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxConquerExe.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxConquerExe.CustomButton.TabIndex = 1;
             this.tbxConquerExe.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -229,14 +229,14 @@ namespace ConquerLoader
             this.tglUseDX9.Text = "Off";
             this.tglUseDX9.UseSelectable = true;
             // 
-            // metroLabel1
+            // lblUseDX9
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(178, 321);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(321, 19);
-            this.metroLabel1.TabIndex = 9;
-            this.metroLabel1.Text = "Use of DirectX9 (Could have problems in some client)";
+            this.lblUseDX9.AutoSize = true;
+            this.lblUseDX9.Location = new System.Drawing.Point(178, 321);
+            this.lblUseDX9.Name = "lblUseDX9";
+            this.lblUseDX9.Size = new System.Drawing.Size(321, 19);
+            this.lblUseDX9.TabIndex = 9;
+            this.lblUseDX9.Text = "Use of DirectX9 (Could have problems in some client)";
             // 
             // btnAdd
             // 
@@ -263,9 +263,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxLoginPort.CustomButton.Image = null;
-            this.tbxLoginPort.CustomButton.Location = new System.Drawing.Point(125, 1);
+            this.tbxLoginPort.CustomButton.Location = new System.Drawing.Point(83, 1);
             this.tbxLoginPort.CustomButton.Name = "";
-            this.tbxLoginPort.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxLoginPort.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxLoginPort.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxLoginPort.CustomButton.TabIndex = 1;
             this.tbxLoginPort.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -305,9 +305,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxGamePort.CustomButton.Image = null;
-            this.tbxGamePort.CustomButton.Location = new System.Drawing.Point(125, 1);
+            this.tbxGamePort.CustomButton.Location = new System.Drawing.Point(83, 1);
             this.tbxGamePort.CustomButton.Name = "";
-            this.tbxGamePort.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxGamePort.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxGamePort.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxGamePort.CustomButton.TabIndex = 1;
             this.tbxGamePort.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -347,9 +347,9 @@ namespace ConquerLoader
             // 
             // 
             this.tbxGroupIcon.CustomButton.Image = null;
-            this.tbxGroupIcon.CustomButton.Location = new System.Drawing.Point(75, 1);
+            this.tbxGroupIcon.CustomButton.Location = new System.Drawing.Point(50, 1);
             this.tbxGroupIcon.CustomButton.Name = "";
-            this.tbxGroupIcon.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tbxGroupIcon.CustomButton.Size = new System.Drawing.Size(14, 14);
             this.tbxGroupIcon.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tbxGroupIcon.CustomButton.TabIndex = 1;
             this.tbxGroupIcon.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -385,11 +385,11 @@ namespace ConquerLoader
             // 
             // tbxGroup
             // 
-            this.tbxGroup.ItemHeight = 23;
+            this.tbxGroup.ItemHeight = 13;
             this.tbxGroup.Location = new System.Drawing.Point(23, 287);
             this.tbxGroup.MaxLength = 32767;
             this.tbxGroup.Name = "tbxGroup";
-            this.tbxGroup.Size = new System.Drawing.Size(147, 29);
+            this.tbxGroup.Size = new System.Drawing.Size(147, 21);
             this.tbxGroup.TabIndex = 17;
             // 
             // lblHelpGroup
@@ -416,7 +416,7 @@ namespace ConquerLoader
             this.Controls.Add(this.lblHelpLPort);
             this.Controls.Add(this.tbxLoginPort);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.metroLabel1);
+            this.Controls.Add(this.lblUseDX9);
             this.Controls.Add(this.tglUseDX9);
             this.Controls.Add(this.lblHelpIP);
             this.Controls.Add(this.lblHelpConquerExe);
@@ -449,7 +449,7 @@ namespace ConquerLoader
         private MetroFramework.Controls.MetroLabel lblHelpConquerExe;
         private MetroFramework.Controls.MetroLabel lblHelpIP;
         private MetroFramework.Controls.MetroToggle tglUseDX9;
-        private MetroFramework.Controls.MetroLabel metroLabel1;
+        private MetroFramework.Controls.MetroLabel lblUseDX9;
         private MetroFramework.Controls.MetroButton btnAdd;
         private MetroFramework.Controls.MetroLabel lblHelpLPort;
         private MetroFramework.Controls.MetroTextBox tbxLoginPort;

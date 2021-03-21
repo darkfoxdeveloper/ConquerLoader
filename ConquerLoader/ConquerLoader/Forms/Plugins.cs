@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLCore;
+using System;
 using System.Drawing;
 
 namespace ConquerLoader.Forms
@@ -17,7 +18,7 @@ namespace ConquerLoader.Forms
             int separationRight = 20;
             int separationBottom = 20;
             int n = 0;
-            foreach (CLCore.IPlugin plugin in CLCore.PluginLoader.Plugins)
+            foreach (IPlugin plugin in CLCore.PluginLoader.Plugins)
             {
                 MetroFramework.Controls.MetroButton mBtn = new MetroFramework.Controls.MetroButton
                 {
@@ -48,7 +49,7 @@ namespace ConquerLoader.Forms
 
         private void MBtn_Click(object sender, System.EventArgs e)
         {
-            CLCore.IPlugin plugin = ((CLCore.IPlugin)((MetroFramework.Controls.MetroButton)sender).Tag);
+            IPlugin plugin = ((IPlugin)((MetroFramework.Controls.MetroButton)sender).Tag);
             if (plugin != null) plugin.Configure();
         }
         public static float NewFontSize(Graphics graphics, Size size, Font font, string str)

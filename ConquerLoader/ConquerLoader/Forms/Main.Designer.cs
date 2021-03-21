@@ -1,4 +1,4 @@
-﻿namespace ConquerLoader
+﻿namespace ConquerLoader.Forms
 {
     partial class Main
     {
@@ -39,14 +39,16 @@
             this.btnSettings = new MetroFramework.Controls.MetroButton();
             this.noty = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnCloseCO = new MetroFramework.Controls.MetroButton();
+            this.lblAbout = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // btnStart
             // 
             this.btnStart.ForeColor = System.Drawing.Color.White;
-            this.btnStart.Location = new System.Drawing.Point(294, 195);
+            this.btnStart.Location = new System.Drawing.Point(196, 127);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(309, 46);
+            this.btnStart.Size = new System.Drawing.Size(206, 30);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "START";
             this.btnStart.UseSelectable = true;
@@ -54,10 +56,9 @@
             // 
             // pBar
             // 
-            this.pBar.Location = new System.Drawing.Point(38, 152);
-            this.pBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pBar.Location = new System.Drawing.Point(25, 99);
             this.pBar.Name = "pBar";
-            this.pBar.Size = new System.Drawing.Size(564, 35);
+            this.pBar.Size = new System.Drawing.Size(376, 23);
             this.pBar.TabIndex = 2;
             // 
             // worker
@@ -71,10 +72,9 @@
             // 
             this.cbxServers.FormattingEnabled = true;
             this.cbxServers.ItemHeight = 23;
-            this.cbxServers.Location = new System.Drawing.Point(38, 195);
-            this.cbxServers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbxServers.Location = new System.Drawing.Point(25, 127);
             this.cbxServers.Name = "cbxServers";
-            this.cbxServers.Size = new System.Drawing.Size(246, 29);
+            this.cbxServers.Size = new System.Drawing.Size(165, 29);
             this.cbxServers.TabIndex = 3;
             this.cbxServers.UseSelectable = true;
             this.cbxServers.SelectedIndexChanged += new System.EventHandler(this.CbxServers_SelectedIndexChanged);
@@ -82,9 +82,10 @@
             // btnLogModules
             // 
             this.btnLogModules.ForeColor = System.Drawing.Color.White;
-            this.btnLogModules.Location = new System.Drawing.Point(406, 95);
+            this.btnLogModules.Location = new System.Drawing.Point(271, 62);
+            this.btnLogModules.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLogModules.Name = "btnLogModules";
-            this.btnLogModules.Size = new System.Drawing.Size(108, 37);
+            this.btnLogModules.Size = new System.Drawing.Size(72, 24);
             this.btnLogModules.TabIndex = 4;
             this.btnLogModules.Text = "Log Modules";
             this.btnLogModules.UseSelectable = true;
@@ -93,19 +94,19 @@
             // serverStatus
             // 
             this.serverStatus.AutoSize = true;
-            this.serverStatus.Location = new System.Drawing.Point(33, 95);
-            this.serverStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.serverStatus.Location = new System.Drawing.Point(22, 62);
             this.serverStatus.Name = "serverStatus";
-            this.serverStatus.Size = new System.Drawing.Size(14, 20);
+            this.serverStatus.Size = new System.Drawing.Size(10, 13);
             this.serverStatus.TabIndex = 5;
             this.serverStatus.Text = "-";
             // 
             // btnSettings
             // 
             this.btnSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSettings.Location = new System.Drawing.Point(520, 95);
+            this.btnSettings.Location = new System.Drawing.Point(347, 62);
+            this.btnSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(81, 37);
+            this.btnSettings.Size = new System.Drawing.Size(54, 24);
             this.btnSettings.TabIndex = 6;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseSelectable = true;
@@ -119,19 +120,35 @@
             // btnCloseCO
             // 
             this.btnCloseCO.ForeColor = System.Drawing.Color.White;
-            this.btnCloseCO.Location = new System.Drawing.Point(289, 95);
+            this.btnCloseCO.Location = new System.Drawing.Point(193, 62);
+            this.btnCloseCO.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCloseCO.Name = "btnCloseCO";
-            this.btnCloseCO.Size = new System.Drawing.Size(111, 37);
+            this.btnCloseCO.Size = new System.Drawing.Size(74, 24);
             this.btnCloseCO.TabIndex = 7;
             this.btnCloseCO.Text = "Close CO Process";
             this.btnCloseCO.UseSelectable = true;
             this.btnCloseCO.Click += new System.EventHandler(this.BtnCloseCO_Click);
             // 
+            // lblAbout
+            // 
+            this.lblAbout.ActiveLinkColor = System.Drawing.Color.DarkGray;
+            this.lblAbout.AutoSize = true;
+            this.lblAbout.LinkColor = System.Drawing.Color.DarkRed;
+            this.lblAbout.Location = new System.Drawing.Point(367, 13);
+            this.lblAbout.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAbout.Name = "lblAbout";
+            this.lblAbout.Size = new System.Drawing.Size(35, 13);
+            this.lblAbout.TabIndex = 8;
+            this.lblAbout.TabStop = true;
+            this.lblAbout.Text = "About";
+            this.lblAbout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LblAbout_LinkClicked);
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 260);
+            this.ClientSize = new System.Drawing.Size(441, 165);
+            this.Controls.Add(this.lblAbout);
             this.Controls.Add(this.btnCloseCO);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.serverStatus);
@@ -140,9 +157,10 @@
             this.Controls.Add(this.pBar);
             this.Controls.Add(this.btnStart);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "Main";
-            this.Padding = new System.Windows.Forms.Padding(20, 92, 20, 20);
+            this.Padding = new System.Windows.Forms.Padding(13, 60, 13, 13);
             this.Text = "ConquerLoader by DaRkFoxDeveloper";
             this.Load += new System.EventHandler(this.Main_Load);
             this.SizeChanged += new System.EventHandler(this.TrayMinimizerForm_Resize);
@@ -162,6 +180,7 @@
         private MetroFramework.Controls.MetroButton btnSettings;
         private System.Windows.Forms.NotifyIcon noty;
         private MetroFramework.Controls.MetroButton btnCloseCO;
+        private System.Windows.Forms.LinkLabel lblAbout;
     }
 }
 

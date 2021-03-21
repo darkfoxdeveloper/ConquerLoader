@@ -9,6 +9,8 @@
 		public static System.ComponentModel.BackgroundWorker MainWorker = null;
 		public static bool CloseOnFinish = false;
 		public static bool HideInTrayOnFinish = false;
+		public static int MinVersionUseServerDat = 5717;
+		public static int MaxVersionUseServerDat = 6736;
 	}
 	public enum PluginType
 	{

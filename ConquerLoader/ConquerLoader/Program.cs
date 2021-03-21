@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConquerLoader.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace ConquerLoader

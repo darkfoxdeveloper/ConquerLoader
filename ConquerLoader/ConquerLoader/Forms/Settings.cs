@@ -18,10 +18,17 @@ namespace ConquerLoader
         public Settings()
         {
             InitializeComponent();
+            Core.LoadControlTranslations(Controls);
         }
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            tbxTitle.WaterMark = ((MetroFramework.Forms.MetroForm)Tag).Text;
+            langSelector.Items.Add("English");
+            langSelector.Items.Add("Español");
+            langSelector.Items.Add("Português");
+            CurrentLoaderConfig = Core.GetLoaderConfig();
+            langSelector.SelectedIndex = langSelector.FindString(CurrentLoaderConfig.Lang);
             Resizable = false;
             if (!File.Exists(Core.ConfigJsonPath))
             {
@@ -31,7 +38,6 @@ namespace ConquerLoader
                 Environment.Exit(0);
             } else
             {
-                CurrentLoaderConfig = Core.GetLoaderConfig();
                 tglDebugMode.Checked = CurrentLoaderConfig.DebugMode;
                 tglCloseOnFinish.Checked = CurrentLoaderConfig.CloseOnFinish;
                 tglHighResolution.Checked = CurrentLoaderConfig.HighResolution;
@@ -62,7 +68,11 @@ namespace ConquerLoader
 
         private void TbxTitle_TextChanged(object sender, EventArgs e)
         {
-            CurrentLoaderConfig.Title = (sender as MetroTextBox).Text;
+            MetroTextBox mtbx = (sender as MetroTextBox);
+            if (CurrentLoaderConfig != null)
+            {
+                CurrentLoaderConfig.Title = mtbx.Text;
+            }
         }
 
         private void TglHighResolution_CheckedChanged(object sender, EventArgs e)
@@ -136,6 +146,31 @@ namespace ConquerLoader
             }
             ServerDatForm = new ServerDatManager();
             ServerDatForm.ShowDialog();
+        }
+
+        private void LangSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MetroComboBox mcb = sender as MetroComboBox;
+            switch(mcb.SelectedIndex)
+            {
+                case 0:
+                    pbFlag.Image = Properties.Resources.en;
+                    CurrentLoaderConfig.Lang = "en";
+                    break;
+                case 1:
+                    pbFlag.Image = Properties.Resources.es;
+                    CurrentLoaderConfig.Lang = "es";
+                    break;
+                case 2:
+                    pbFlag.Image = Properties.Resources.pt;
+                    CurrentLoaderConfig.Lang = "pt";
+                    break;
+                default:
+                    pbFlag.Image = Properties.Resources.en;
+                    CurrentLoaderConfig.Lang = "en";
+                    break;
+            }
+            
         }
     }
 }

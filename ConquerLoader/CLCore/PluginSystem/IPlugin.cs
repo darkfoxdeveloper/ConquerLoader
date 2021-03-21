@@ -1,6 +1,4 @@
-﻿using CLCore;
-
-namespace ConquerLoader.CLCore
+﻿namespace CLCore
 {
     public interface IPlugin
 	{

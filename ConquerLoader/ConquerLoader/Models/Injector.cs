@@ -91,7 +91,7 @@
                                         {
                                             if (hThread != IntPtr.Zero)
                                             {
-                                                Worker.ReportProgress(100);
+                                                Worker.ReportProgress(99);
                                                 CloseHandle(hThread);
                                                 Injected = true;
                                                 return Injected;

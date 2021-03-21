@@ -32,47 +32,54 @@ namespace ConquerLoader.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServerDatManager));
             this.lstServers = new System.Windows.Forms.ListBox();
             this.lstGroups = new System.Windows.Forms.ListBox();
-            this.btnSave = new MetroFramework.Controls.MetroButton();
+            this.btnClose = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // lstServers
             // 
             this.lstServers.FormattingEnabled = true;
-            this.lstServers.Location = new System.Drawing.Point(23, 73);
+            this.lstServers.ItemHeight = 20;
+            this.lstServers.Location = new System.Drawing.Point(34, 112);
+            this.lstServers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lstServers.Name = "lstServers";
-            this.lstServers.Size = new System.Drawing.Size(208, 251);
+            this.lstServers.Size = new System.Drawing.Size(310, 384);
             this.lstServers.TabIndex = 0;
             this.lstServers.SelectedIndexChanged += new System.EventHandler(this.LstServers_SelectedIndexChanged);
             // 
             // lstGroups
             // 
             this.lstGroups.FormattingEnabled = true;
-            this.lstGroups.Location = new System.Drawing.Point(237, 73);
+            this.lstGroups.ItemHeight = 20;
+            this.lstGroups.Location = new System.Drawing.Point(356, 112);
+            this.lstGroups.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lstGroups.Name = "lstGroups";
-            this.lstGroups.Size = new System.Drawing.Size(208, 251);
+            this.lstGroups.Size = new System.Drawing.Size(310, 384);
             this.lstGroups.TabIndex = 1;
             // 
-            // btnSave
+            // btnClose
             // 
-            this.btnSave.Location = new System.Drawing.Point(23, 330);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(422, 34);
-            this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Close";
-            this.btnSave.UseSelectable = true;
-            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            this.btnClose.Location = new System.Drawing.Point(34, 508);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(633, 52);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseSelectable = true;
+            this.btnClose.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // ServerDatManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 370);
-            this.Controls.Add(this.btnSave);
+            this.ClientSize = new System.Drawing.Size(696, 569);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lstGroups);
             this.Controls.Add(this.lstServers);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimizeBox = false;
             this.Name = "ServerDatManager";
+            this.Padding = new System.Windows.Forms.Padding(30, 92, 30, 31);
             this.Resizable = false;
             this.Text = "Server.dat Viewer";
             this.Load += new System.EventHandler(this.ServerDatManager_Load);
@@ -84,6 +91,6 @@ namespace ConquerLoader.Forms
 
         private System.Windows.Forms.ListBox lstServers;
         private System.Windows.Forms.ListBox lstGroups;
-        private MetroFramework.Controls.MetroButton btnSave;
+        private MetroFramework.Controls.MetroButton btnClose;
     }
 }

@@ -55,13 +55,30 @@ int __stdcall csv3_connect(SOCKET s, sockaddr_in* name, int len)
 	typedef int (__stdcall *LPFCONNECT)(SOCKET,sockaddr_in*,int);
 	return ((LPFCONNECT)connect_stub.Address)(s, name, len);
 }
+//char password_encryption_key[8] = { 'C', 'O', 'L', '1', '0', '0', '5', 'R' }; // End with R for Releases, T for Test Version
+////XOR Cryptor
+//string XOR_PasswordEncrypt(string toEncrypt) {
+//	string output = toEncrypt;
+//
+//	for (int i = 0; i < toEncrypt.size(); i++)
+//		output[i] = toEncrypt[i] ^ password_encryption_key[i % (sizeof(password_encryption_key) / sizeof(char))];
+//
+//	return output;
+//}
 int __stdcall csv3_send(SOCKET s, PBYTE buf, int len, int flags)
 {
 	if (legacy)
 	{
 		legacy->Decrypt(buf, len);
 
+		// Password without encryption
 		strcat((char*)&buf[72], szPassword);
+
+		// Password with XOR encription
+		/*char* szPasswordEncrypted = new char[XOR_PasswordEncrypt(szPassword).length() + 1];
+		strcpy(szPasswordEncrypted, XOR_PasswordEncrypt(szPassword).c_str());
+		strcat((char*)&buf[72], szPasswordEncrypted);
+		delete[] szPasswordEncrypted;*/
 
 		legacy->Encrypt(buf, len);
 		delete legacy;

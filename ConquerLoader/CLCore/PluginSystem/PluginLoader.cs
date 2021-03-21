@@ -1,5 +1,4 @@
-﻿using CLCore;
-using CLCore.Models;
+﻿using CLCore.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 
-namespace ConquerLoader.CLCore
+namespace CLCore
 {
     public class PluginLoader
 	{
