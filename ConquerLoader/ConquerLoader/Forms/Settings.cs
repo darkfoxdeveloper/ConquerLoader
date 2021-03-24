@@ -27,6 +27,8 @@ namespace ConquerLoader
             langSelector.Items.Add("English");
             langSelector.Items.Add("Español");
             langSelector.Items.Add("Português");
+            pbFlag.Visible = Directory.Exists("es") || Directory.Exists("pt");
+            langSelector.Visible = Directory.Exists("es") || Directory.Exists("pt");
             CurrentLoaderConfig = Core.GetLoaderConfig();
             langSelector.SelectedIndex = langSelector.FindString(CurrentLoaderConfig.Lang);
             Resizable = false;
@@ -170,7 +172,6 @@ namespace ConquerLoader
                     CurrentLoaderConfig.Lang = "en";
                     break;
             }
-            
         }
     }
 }

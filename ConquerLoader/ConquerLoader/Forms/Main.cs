@@ -2,6 +2,7 @@
 using CLCore.Models;
 using ConquerLoader.Models;
 using MetroFramework.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -63,6 +64,49 @@ namespace ConquerLoader.Forms
             RefreshServerList();
 
             LoaderEvents.LauncherLoadedStartEvent();
+
+            bool InstaledCPlusRedistributableX86 = false;
+            bool InstaledCPlusRedistributableX64 = false;
+            try
+            {
+                RegistryKey keyX64 = Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Microsoft").OpenSubKey("VisualStudio").OpenSubKey("14.0").OpenSubKey("VC").OpenSubKey("Runtimes").OpenSubKey("x64");
+                if (keyX64 != null)
+                {
+                    Object o = keyX64.GetValue("Installed");
+                    if (o.ToString() == "1")
+                    {
+                        InstaledCPlusRedistributableX64 = true;
+                        Core.LogWritter.Write("Detected C++ Redistributable X64.");
+                    }
+                }
+                RegistryKey keyX32 = Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Microsoft").OpenSubKey("VisualStudio").OpenSubKey("14.0").OpenSubKey("VC").OpenSubKey("Runtimes").OpenSubKey("x86");
+                if (keyX32 != null)
+                {
+                    Object o = keyX32.GetValue("Installed");
+                    if (o.ToString() == "1")
+                    {
+                        InstaledCPlusRedistributableX86 = true;
+                        Core.LogWritter.Write("Detected C++ Redistributable X86.");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            // Install the C++ redistributable 2015-2019 if need
+            if (!InstaledCPlusRedistributableX64 && Environment.Is64BitOperatingSystem)
+            {
+                File.WriteAllBytes("cpp2015-2019x64.exe", Properties.Resources.VC_redist_x64);
+                Process.Start("cpp2015-2019x64.exe").WaitForExit();
+                File.Delete("cpp2015-2019x64.exe");
+            }
+            if (!InstaledCPlusRedistributableX86)
+            {
+                File.WriteAllBytes("cpp2015-2019x86.exe", Properties.Resources.VC_redist_x86);
+                Process.Start("cpp2015-2019x86.exe").WaitForExit();
+                File.Delete("cpp2015-2019x86.exe");
+            }
         }
 
         //  The NotifyIcon object
@@ -410,6 +454,8 @@ namespace ConquerLoader.Forms
                     Core.LogWritter.Write("Process launched!");
                     worker.ReportProgress(10);
                     CurrentConquerProcess = conquerProc;
+                    CurrentConquerProcess.EnableRaisingEvents = true;
+                    CurrentConquerProcess.Exited += new EventHandler(ConquerProc_Exited);
                     int ConquerOpened = Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count();
                     Core.LogWritter.Write($"CLServer Enabled: {LoaderConfig.CLServer} . Processes of Conquer opened: {ConquerOpened} (Only connect if have less or equal to 1)");
                     if (LoaderConfig.CLServer && ConquerOpened <= 1) // Only if not have other Conquer.exe opened
@@ -489,6 +535,14 @@ namespace ConquerLoader.Forms
             } else
             {
                 Core.LogWritter.Write("Path for Executable not found: " + PathToConquerExe);
+            }
+        }
+
+        private void ConquerProc_Exited(object sender, EventArgs e)
+        {
+            if (Process.GetProcessesByName(SelectedServer.ExecutableName.Replace(".exe", "")).Count() <= 0)
+            {
+                Environment.Exit(0);
             }
         }
 

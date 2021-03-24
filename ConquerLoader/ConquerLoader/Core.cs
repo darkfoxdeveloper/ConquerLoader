@@ -1,5 +1,6 @@
 ﻿using CLCore;
 using CLCore.Models;
+using ConquerLoader.Properties;
 using System;
 using System.IO;
 using System.Net.Sockets;
