@@ -1,9 +1,14 @@
 ﻿using CLCore;
 using CLCore.Models;
-using ConquerLoader.Properties;
+using ConquerLoader.Models;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ConquerLoader
@@ -12,14 +17,58 @@ namespace ConquerLoader
     {
         public static LogWritter LogWritter = new LogWritter("conquerloader.log");
         public static string ConfigJsonPath = "config.json";
+        public static bool UseEncryptedConfig = false;
+        public static List<TextTranslation> TextTranslations = new List<TextTranslation>();
         public static LoaderConfig GetLoaderConfig()
         {
             LoaderConfig lConfig = null;
-            if (File.Exists(ConfigJsonPath))
+            if (File.Exists(ConfigJsonPath + ".lock"))
             {
-                lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(File.ReadAllText(ConfigJsonPath));
+                UseEncryptedConfig = true;
+                lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(ConfigFilesEncryption.AESEncription.DecryptString(Constants.LockConfigurationKey, File.ReadAllText(ConfigJsonPath + ".lock")));
+            } else
+            {
+                if (File.Exists(ConfigJsonPath))
+                {
+                    lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(File.ReadAllText(ConfigJsonPath));
+                }
+            }
+            if (lConfig != null)
+            {
+                DetectLang(lConfig);
             }
             return lConfig;
+        }
+        public static void DetectLang(LoaderConfig lConfig)
+        {
+            if (lConfig.Lang != null)
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(lConfig.Lang);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(lConfig.Lang);
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en");
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+            }
+            switch (Thread.CurrentThread.CurrentCulture.Name)
+            {
+                case "es":
+                    {
+                        TextTranslations = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TextTranslation>>(Encoding.UTF8.GetString(Properties.Resources.lang_es));
+                        break;
+                    }
+                case "en":
+                    {
+                        TextTranslations = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TextTranslation>>(Encoding.UTF8.GetString(Properties.Resources.lang_en));
+                        break;
+                    }
+                case "pt":
+                    {
+                        TextTranslations = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TextTranslation>>(Encoding.UTF8.GetString(Properties.Resources.lang_pt));
+                        break;
+                    }
+            }
         }
 
         internal static void LoadAvailablePlugins()
@@ -63,7 +112,13 @@ namespace ConquerLoader
 
         public static void SaveLoaderConfig(LoaderConfig LoaderConfig)
         {
-            File.WriteAllText(ConfigJsonPath, Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented));
+            if (UseEncryptedConfig)
+            {
+                File.WriteAllText(ConfigJsonPath + ".lock", ConfigFilesEncryption.AESEncription.EncryptString(Constants.LockConfigurationKey, Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented)));
+            } else
+            {
+                File.WriteAllText(ConfigJsonPath, Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented));
+            }
         }
         public static bool ServerAvailable(string Host, uint Port)
         {
@@ -113,10 +168,10 @@ namespace ConquerLoader
             {
                 if (c is MetroFramework.Controls.MetroLabel || c is MetroFramework.Controls.MetroButton)
                 {
-                    string str = Strings.ResourceManager.GetString(c.Name);
-                    if (str != null && str.Length > 0)
+                    TextTranslation str = TextTranslations.Where(x => x.Id == c.Name).FirstOrDefault();
+                    if (str != null && str.Text.Length > 0)
                     {
-                        c.Text = str;
+                        c.Text = str.Text;
                     }
                     else
                     {

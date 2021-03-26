@@ -183,6 +183,14 @@ namespace ConquerLoader
                     lblHelpGroup.Visible = false;
                     tbxGroup.Visible = false;
                 }
+                tglUseDX9.Visible = true;
+                lblUseDX9.Visible = true;
+                if (tbxVersion.Text.Length > 0 && int.Parse(tbxVersion.Text) < Constants.MinVersionUseDX8DX9Folders)
+                {
+                    tglUseDX9.Visible = false;
+                    lblUseDX9.Visible = false;
+                    tglUseDX9.Checked = false;
+                }
             }
         }
 

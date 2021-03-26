@@ -11,6 +11,8 @@
 		public static bool HideInTrayOnFinish = false;
 		public static int MinVersionUseServerDat = 5717;
 		public static int MaxVersionUseServerDat = 6736;
+		public static string LockConfigurationKey = "CONQUERLOADERDFX";
+		public static int MinVersionUseDX8DX9Folders = 6371;
 	}
 	public enum PluginType
 	{

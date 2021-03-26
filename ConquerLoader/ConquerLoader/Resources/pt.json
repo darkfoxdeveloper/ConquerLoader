@@ -1,0 +1,122 @@
+[
+  {
+    "id": "btnAdd",
+    "text": "Adicionar a Lista"
+  },
+  {
+    "id": "btnCloseCO",
+    "text": "Fechar CO"
+  },
+  {
+    "id": "btnHelpGroupIcon",
+    "text": "Detectar"
+  },
+  {
+    "id": "btnLogModules",
+    "text": "Log dos Módulos"
+  },
+  {
+    "id": "btnSettings",
+    "text": "Config."
+  },
+  {
+    "id": "btnStart",
+    "text": "INICIAR"
+  },
+  {
+    "id": "lblGroupIcon",
+    "text": "Ícone do Servidor na Tela de Login do Servidor"
+  },
+  {
+    "id": "lblHelpConquerExe",
+    "text": "Nome do executável do Conquer"
+  },
+  {
+    "id": "lblHelpGPort",
+    "text": "Porta de Jogo (Game Port) do seu servidor"
+  },
+  {
+    "id": "lblHelpGroup",
+    "text": "Grupo deste servidor na Tela de Login"
+  },
+  {
+    "id": "lblHelpIP",
+    "text": "Endereço IP do seu servidor"
+  },
+  {
+    "id": "lblHelpLPort",
+    "text": "Porta de Login (Login Port) do seu servidor"
+  },
+  {
+    "id": "lblHelpServerName",
+    "text": "O nome do servidor"
+  },
+  {
+    "id": "lblHelpVersion",
+    "text": "Versão do Cliente (IMPORTANTE)"
+  },
+  {
+    "id": "lblUseDX9",
+    "text": "Usar de DirectX 9 (Pode haver problemas em alguns clientes)"
+  },
+  {
+    "id": "btnClose",
+    "text": "Fechar"
+  },
+  {
+    "id": "lblDebugMode",
+    "text": "Modo de Depuração"
+  },
+  {
+    "id": "lblCloseOnFinish",
+    "text": "Fechar ao finalizar"
+  },
+  {
+    "id": "lblHighResolution",
+    "text": "Modo HD"
+  },
+  {
+    "id": "lblFullscreen",
+    "text": "Tela cheia"
+  },
+  {
+    "id": "lblServerNameChange",
+    "text": "Mudança de nome de servidor (V5717-)"
+  },
+  {
+    "id": "lblDisableAutoFixFlash",
+    "text": "Desativar correção de flash"
+  },
+  {
+    "id": "lblCLServer",
+    "text": "CLServer (Experimental)"
+  },
+  {
+    "id": "btnServerDat",
+    "text": "Server.dat"
+  },
+  {
+    "id": "btnWizard",
+    "text": "Novo +"
+  },
+  {
+    "id": "btnSave",
+    "text": "Salvar"
+  },
+  {
+    "id": "btnPlugins",
+    "text": "Plugins"
+  },
+  {
+    "id": "btnEdit",
+    "text": "Editar"
+  },
+  {
+    "id": "lblTitle",
+    "text": "Título no Loader"
+  },
+  {
+    "id": "btnLockConfig",
+    "text": "Config. bloqueio"
+  }
+]

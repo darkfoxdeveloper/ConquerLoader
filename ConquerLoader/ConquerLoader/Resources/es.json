@@ -1,0 +1,122 @@
+[
+  {
+    "id": "btnCloseCO",
+    "text": "Cerrar CO"
+  },
+  {
+    "id": "btnLogModules",
+    "text": "Log Modulos"
+  },
+  {
+    "id": "btnStart",
+    "text": "INICIAR"
+  },
+  {
+    "id": "btnAdd",
+    "text": "Añadir a lista"
+  },
+  {
+    "id": "btnHelpGroupIcon",
+    "text": "Detectar"
+  },
+  {
+    "id": "btnSettings",
+    "text": "Config."
+  },
+  {
+    "id": "lblGroupIcon",
+    "text": "Icono del servidor en pantalla de Login"
+  },
+  {
+    "id": "lblHelpConquerExe",
+    "text": "Nombre del ejecutable de Conquer"
+  },
+  {
+    "id": "lblHelpGPort",
+    "text": "Puerto de juego en tu servidor"
+  },
+  {
+    "id": "lblHelpGroup",
+    "text": "Grupo del servidor en Pantalla de Login"
+  },
+  {
+    "id": "lblHelpIP",
+    "text": "Dirección IP de tu servidor"
+  },
+  {
+    "id": "lblHelpLPort",
+    "text": "Puerto de login de tu servidor"
+  },
+  {
+    "id": "lblHelpServerName",
+    "text": "Nombre del servidor"
+  },
+  {
+    "id": "lblHelpVersion",
+    "text": "Versión del cliente (IMPORTANTE)"
+  },
+  {
+    "id": "lblUseDX9",
+    "text": "Usar DirectX9 (Puedes tener problemas en algún cliente)"
+  },
+  {
+    "id": "btnClose",
+    "text": "Cerrar"
+  },
+  {
+    "id": "lblDebugMode",
+    "text": "Modo Debug"
+  },
+  {
+    "id": "lblCloseOnFinish",
+    "text": "Cerrar al terminar"
+  },
+  {
+    "id": "lblHighResolution",
+    "text": "Modo HD"
+  },
+  {
+    "id": "lblFullscreen",
+    "text": "Pantalla completa"
+  },
+  {
+    "id": "lblServerNameChange",
+    "text": "Cambio de Nombre (V5717-)"
+  },
+  {
+    "id": "lblDisableAutoFixFlash",
+    "text": "Desactivar Flash Fix"
+  },
+  {
+    "id": "lblCLServer",
+    "text": "CLServer"
+  },
+  {
+    "id": "btnServerDat",
+    "text": "Server.dat"
+  },
+  {
+    "id": "btnWizard",
+    "text": "Añadir +"
+  },
+  {
+    "id": "btnSave",
+    "text": "Guardar"
+  },
+  {
+    "id": "btnPlugins",
+    "text": "Plugins"
+  },
+  {
+    "id": "btnEdit",
+    "text": "Editar"
+  },
+  {
+    "id": "lblTitle",
+    "text": "Titulo en el Loader"
+  },
+  {
+    "id": "btnLockConfig",
+    "text": "Bloq. Config."
+  }
+]

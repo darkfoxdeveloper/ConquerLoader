@@ -32,6 +32,7 @@
             this.tglDebugMode = new MetroFramework.Controls.MetroToggle();
             this.tglCloseOnFinish = new MetroFramework.Controls.MetroToggle();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.btnLockConfig = new MetroFramework.Controls.MetroButton();
             this.pbFlag = new System.Windows.Forms.PictureBox();
             this.langSelector = new MetroFramework.Controls.MetroComboBox();
             this.btnServerDat = new MetroFramework.Controls.MetroButton();
@@ -83,6 +84,7 @@
             // 
             // metroPanel1
             // 
+            this.metroPanel1.Controls.Add(this.btnLockConfig);
             this.metroPanel1.Controls.Add(this.pbFlag);
             this.metroPanel1.Controls.Add(this.langSelector);
             this.metroPanel1.Controls.Add(this.btnServerDat);
@@ -113,16 +115,27 @@
             this.metroPanel1.Location = new System.Drawing.Point(24, 106);
             this.metroPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(1566, 695);
+            this.metroPanel1.Size = new System.Drawing.Size(1123, 695);
             this.metroPanel1.TabIndex = 0;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 15;
             // 
+            // btnLockConfig
+            // 
+            this.btnLockConfig.Location = new System.Drawing.Point(629, 263);
+            this.btnLockConfig.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnLockConfig.Name = "btnLockConfig";
+            this.btnLockConfig.Size = new System.Drawing.Size(166, 34);
+            this.btnLockConfig.TabIndex = 25;
+            this.btnLockConfig.Text = "Lock Config";
+            this.btnLockConfig.UseSelectable = true;
+            this.btnLockConfig.Click += new System.EventHandler(this.BtnLockConfig_Click);
+            // 
             // pbFlag
             // 
             this.pbFlag.Image = global::ConquerLoader.Properties.Resources.en;
-            this.pbFlag.Location = new System.Drawing.Point(1387, 19);
+            this.pbFlag.Location = new System.Drawing.Point(960, 19);
             this.pbFlag.Name = "pbFlag";
             this.pbFlag.Size = new System.Drawing.Size(39, 29);
             this.pbFlag.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -133,7 +146,7 @@
             // 
             this.langSelector.FormattingEnabled = true;
             this.langSelector.ItemHeight = 23;
-            this.langSelector.Location = new System.Drawing.Point(1434, 19);
+            this.langSelector.Location = new System.Drawing.Point(1007, 19);
             this.langSelector.Name = "langSelector";
             this.langSelector.Size = new System.Drawing.Size(105, 29);
             this.langSelector.TabIndex = 23;
@@ -142,7 +155,7 @@
             // 
             // btnServerDat
             // 
-            this.btnServerDat.Location = new System.Drawing.Point(1230, 220);
+            this.btnServerDat.Location = new System.Drawing.Point(803, 220);
             this.btnServerDat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnServerDat.Name = "btnServerDat";
             this.btnServerDat.Size = new System.Drawing.Size(100, 34);
@@ -174,7 +187,7 @@
             // 
             // btnPlugins
             // 
-            this.btnPlugins.Location = new System.Drawing.Point(1230, 263);
+            this.btnPlugins.Location = new System.Drawing.Point(803, 263);
             this.btnPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPlugins.Name = "btnPlugins";
             this.btnPlugins.Size = new System.Drawing.Size(100, 34);
@@ -208,7 +221,7 @@
             // 
             // btnWizard
             // 
-            this.btnWizard.Location = new System.Drawing.Point(1340, 220);
+            this.btnWizard.Location = new System.Drawing.Point(913, 220);
             this.btnWizard.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnWizard.Name = "btnWizard";
             this.btnWizard.Size = new System.Drawing.Size(86, 34);
@@ -219,7 +232,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(1340, 263);
+            this.btnEdit.Location = new System.Drawing.Point(913, 263);
             this.btnEdit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(86, 34);
@@ -299,12 +312,12 @@
             this.gridViewSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gridViewSettings.Name = "gridViewSettings";
             this.gridViewSettings.RowHeadersWidth = 62;
-            this.gridViewSettings.Size = new System.Drawing.Size(1516, 375);
+            this.gridViewSettings.Size = new System.Drawing.Size(1082, 375);
             this.gridViewSettings.TabIndex = 8;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(1434, 220);
+            this.btnSave.Location = new System.Drawing.Point(1007, 220);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(105, 77);
@@ -380,7 +393,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1614, 820);
+            this.ClientSize = new System.Drawing.Size(1157, 820);
             this.Controls.Add(this.metroPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -423,5 +436,6 @@
         private MetroFramework.Controls.MetroButton btnServerDat;
         private MetroFramework.Controls.MetroComboBox langSelector;
         private System.Windows.Forms.PictureBox pbFlag;
+        private MetroFramework.Controls.MetroButton btnLockConfig;
     }
 }

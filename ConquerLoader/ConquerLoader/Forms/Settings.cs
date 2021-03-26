@@ -23,16 +23,30 @@ namespace ConquerLoader
 
         private void Settings_Load(object sender, EventArgs e)
         {
-            tbxTitle.WaterMark = ((MetroFramework.Forms.MetroForm)Tag).Text;
+            if ((MetroFramework.Forms.MetroForm)Tag != null)
+            {
+                tbxTitle.WaterMark = ((MetroFramework.Forms.MetroForm)Tag).Text;
+            }
             langSelector.Items.Add("English");
             langSelector.Items.Add("Español");
             langSelector.Items.Add("Português");
             pbFlag.Visible = Directory.Exists("es") || Directory.Exists("pt");
             langSelector.Visible = Directory.Exists("es") || Directory.Exists("pt");
             CurrentLoaderConfig = Core.GetLoaderConfig();
-            langSelector.SelectedIndex = langSelector.FindString(CurrentLoaderConfig.Lang);
-            Resizable = false;
-            if (!File.Exists(Core.ConfigJsonPath))
+            if (CurrentLoaderConfig != null)
+            {
+                string findStr = "English";
+                if (CurrentLoaderConfig.Lang == "es")
+                {
+                    findStr = "Español";
+                }
+                if (CurrentLoaderConfig.Lang == "pt")
+                {
+                    findStr = "Português";
+                }
+                langSelector.SelectedIndex = langSelector.FindString(findStr);
+            }
+            if (!File.Exists(Core.ConfigJsonPath) && !File.Exists(Core.ConfigJsonPath+".lock"))
             {
                 LoaderConfig lc = new LoaderConfig();
                 Core.SaveLoaderConfig(lc);
@@ -172,6 +186,18 @@ namespace ConquerLoader
                     CurrentLoaderConfig.Lang = "en";
                     break;
             }
+            Core.DetectLang(CurrentLoaderConfig);
+            Core.LoadControlTranslations(Controls);
+            if (Owner != null) Core.LoadControlTranslations(Owner.Controls);
+            Core.SaveLoaderConfig(CurrentLoaderConfig);
+        }
+
+        private void BtnLockConfig_Click(object sender, EventArgs e)
+        {
+            Core.UseEncryptedConfig = true;
+            Core.SaveLoaderConfig(CurrentLoaderConfig);
+            File.Delete(Core.ConfigJsonPath);
+            Application.Exit();
         }
     }
 }

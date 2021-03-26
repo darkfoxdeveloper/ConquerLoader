@@ -7,10 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace ConquerLoader.Forms
@@ -29,14 +27,9 @@ namespace ConquerLoader.Forms
             this.Resizable = false;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
             LoaderConfig = Core.GetLoaderConfig();
-            if (LoaderConfig.Lang != null)
+            if (Core.UseEncryptedConfig)
             {
-                Thread.CurrentThread.CurrentCulture = new CultureInfo(LoaderConfig.Lang);
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(LoaderConfig.Lang);
-            } else
-            {
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en");
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+                btnSettings.Enabled = false;
             }
             Core.LoadControlTranslations(Controls);
             LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
@@ -61,7 +54,7 @@ namespace ConquerLoader.Forms
                 LoadConfigInForm();
             }
             AllStarted = true;
-            RefreshServerList();
+            RefreshServerList(true, true);
 
             LoaderEvents.LauncherLoadedStartEvent();
 
@@ -190,19 +183,21 @@ namespace ConquerLoader.Forms
             {
                 cbxServers.Items.Add(server.ServerName);
             }
-            RefreshServerList();
+            RefreshServerList(true, true);
         }
 
-        private void RefreshServerList(bool CheckServerStatus = true)
+        private void RefreshServerList(bool CheckServerStatus = true, bool SelectDefault = false)
         {
             if (LoaderConfig.Servers.Count > 0)
             {
-                cbxServers.SelectedItem = cbxServers.Items[0];
                 foreach (object s in cbxServers.Items)
                 {
                     if (LoaderConfig.DefaultServer != null && s.Equals(LoaderConfig.DefaultServer.ServerName))
                     {
-                        cbxServers.SelectedItem = s;
+                        if (SelectDefault)
+                        {
+                            cbxServers.SelectedItem = s;
+                        }
                         if (CheckServerStatus)
                         {
                             SetServerStatus();

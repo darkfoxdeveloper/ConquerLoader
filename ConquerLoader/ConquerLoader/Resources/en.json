@@ -1,0 +1,122 @@
+[
+  {
+    "id": "btnAdd",
+    "text": "Add to List"
+  },
+  {
+    "id": "btnCloseCO",
+    "text": "Close CO"
+  },
+  {
+    "id": "btnHelpGroupIcon",
+    "text": "Detect"
+  },
+  {
+    "id": "btnLogModules",
+    "text": "Log Modules"
+  },
+  {
+    "id": "btnSettings",
+    "text": "Settings"
+  },
+  {
+    "id": "btnStart",
+    "text": "START"
+  },
+  {
+    "id": "lblGroupIcon",
+    "text": "Icon of  Server in Login Server Screen"
+  },
+  {
+    "id": "lblHelpConquerExe",
+    "text": "Conquer executable name"
+  },
+  {
+    "id": "lblHelpGPort",
+    "text": "Game Port of your server"
+  },
+  {
+    "id": "lblHelpGroup",
+    "text": "Group of this server in Login Screen"
+  },
+  {
+    "id": "lblHelpIP",
+    "text": "Address IP of your server"
+  },
+  {
+    "id": "lblHelpLPort",
+    "text": "Login Port of your server"
+  },
+  {
+    "id": "lblHelpServerName",
+    "text": "The name of the server"
+  },
+  {
+    "id": "lblHelpVersion",
+    "text": "Version of Client (IMPORTANT)"
+  },
+  {
+    "id": "lblUseDX9",
+    "text": "Use of DirectX9 (Could have problems in some client)"
+  },
+  {
+    "id": "btnClose",
+    "text": "Close"
+  },
+  {
+    "id": "lblDebugMode",
+    "text": "Debug Mode"
+  },
+  {
+    "id": "lblCloseOnFinish",
+    "text": "Close on finish"
+  },
+  {
+    "id": "lblHighResolution",
+    "text": "HD Mode"
+  },
+  {
+    "id": "lblFullscreen",
+    "text": "Fullscreen"
+  },
+  {
+    "id": "lblServerNameChange",
+    "text": "Servername change (V5717-)"
+  },
+  {
+    "id": "lblDisableAutoFixFlash",
+    "text": "Disable flash fix"
+  },
+  {
+    "id": "lblCLServer",
+    "text": "CLServer (Experimental)"
+  },
+  {
+    "id": "btnServerDat",
+    "text": "Server.dat"
+  },
+  {
+    "id": "btnWizard",
+    "text": "New +"
+  },
+  {
+    "id": "btnSave",
+    "text": "Save"
+  },
+  {
+    "id": "btnPlugins",
+    "text": "Plugins"
+  },
+  {
+    "id": "btnEdit",
+    "text": "Edit"
+  },
+  {
+    "id": "lblTitle",
+    "text": "Title in Loader"
+  },
+  {
+    "id": "btnLockConfig",
+    "text": "Lock Config"
+  }
+]

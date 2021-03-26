@@ -83,9 +83,9 @@
             // btnLogModules
             // 
             this.btnLogModules.ForeColor = System.Drawing.Color.White;
-            this.btnLogModules.Location = new System.Drawing.Point(406, 95);
+            this.btnLogModules.Location = new System.Drawing.Point(360, 95);
             this.btnLogModules.Name = "btnLogModules";
-            this.btnLogModules.Size = new System.Drawing.Size(108, 37);
+            this.btnLogModules.Size = new System.Drawing.Size(154, 37);
             this.btnLogModules.TabIndex = 4;
             this.btnLogModules.Text = "Log Modules";
             this.btnLogModules.UseSelectable = true;
@@ -120,7 +120,7 @@
             // btnCloseCO
             // 
             this.btnCloseCO.ForeColor = System.Drawing.Color.White;
-            this.btnCloseCO.Location = new System.Drawing.Point(290, 95);
+            this.btnCloseCO.Location = new System.Drawing.Point(243, 95);
             this.btnCloseCO.Name = "btnCloseCO";
             this.btnCloseCO.Size = new System.Drawing.Size(111, 37);
             this.btnCloseCO.TabIndex = 7;
