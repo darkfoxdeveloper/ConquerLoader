@@ -21,6 +21,7 @@ namespace ConquerLoader.Forms
         public string HookINI = "CLHook.ini";
         public string HookDLL = "CLHook.dll";
         public bool AllStarted = false;
+        public bool DX9Allowed = false;
         public Main()
         {
             InitializeComponent();
@@ -41,6 +42,7 @@ namespace ConquerLoader.Forms
             Core.LoadAvailablePlugins();
             //Core.LoadRemotePlugins(); Is a slow method for this :( for now this is disabled
             Core.InitPlugins();
+            DX9Allowed = Core.DirectXVersion() >= 9;
         }
         private void Main_Load(object sender, EventArgs e)
         {
@@ -392,7 +394,7 @@ namespace ConquerLoader.Forms
                     }
                     NoUseDX8_DX9 = false;
                 }
-                if (SelectedServer.UseDirectX9)
+                if (SelectedServer.UseDirectX9 && DX9Allowed)
                 {
                     if (File.Exists(CheckPathEnvDX9))
                     {
