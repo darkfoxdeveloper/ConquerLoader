@@ -14,7 +14,6 @@ namespace CLCore.Models
         public bool FullScreen { get; set; }
         public bool ServernameChange { get; set; }
         public bool DisableAutoFixFlash { get; set; }
-        public bool CLServer { get; set; }
         public string Title { get; set; }
         public string Lang { get; set; }
         public string LicenseKey { get; set; }

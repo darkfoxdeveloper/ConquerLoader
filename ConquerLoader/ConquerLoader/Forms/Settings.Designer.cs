@@ -39,8 +39,6 @@
             this.lblDisableAutoFixFlash = new MetroFramework.Controls.MetroLabel();
             this.tglDisableAutoFixFlash = new MetroFramework.Controls.MetroToggle();
             this.btnPlugins = new MetroFramework.Controls.MetroButton();
-            this.lblCLServer = new MetroFramework.Controls.MetroLabel();
-            this.tglCLServer = new MetroFramework.Controls.MetroToggle();
             this.btnWizard = new MetroFramework.Controls.MetroButton();
             this.btnEdit = new MetroFramework.Controls.MetroButton();
             this.lblServerNameChange = new MetroFramework.Controls.MetroLabel();
@@ -91,8 +89,6 @@
             this.metroPanel1.Controls.Add(this.lblDisableAutoFixFlash);
             this.metroPanel1.Controls.Add(this.tglDisableAutoFixFlash);
             this.metroPanel1.Controls.Add(this.btnPlugins);
-            this.metroPanel1.Controls.Add(this.lblCLServer);
-            this.metroPanel1.Controls.Add(this.tglCLServer);
             this.metroPanel1.Controls.Add(this.btnWizard);
             this.metroPanel1.Controls.Add(this.btnEdit);
             this.metroPanel1.Controls.Add(this.lblServerNameChange);
@@ -195,29 +191,6 @@
             this.btnPlugins.Text = "Plugins";
             this.btnPlugins.UseSelectable = true;
             this.btnPlugins.Click += new System.EventHandler(this.BtnPlugins_Click);
-            // 
-            // lblCLServer
-            // 
-            this.lblCLServer.AutoSize = true;
-            this.lblCLServer.Location = new System.Drawing.Point(724, 29);
-            this.lblCLServer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCLServer.Name = "lblCLServer";
-            this.lblCLServer.Size = new System.Drawing.Size(150, 19);
-            this.lblCLServer.TabIndex = 18;
-            this.lblCLServer.Text = "CLServer (Experimental)";
-            this.lblCLServer.Visible = false;
-            // 
-            // tglCLServer
-            // 
-            this.tglCLServer.AutoSize = true;
-            this.tglCLServer.Location = new System.Drawing.Point(757, 63);
-            this.tglCLServer.Name = "tglCLServer";
-            this.tglCLServer.Size = new System.Drawing.Size(80, 24);
-            this.tglCLServer.TabIndex = 17;
-            this.tglCLServer.Text = "Off";
-            this.tglCLServer.UseSelectable = true;
-            this.tglCLServer.Visible = false;
-            this.tglCLServer.CheckedChanged += new System.EventHandler(this.TglCLServer_CheckedChanged);
             // 
             // btnWizard
             // 
@@ -428,8 +401,6 @@
         private MetroFramework.Controls.MetroToggle tglServerNameChange;
         private MetroFramework.Controls.MetroButton btnEdit;
         private MetroFramework.Controls.MetroButton btnWizard;
-        private MetroFramework.Controls.MetroLabel lblCLServer;
-        private MetroFramework.Controls.MetroToggle tglCLServer;
         private MetroFramework.Controls.MetroButton btnPlugins;
         private MetroFramework.Controls.MetroLabel lblDisableAutoFixFlash;
         private MetroFramework.Controls.MetroToggle tglDisableAutoFixFlash;

@@ -454,8 +454,11 @@ namespace ConquerLoader.Forms
                     CurrentConquerProcess.EnableRaisingEvents = true;
                     CurrentConquerProcess.Exited += new EventHandler(ConquerProc_Exited);
                     int ConquerOpened = Process.GetProcessesByName(CurrentConquerProcess.ProcessName).Count();
-                    Core.LogWritter.Write($"CLServer Enabled: {LoaderConfig.CLServer} . Processes of Conquer opened: {ConquerOpened} (Only connect if have less or equal to 1)");
-                    if (LoaderConfig.CLServer && ConquerOpened <= 1) // Only if not have other Conquer.exe opened
+                    if (Constants.EnableCLServerConnections)
+                    {
+                        Core.LogWritter.Write($"CLServer Enabled. Processes of Conquer opened: {ConquerOpened} (Only connect if have less or equal to 1)");
+                    }
+                    if (Constants.EnableCLServerConnections && ConquerOpened <= 1) // Only if not have other Conquer.exe opened
                     {
                         Core.LogWritter.Write("Connecting to CLServer");
                         // Try connect to CLServer

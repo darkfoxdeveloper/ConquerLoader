@@ -13,6 +13,7 @@
 		public static int MaxVersionUseServerDat = 6736;
 		public static string LockConfigurationKey = "CONQUERLOADERDFX";
 		public static int MinVersionUseDX8DX9Folders = 6371;
+		public static bool EnableCLServerConnections = false;
 	}
 	public enum PluginType
 	{

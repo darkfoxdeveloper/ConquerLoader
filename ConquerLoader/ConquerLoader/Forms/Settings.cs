@@ -60,7 +60,6 @@ namespace ConquerLoader
                 tglFullscreen.Checked = CurrentLoaderConfig.FullScreen;
                 tglServerNameChange.Checked = CurrentLoaderConfig.ServernameChange;
                 tglDisableAutoFixFlash.Checked = CurrentLoaderConfig.DisableAutoFixFlash;
-                tglCLServer.Checked = CurrentLoaderConfig.CLServer;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
@@ -109,11 +108,6 @@ namespace ConquerLoader
         private void TglDisableAutoFixFlash_CheckedChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.DisableAutoFixFlash = (sender as MetroToggle).Checked;
-        }
-
-        private void TglCLServer_CheckedChanged(object sender, EventArgs e)
-        {
-            CurrentLoaderConfig.CLServer = (sender as MetroToggle).Checked;
         }
 
         private void BtnWizard_Click(object sender, EventArgs e)
