@@ -225,14 +225,16 @@ void csv3_init(HMODULE hModule)
 	strcat(szConfig, "CLHook.ini");
 
 	// Find the correct version of client based in user config
-	char szVersionValue[5];
-	GetPrivateProfileStringA(HeaderConfig, "SERVER_VERSION", "0", szVersionValue, 5, szConfig);
+	ClientVersion = GetPrivateProfileIntA(HeaderConfig, "SERVER_VERSION", 0, szConfig);
 	DisableAutoFixFlash = GetPrivateProfileIntA(HeaderConfig, "DISABLE_AUTOFIX_FLASH", 0, szConfig);
-	ClientVersion = atoi(szVersionValue);
 
 	// Get the servername
 	GetPrivateProfileStringA(HeaderConfig, "SERVERNAME", "ConquerOnline", ServerName, 16, szConfig);
 	ServerNameMemoryAddress = GetPrivateProfileIntA(HeaderConfig, "SERVERNAME_MEMORYADDRESS", 0, szConfig);
+
+	// debug client version number
+	//std::string s = std::to_string(ClientVersion);
+	//MessageBoxA(NULL, s.c_str(), "INFO TEST", MB_OK);
 
 	// Fix Flash for old clients
 	if (ClientVersion <= 6186) {
