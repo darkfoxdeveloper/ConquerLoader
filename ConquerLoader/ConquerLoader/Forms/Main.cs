@@ -276,6 +276,12 @@ namespace ConquerLoader.Forms
                             {
                                 SelectedServer.ServerNameMemoryAddress = "0x00CD7240";
                             }
+                            // Fix for this range of versions 5180 - 5200
+                            if (SelectedServer.ServerVersion >= 5180 && SelectedServer.ServerVersion <= 5200)
+                            {
+                                SelectedServer.ServerNameMemoryAddress = "0x0071E688";
+                            }
+                            Core.LogWritter.Write("Using Servername Change with Address: " + SelectedServer.ServerNameMemoryAddress);
                         }
                     }
                     else
