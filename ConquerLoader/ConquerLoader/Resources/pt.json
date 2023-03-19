@@ -118,5 +118,9 @@
   {
     "id": "btnLockConfig",
     "text": "Config. bloqueio"
+  },
+  {
+    "id": "lblDisableScreenChanges",
+    "text": "Desact. alterações de tela"
   }
 ]

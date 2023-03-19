@@ -303,34 +303,38 @@ namespace ConquerLoader.Forms
                         );
                     Core.LogWritter.Write("Created the Hook Configuration");
                     // Modify Setup of client
-                    string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
-                    IniManager parser = new IniManager(SetupIniPath, "ScreenMode");
-                    parser.Write("ScreenMode", "FullScrType", LoaderConfig.FullScreen ? "0" : "1");
-                    if (LoaderConfig.HighResolution)
+                    if (!LoaderConfig.DisableScreenChanges)
                     {
-                        parser.Write("ScreenMode", "ScrWidth", "1024");
-                        parser.Write("ScreenMode", "ScrHeight", "768");
-                        /*
-                         * ScreenModeRecord
-                         *  0 = 800x600, windowed
-                            1 = 800x600, full-screen
-                            2 = 1024x768, windowed
-                            3 = 1024x768, full-screen
-                         * */
-                        parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "3" : "2");
-                    }
-                    else
-                    {
-                        parser.Write("ScreenMode", "ScrWidth", "800");
-                        parser.Write("ScreenMode", "ScrHeight", "600");
-                        /*
-                         * ScreenModeRecord
-                         *  0 = 800x600, windowed
-                            1 = 800x600, full-screen
-                            2 = 1024x768, windowed
-                            3 = 1024x768, full-screen
-                         * */
-                        parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
+                        Core.LogWritter.Write("Changing Screen Options...");
+                        string SetupIniPath = Path.Combine(Directory.GetCurrentDirectory(), "ini", "GameSetup.ini");
+                        IniManager parser = new IniManager(SetupIniPath, "ScreenMode");
+                        parser.Write("ScreenMode", "FullScrType", LoaderConfig.FullScreen ? "0" : "1");
+                        if (LoaderConfig.HighResolution)
+                        {
+                            parser.Write("ScreenMode", "ScrWidth", "1024");
+                            parser.Write("ScreenMode", "ScrHeight", "768");
+                            /*
+                             * ScreenModeRecord
+                             *  0 = 800x600, windowed
+                                1 = 800x600, full-screen
+                                2 = 1024x768, windowed
+                                3 = 1024x768, full-screen
+                             * */
+                            parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "3" : "2");
+                        }
+                        else
+                        {
+                            parser.Write("ScreenMode", "ScrWidth", "800");
+                            parser.Write("ScreenMode", "ScrHeight", "600");
+                            /*
+                             * ScreenModeRecord
+                             *  0 = 800x600, windowed
+                                1 = 800x600, full-screen
+                                2 = 1024x768, windowed
+                                3 = 1024x768, full-screen
+                             * */
+                            parser.Write("ScreenMode", "ScreenModeRecord", LoaderConfig.FullScreen ? "1" : "0");
+                        }
                     }
                     worker.RunWorkerAsync();
                 }

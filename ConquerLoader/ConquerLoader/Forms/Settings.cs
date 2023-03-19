@@ -30,8 +30,8 @@ namespace ConquerLoader
             langSelector.Items.Add("English");
             langSelector.Items.Add("Español");
             langSelector.Items.Add("Português");
-            pbFlag.Visible = Directory.Exists("es") || Directory.Exists("pt");
-            langSelector.Visible = Directory.Exists("es") || Directory.Exists("pt");
+            pbFlag.Visible = false; //disable for now change lang
+            langSelector.Visible = false; //disable for now change lang
             CurrentLoaderConfig = Core.GetLoaderConfig();
             if (CurrentLoaderConfig != null)
             {
@@ -60,6 +60,7 @@ namespace ConquerLoader
                 tglFullscreen.Checked = CurrentLoaderConfig.FullScreen;
                 tglServerNameChange.Checked = CurrentLoaderConfig.ServernameChange;
                 tglDisableAutoFixFlash.Checked = CurrentLoaderConfig.DisableAutoFixFlash;
+                tglDisableScreenChanges.Checked = CurrentLoaderConfig.DisableScreenChanges;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
@@ -108,6 +109,11 @@ namespace ConquerLoader
         private void TglDisableAutoFixFlash_CheckedChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.DisableAutoFixFlash = (sender as MetroToggle).Checked;
+        }
+
+        private void TglDisableScreenChanges_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.DisableScreenChanges = (sender as MetroToggle).Checked;
         }
 
         private void BtnWizard_Click(object sender, EventArgs e)

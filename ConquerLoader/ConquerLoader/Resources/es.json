@@ -118,5 +118,9 @@
   {
     "id": "btnLockConfig",
     "text": "Bloq. Config."
+  },
+  {
+    "id": "lblDisableScreenChanges",
+    "text": "Desact. Cambios Pantalla"
   }
 ]

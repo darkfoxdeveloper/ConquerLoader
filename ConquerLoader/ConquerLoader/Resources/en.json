@@ -118,5 +118,9 @@
   {
     "id": "btnLockConfig",
     "text": "Lock Config"
+  },
+  {
+    "id": "lblDisableScreenChanges",
+    "text": "Disable Screen Changes"
   }
 ]
