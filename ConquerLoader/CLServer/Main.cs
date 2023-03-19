@@ -16,7 +16,7 @@ namespace CLServer
             Resizable = false;
 
             // Setup a socket server
-            _CLServer = new CLCore.CLServer("SKSK-B6FC-JFOQ-7DTQ", 8000);
+            _CLServer = new CLCore.CLServer("0967ddad-1f18-44cf-9ed6-26242b8595ed", 8000);
             _CLServer.DetectedNotAllowedIP += CLServer_DetectedNotAllowedIP;
             _CLServer.TcpServer.ClientConnected += Server_ClientConnected;
             _CLServer.TcpServer.ClientDisconnected += Server_ClientDisconnected;

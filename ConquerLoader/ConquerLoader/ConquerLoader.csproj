@@ -92,10 +92,6 @@
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="MindFusion.Common, Version=1.3.3.451, Culture=neutral, PublicKeyToken=dd7449df9ffcc455" />
-    <Reference Include="MindFusion.Licensing, Version=1.0.4.38034, Culture=neutral, PublicKeyToken=9d02e21d957ddaef" />
-    <Reference Include="MindFusion.Svg, Version=1.2.2.451, Culture=neutral, PublicKeyToken=dd7449df9ffcc455" />
-    <Reference Include="MindFusion.UI.WinForms, Version=1.2.1.450, Culture=neutral, PublicKeyToken=dd7449df9ffcc455, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>

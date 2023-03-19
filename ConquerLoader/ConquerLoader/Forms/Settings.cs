@@ -114,6 +114,17 @@ namespace ConquerLoader
         private void TglDisableScreenChanges_CheckedChanged(object sender, EventArgs e)
         {
             CurrentLoaderConfig.DisableScreenChanges = (sender as MetroToggle).Checked;
+            if (CurrentLoaderConfig.DisableScreenChanges)
+            {
+                tglFullscreen.Checked = false;
+                tglFullscreen.Enabled = false;
+                tglHighResolution.Checked = false;
+                tglHighResolution.Enabled = false;
+            } else
+            {
+                tglFullscreen.Enabled = true;
+                tglHighResolution.Enabled = true;
+            }
         }
 
         private void BtnWizard_Click(object sender, EventArgs e)

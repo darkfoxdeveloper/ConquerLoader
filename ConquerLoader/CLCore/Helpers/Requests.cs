@@ -16,5 +16,13 @@ namespace CLCore
             var byteContent = new ByteArrayContent(buffer);
             return HttpClient.PostAsync(Uri, byteContent).Result;
         }
+        public static HttpResponseMessage PUT(string Uri, string Content)
+        {
+            HttpClient HttpClient = new HttpClient();
+            var buffer = System.Text.Encoding.UTF8.GetBytes(Content);
+            var byteContent = new ByteArrayContent(buffer);
+            var result = HttpClient.PutAsync(Uri, byteContent).Result;
+            return result;
+        }
     }
 }
