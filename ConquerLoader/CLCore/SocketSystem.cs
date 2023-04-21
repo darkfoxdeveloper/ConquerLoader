@@ -1,12 +1,19 @@
-﻿using SimpleTCP;
+﻿using CLCore.Models.DTOs;
+using SimpleTCP;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
 namespace CLCore
 {
+    public static class CLServerConfig
+    {
+        public static string APIBaseUri = "https://api.conquerloader.com";
+        public static uint ServerPort = 8000;
+    }
     public class ConnectionEvent
     {
         public string IPAddress { get; set; }
@@ -20,7 +27,6 @@ namespace CLCore
         public event NotAllowedIP DetectedNotAllowedIP;
         private System.Timers.Timer WatcherTimer { get; set; }
         private Models.LogWritter LogWritter { get; set; }
-        private string API_BASE_URL = "https://conquerloader.com/api/v1/167635d839c027b0c965cfa0f995dc43$";
         private string API_GET_CONNECTIONS = "";
         private string API_SET_CONNECTIONS = "";
         private string API_HAVE_CONNECTIONS = "";
@@ -29,58 +35,67 @@ namespace CLCore
         /// Launch CLServer
         /// </summary>
         /// <param name="LicenseKey"></param>
-        public CLServer(string LicenseKey)
+        public CLServer(string LicenseKey, bool ServerMode = false)
         {
             API_LICENSE_KEY = LicenseKey;
             Init();
-            if (HaveConnectionsFromAPI())
+            if (ServerMode)
             {
-                GetConnectionsFromAPI();
+                API_LICENSE_KEY = LicenseKey;
+                Init();
+                bool SetToApi = SetConnectionsToAPI(true);
+                if (SetToApi)
+                {
+                    TcpServer = new SimpleTcpServer().Start((int)CLServerConfig.ServerPort);
+                    DetectedNotAllowedIP += CLServer_DetectedNotAllowedIP;
+
+                    // Setup a socket server
+                    TcpServer.ClientConnected += Server_ClientConnected;
+                    TcpServer.ClientDisconnected += Server_ClientDisconnected;
+                    TcpServer.Delimiter = 0x13;
+                    //Server.TcpServer.DelimiterDataReceived += (sendr, msg) =>
+                    //{
+                    //    if (msg.MessageString.StartsWith("/"))
+                    //        {
+                    //            string[] parameters = msg.MessageString.TrimStart('/').Split(' ');
+                    //            switch (parameters[0])
+                    //            {
+                    //                case "autoclick_detected":
+                    //                    break;
+                    //                default:
+                    //                    break;
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //        }
+                    //};
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot connect to ConquerLoader API. Contact with darkfoxdeveloper@gmail.com for any question or problem.", "CLCore", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Environment.Exit(255);
+                }
+            } else
+            {
+                if (HaveConnectionsFromAPI())
+                {
+                    GetConnectionsFromAPI();
+                }
             }
         }
-        /// <summary>
-        /// Launch and Start CLServer
-        /// </summary>
-        /// <param name="LicenseKey">License key of Loader</param>
-        /// <param name="Port">Port for use</param>
-        public CLServer(string LicenseKey, uint Port)
+        public bool Demo()
         {
-            API_LICENSE_KEY = LicenseKey;
-            Init();
-            SetConnectionsToAPI(true);
-            TcpServer = new SimpleTcpServer().Start((int)Port);
-            DetectedNotAllowedIP += CLServer_DetectedNotAllowedIP;
-
-            // Setup a socket server
-            TcpServer.ClientConnected += Server_ClientConnected;
-            TcpServer.ClientDisconnected += Server_ClientDisconnected;
-            TcpServer.Delimiter = 0x13;
-            //Server.TcpServer.DelimiterDataReceived += (sendr, msg) =>
-            //{
-            //    if (msg.MessageString.StartsWith("/"))
-            //        {
-            //            string[] parameters = msg.MessageString.TrimStart('/').Split(' ');
-            //            switch (parameters[0])
-            //            {
-            //                case "autoclick_detected":
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-            //        else
-            //        {
-            //        }
-            //};
+            return SetConnectionsToAPI(true);
         }
         private void Init()
         {
             Constants.LicenseKey = API_LICENSE_KEY;
-            API_HAVE_CONNECTIONS = $"{API_BASE_URL}/HaveConnections/{Constants.LicenseKey}";
-            API_GET_CONNECTIONS = $"{API_BASE_URL}/GetConnections/{Constants.LicenseKey}";
-            API_SET_CONNECTIONS = $"{API_BASE_URL}/SetConnections/{Constants.LicenseKey}";
+            API_HAVE_CONNECTIONS = $"{CLServerConfig.APIBaseUri}/Connection/HasAny/{Constants.LicenseKey}";
+            API_GET_CONNECTIONS = $"{CLServerConfig.APIBaseUri}/Connection/List/{Constants.LicenseKey}";
+            API_SET_CONNECTIONS = $"{CLServerConfig.APIBaseUri}/Connection/Set/{Constants.LicenseKey}";
             Connections = new List<ConnectionEvent>();
-            LogWritter = new Models.LogWritter("CLServer.log");
+            LogWritter = new Models.LogWritter(Path.Combine(Directory.GetCurrentDirectory(), "CLServer.log"));
         }
 
         private bool HaveConnectionsFromAPI()
@@ -92,7 +107,8 @@ namespace CLCore
         {
             string result = HttpRequests.GET(API_GET_CONNECTIONS).Content.ReadAsStringAsync().Result;
             List<string> IPList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(result);
-            foreach(string IP in IPList)
+            Connections.Clear(); // Clear previous
+            foreach (string IP in IPList)
             {
                 Connections.Add(new ConnectionEvent() { IPAddress = IP });
             }
@@ -101,16 +117,17 @@ namespace CLCore
 
         private bool SetConnectionsToAPI(bool Clear = false)
         {
-            List<string> IPs = new List<string>();
+            List<ConnectionDTO> IPs = new List<ConnectionDTO>();
             if (!Clear)
             {
                 foreach (ConnectionEvent ce in Connections)
                 {
-                    IPs.Add(ce.IPAddress);
+                    IPs.Add(new ConnectionDTO() { IPAddress = ce.IPAddress });
                 }
             }
             LogWritter.Write(string.Format("IPs for API: {0}", IPs.Count));
-            return HttpRequests.POST(API_SET_CONNECTIONS, Newtonsoft.Json.JsonConvert.SerializeObject(IPs, Newtonsoft.Json.Formatting.Indented)).IsSuccessStatusCode;
+            bool Success = HttpRequests.JsonPOST(API_SET_CONNECTIONS, IPs).IsSuccessStatusCode;
+            return Success;
         }
 
         private void CLServer_DetectedNotAllowedIP(string IPAddress)
@@ -147,10 +164,10 @@ namespace CLCore
             }
             LogWritter.Write(string.Format("[DEBUG] Total connections: {0}", Connections.Count()));
             LogWritter.Write(string.Format("[DEBUG] Checking if valid IP: {0}", IPAddress));
-            if (IsLocalIpAddress(IPAddress))
-            {
-                return true;
-            }
+            //if (IsLocalIpAddress(IPAddress))
+            //{
+            //    return true;
+            //}
             return Connections.Where(x => x.IPAddress == IPAddress).Count() > 0;
         }
         public bool IsLocalIpAddress(string host)

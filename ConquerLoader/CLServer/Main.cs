@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLCore;
+using System;
 using System.Windows.Forms;
 
 namespace CLServer
@@ -16,13 +17,14 @@ namespace CLServer
             Resizable = false;
 
             // Setup a socket server
-            _CLServer = new CLCore.CLServer("0967ddad-1f18-44cf-9ed6-26242b8595ed", 8000);
+            CLServerConfig.APIBaseUri = "https://localhost:7198/api";
+            _CLServer = new CLCore.CLServer("2d32a164-fcd5-486b-b43f-005a78274caf", true);
             _CLServer.DetectedNotAllowedIP += CLServer_DetectedNotAllowedIP;
             _CLServer.TcpServer.ClientConnected += Server_ClientConnected;
             _CLServer.TcpServer.ClientDisconnected += Server_ClientDisconnected;
             Invoke(new MethodInvoker(() =>
             {
-                logBox.AppendText(string.Format("CLServer is started in Port 8000") + Environment.NewLine);
+                logBox.AppendText(string.Format($"CLServer is started in Port {CLServerConfig.ServerPort}") + Environment.NewLine);
             }));
         }
 
@@ -52,13 +54,26 @@ namespace CLServer
 
         private void BtnTest_Click(object sender, EventArgs e)
         {
-            CLCore.CLServer sTest = new CLCore.CLServer("SKSK-B6FC-JFOQ-7DTQ");
-            MessageBox.Show(sTest.CheckConnectionByIP("127.0.0.1")+"");
+            QuestionBox qBox = new QuestionBox("Check connection by IP", "Specify the IPAddress for check if are online");
+            if (qBox.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(_CLServer.CheckConnectionByIP(qBox.Answer) ? $"{qBox.Answer} Is Connected" : $"{qBox.Answer} Is NOT Connected");
+            }
         }
 
         private void BtnConnections_Click(object sender, EventArgs e)
         {
             MessageBox.Show(_CLServer.Connections.Count+"");
+        }
+
+        private void BtnDummyConnections_Click(object sender, EventArgs e)
+        {
+            _CLServer.Connections.Add(new CLCore.ConnectionEvent() { IPAddress = "127.0.0.1" });
+            _CLServer.Connections.Add(new CLCore.ConnectionEvent() { IPAddress = "192.168.1.1" });
+            if (!_CLServer.Demo())
+            {
+                MessageBox.Show("API Not available.");
+            }
         }
     }
 }

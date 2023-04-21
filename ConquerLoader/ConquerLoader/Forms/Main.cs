@@ -474,8 +474,8 @@ namespace ConquerLoader.Forms
                         // Try connect to CLServer
                         try
                         {
-                            SocketSystem.CurrentSocketClient = new CLClient(SelectedServer.LoginHost, 8000);
-                            Core.LogWritter.Write(string.Format("CLClient connected at CLServer with port {0}.", 8000));
+                            SocketSystem.CurrentSocketClient = new CLClient(SelectedServer.LoginHost, CLServerConfig.ServerPort);
+                            Core.LogWritter.Write(string.Format("CLClient connected at CLServer with port {0}.", CLServerConfig.ServerPort));
                         }
                         catch (Exception ex) // Prevent break process of loader
                         {

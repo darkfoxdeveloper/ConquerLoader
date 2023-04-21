@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ConfigFilesEncryption.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Models\DTOs\ConnectionDTO.cs" />
     <Compile Include="Models\LoaderEvents.cs" />
     <Compile Include="Models\LogWritter.cs" />
     <Compile Include="Models\IniManager.cs" />
