@@ -31,8 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.logBox = new System.Windows.Forms.RichTextBox();
             this.btnTest = new MetroFramework.Controls.MetroButton();
-            this.btnConnections = new MetroFramework.Controls.MetroButton();
-            this.btnDummyConnections = new MetroFramework.Controls.MetroButton();
+            this.lblNumberConnections = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // logBox
@@ -40,64 +39,49 @@
             this.logBox.BackColor = System.Drawing.Color.Black;
             this.logBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.logBox.ForeColor = System.Drawing.Color.White;
-            this.logBox.Location = new System.Drawing.Point(44, 169);
-            this.logBox.Margin = new System.Windows.Forms.Padding(4);
+            this.logBox.Location = new System.Drawing.Point(23, 122);
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
-            this.logBox.Size = new System.Drawing.Size(969, 369);
+            this.logBox.Size = new System.Drawing.Size(727, 295);
             this.logBox.TabIndex = 0;
             this.logBox.Text = "";
+            this.logBox.TextChanged += new System.EventHandler(this.logBox_TextChanged);
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(768, 122);
-            this.btnTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTest.Location = new System.Drawing.Point(535, 63);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(245, 39);
+            this.btnTest.Size = new System.Drawing.Size(215, 53);
             this.btnTest.TabIndex = 1;
-            this.btnTest.Text = "Is Connected?";
+            this.btnTest.Text = "Check connection by IP";
             this.btnTest.UseSelectable = true;
             this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
-            // btnConnections
+            // lblNumberConnections
             // 
-            this.btnConnections.Location = new System.Drawing.Point(423, 122);
-            this.btnConnections.Margin = new System.Windows.Forms.Padding(4);
-            this.btnConnections.Name = "btnConnections";
-            this.btnConnections.Size = new System.Drawing.Size(218, 39);
-            this.btnConnections.TabIndex = 2;
-            this.btnConnections.Text = "N Connections";
-            this.btnConnections.UseSelectable = true;
-            this.btnConnections.Click += new System.EventHandler(this.BtnConnections_Click);
-            // 
-            // btnDummyConnections
-            // 
-            this.btnDummyConnections.Location = new System.Drawing.Point(44, 122);
-            this.btnDummyConnections.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDummyConnections.Name = "btnDummyConnections";
-            this.btnDummyConnections.Size = new System.Drawing.Size(371, 39);
-            this.btnDummyConnections.TabIndex = 3;
-            this.btnDummyConnections.Text = "Add Dummy Connections";
-            this.btnDummyConnections.UseSelectable = true;
-            this.btnDummyConnections.Click += new System.EventHandler(this.BtnDummyConnections_Click);
+            this.lblNumberConnections.AutoSize = true;
+            this.lblNumberConnections.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblNumberConnections.Location = new System.Drawing.Point(23, 420);
+            this.lblNumberConnections.Name = "lblNumberConnections";
+            this.lblNumberConnections.Size = new System.Drawing.Size(88, 19);
+            this.lblNumberConnections.TabIndex = 3;
+            this.lblNumberConnections.Text = "0 connections";
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 562);
-            this.Controls.Add(this.btnDummyConnections);
-            this.Controls.Add(this.btnConnections);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblNumberConnections);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.logBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Main";
-            this.Padding = new System.Windows.Forms.Padding(27, 75, 27, 25);
             this.Text = "CLServer";
             this.Load += new System.EventHandler(this.Main_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -105,8 +89,7 @@
 
         private System.Windows.Forms.RichTextBox logBox;
         private MetroFramework.Controls.MetroButton btnTest;
-        private MetroFramework.Controls.MetroButton btnConnections;
-        private MetroFramework.Controls.MetroButton btnDummyConnections;
+        private MetroFramework.Controls.MetroLabel lblNumberConnections;
     }
 }
 

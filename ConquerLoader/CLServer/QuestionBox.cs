@@ -10,7 +10,7 @@
         public QuestionBox(string Title, string Question)
         {
             InitializeComponent();
-            this.Name = Title;
+            this.Text = Title;
             this.lblQuestion.Text = Question;
         }
 
@@ -23,6 +23,11 @@
             Answer = this.tbxAnswer.Text;
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
+        }
+
+        private void QuestionBox_Load(object sender, System.EventArgs e)
+        {
+            this.Resizable = false;
         }
     }
 }

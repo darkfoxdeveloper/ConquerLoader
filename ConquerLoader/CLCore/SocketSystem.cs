@@ -84,10 +84,6 @@ namespace CLCore
                 }
             }
         }
-        public bool Demo()
-        {
-            return SetConnectionsToAPI(true);
-        }
         private void Init()
         {
             Constants.LicenseKey = API_LICENSE_KEY;

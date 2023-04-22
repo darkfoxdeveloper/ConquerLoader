@@ -57,23 +57,19 @@ namespace CLServer
             QuestionBox qBox = new QuestionBox("Check connection by IP", "Specify the IPAddress for check if are online");
             if (qBox.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(_CLServer.CheckConnectionByIP(qBox.Answer) ? $"{qBox.Answer} Is Connected" : $"{qBox.Answer} Is NOT Connected");
+                if (qBox.Text.Length > 0 && uint.TryParse(qBox.Text, out uint IP))
+                {
+                    MessageBox.Show(_CLServer.CheckConnectionByIP(IP.ToString()) ? $"{IP} Is Connected" : $"{IP} Is NOT Connected");
+                } else
+                {
+                    MessageBox.Show("No specified valid IP", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 
-        private void BtnConnections_Click(object sender, EventArgs e)
+        private void logBox_TextChanged(object sender, EventArgs e)
         {
-            MessageBox.Show(_CLServer.Connections.Count+"");
-        }
-
-        private void BtnDummyConnections_Click(object sender, EventArgs e)
-        {
-            _CLServer.Connections.Add(new CLCore.ConnectionEvent() { IPAddress = "127.0.0.1" });
-            _CLServer.Connections.Add(new CLCore.ConnectionEvent() { IPAddress = "192.168.1.1" });
-            if (!_CLServer.Demo())
-            {
-                MessageBox.Show("API Not available.");
-            }
+            lblNumberConnections.Text = $"{_CLServer.Connections.Count} connections";
         }
     }
 }
