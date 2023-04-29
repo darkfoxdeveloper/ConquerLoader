@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace CLCore
 {
@@ -42,25 +43,27 @@ namespace CLCore
 			}
 		}
 
-		public int LoadPluginsFromAPI(LoaderConfig LoaderConfig)
+		public async Task<int> LoadPluginsFromAPI(LoaderConfig LoaderConfig)
 		{
 			int Loaded = 0;
-			if (LoaderConfig != null)
+			if (LoaderConfig != null && LoaderConfig.LicenseKey != null)
 			{
 				Plugins = new List<IPlugin>();
 
 				HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.GetAsync($"{CLServerConfig.APIBaseUri}/GetUserModules/" + LoaderConfig.LicenseKey).Result;
-                //HttpResponseMessage response = client.GetAsync("https://conquerloader.com/api/v1/167635d839c027b0c965cfa0f995dc43$/GetUserModules/" + LoaderConfig.LicenseKey).Result;
+                HttpResponseMessage response = client.GetAsync($"{CLServerConfig.APIBaseUri}/Plugin/MyPlugins/" + LoaderConfig.LicenseKey).Result;
 				if (response.IsSuccessStatusCode)
 				{
 					string result = response.Content.ReadAsStringAsync().Result;
 					List<APIRemoteModule> apiRemoteModules = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APIRemoteModule>>(result);
 					foreach (APIRemoteModule m in apiRemoteModules)
 					{
-						Assembly.Load(m.Content);
-						Loaded++;
-					}
+                        HttpResponseMessage responsePluginContent = client.GetAsync($"{CLServerConfig.APIBaseUri}/Plugin/DownloadPlugin/{LoaderConfig.LicenseKey}/{m.Name}").Result;
+						byte[] ContentPluginBytes = await responsePluginContent.Content.ReadAsByteArrayAsync();
+						m.Content = ContentPluginBytes;
+                        Assembly.Load(ContentPluginBytes);
+                        Loaded++;
+                    }
 				}
 
 				Type interfaceType = typeof(IPlugin);
@@ -80,7 +83,9 @@ namespace CLCore
 
 		protected class APIRemoteModule
 		{
-			public string Filename { get; set; }
+			public uint Id { get; set; }
+			public string Name { get; set; }
+            public uint LicenseId { get; set; }
 			public byte[] Content { get; set; }
 		}
 	}

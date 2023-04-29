@@ -40,7 +40,7 @@ namespace ConquerLoader.Forms
             if (LoaderConfig != null) Constants.CloseOnFinish = LoaderConfig.CloseOnFinish;
             Constants.MainWorker = worker;
             Core.LoadAvailablePlugins();
-            //Core.LoadRemotePlugins(); Is a slow method for this :( for now this is disabled
+            Core.LoadRemotePlugins(); // Experimental
             Core.InitPlugins();
             DX9Allowed = Core.DirectXVersion() >= 9;
         }

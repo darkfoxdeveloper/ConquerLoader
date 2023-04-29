@@ -17,7 +17,6 @@ namespace CLServer
             Resizable = false;
 
             // Setup a socket server
-            CLServerConfig.APIBaseUri = "https://localhost:7198/api";
             _CLServer = new CLCore.CLServer("2d32a164-fcd5-486b-b43f-005a78274caf", true);
             _CLServer.DetectedNotAllowedIP += CLServer_DetectedNotAllowedIP;
             _CLServer.TcpServer.ClientConnected += Server_ClientConnected;
