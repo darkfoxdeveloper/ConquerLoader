@@ -25,6 +25,7 @@ namespace ConquerLoader.Forms
         public Main()
         {
             InitializeComponent();
+            CLTheme.MainControls = this.Controls;
             this.Resizable = false;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
             LoaderConfig = Core.GetLoaderConfig();

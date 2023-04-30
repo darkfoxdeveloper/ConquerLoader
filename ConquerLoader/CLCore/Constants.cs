@@ -1,4 +1,6 @@
-﻿namespace CLCore
+﻿using System.Windows.Forms;
+
+namespace CLCore
 {
 	public static class Constants
 	{
@@ -14,7 +16,11 @@
 		public static string LockConfigurationKey = "CONQUERLOADERDFX";
 		public static int MinVersionUseDX8DX9Folders = 6371;
 		public static bool EnableCLServerConnections = true; // manual de momento
-	}
+    }
+	public static class CLTheme
+	{
+        public static Control.ControlCollection MainControls = null;
+    }
 	public enum PluginType
 	{
 		FREE,
