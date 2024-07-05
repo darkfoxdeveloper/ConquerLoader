@@ -9,7 +9,7 @@ ConquerLoader is a software intercepts the connection on the client to make it p
 Can request features in oficial website: https://conquerloader.com/requests/
 
 ## About current development
-We are working on a new CLServer and better method for extending system with plugins (Added a new method for change theme by plugin in v1.0.0.6)
+For now paused the development about this project because no donations received and any help for nothing, not have time for spend for now.
 
 ## Related repositories
 - Change theme with a plugin. Basic demo in: https://github.com/darkfoxdeveloper/FlatThemeCL
