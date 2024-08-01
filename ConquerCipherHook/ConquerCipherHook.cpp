@@ -7,10 +7,12 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "buffer.h"
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "user32.lib")
 
 using namespace std;
+using namespace ConquerCipherHookBufferUtils;
 
 #define lib_func(lib, func) (GetProcAddress(GetModuleHandleA(lib), func))
 
@@ -73,6 +75,11 @@ int __stdcall csv3_send(SOCKET s, PBYTE buf, int len, int flags)
 
 		// Password without encryption
 		strcat((char*)&buf[72], szPassword);
+
+		// Password with encryption for Canyon Source
+		//buffer::encrypt(szPassword, strlen(szPassword));
+		//buffer::write_uint16(buf, 1542, 2);
+		//buffer::write_char(buf, szPassword, strlen(szPassword), 60);
 
 		// Password with XOR encription
 		/*char* szPasswordEncrypted = new char[XOR_PasswordEncrypt(szPassword).length() + 1];

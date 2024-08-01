@@ -27,6 +27,9 @@
     <ClInclude Include="LegacyCipher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="ConquerCipherHook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

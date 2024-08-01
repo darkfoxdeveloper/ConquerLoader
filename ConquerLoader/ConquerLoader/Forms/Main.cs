@@ -359,7 +359,7 @@ namespace ConquerLoader.Forms
             string WorkingDir = Path.GetDirectoryName(PathToConquerExe);
             bool NoUseDX8_DX9 = true;
             bool UseDecryptedServerDat = false;
-            bool AlreadyUsingLoader = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length >= 2;
+            bool AlreadyUsingLoader = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length >= 1;
             if (AlreadyUsingLoader)
             {
                 Core.LogWritter.Write("Detected already using ConnquerLoader.");
