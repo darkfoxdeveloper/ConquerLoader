@@ -2,7 +2,6 @@
 using CLCore.Models;
 using ConquerLoader.Models;
 using MetroFramework.Controls;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,34 +60,8 @@ namespace ConquerLoader.Forms
 
             LoaderEvents.LauncherLoadedStartEvent();
 
-            bool InstaledCPlusRedistributableX86 = false;
-            bool InstaledCPlusRedistributableX64 = false;
-            try
-            {
-                RegistryKey keyX64 = Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Microsoft").OpenSubKey("VisualStudio").OpenSubKey("14.0").OpenSubKey("VC").OpenSubKey("Runtimes").OpenSubKey("x64");
-                if (keyX64 != null)
-                {
-                    Object o = keyX64.GetValue("Installed");
-                    if (o.ToString() == "1")
-                    {
-                        InstaledCPlusRedistributableX64 = true;
-                        Core.LogWritter.Write("Detected C++ Redistributable X64.");
-                    }
-                }
-                RegistryKey keyX32 = Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Microsoft").OpenSubKey("VisualStudio").OpenSubKey("14.0").OpenSubKey("VC").OpenSubKey("Runtimes").OpenSubKey("x86");
-                if (keyX32 != null)
-                {
-                    Object o = keyX32.GetValue("Installed");
-                    if (o.ToString() == "1")
-                    {
-                        InstaledCPlusRedistributableX86 = true;
-                        Core.LogWritter.Write("Detected C++ Redistributable X86.");
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
+            bool InstaledCPlusRedistributableX64 = Core.IsVCRuntimeInstalled("x64");
+            bool InstaledCPlusRedistributableX86 = Core.IsVCRuntimeInstalled("x86");
 
             // Install the C++ redistributable 2015-2019 if need
             if (!InstaledCPlusRedistributableX64 && Environment.Is64BitOperatingSystem)
@@ -395,12 +368,9 @@ namespace ConquerLoader.Forms
                         if (SelectedServer.ServerVersion >= 6371 && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat)
                         {
                             RebuildServerDat();
-                            if (!AlreadyUsingLoader)
-                            {
-                                File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
-                                File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
-                            }
                             Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
+                            SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp, ex => Core.LogWritter.Write(ex.ToString()));
+                            SafeIO.TryWriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371, ex => Core.LogWritter.Write(ex.ToString()));
                         }
                     }
                     NoUseDX8_DX9 = false;
@@ -423,12 +393,9 @@ namespace ConquerLoader.Forms
                             if (SelectedServer.ServerVersion >= 6600)
                             {
                                 RebuildServerDat();
-                                if (!AlreadyUsingLoader)
-                                {
-                                    File.WriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp);
-                                    File.WriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371);
-                                }
                                 Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
+                                SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp, ex => Core.LogWritter.Write(ex.ToString()));
+                                SafeIO.TryWriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371, ex => Core.LogWritter.Write(ex.ToString()));
                             }
                         }
                         NoUseDX8_DX9 = false;

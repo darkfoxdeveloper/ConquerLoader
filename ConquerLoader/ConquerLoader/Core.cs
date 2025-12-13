@@ -230,5 +230,41 @@ namespace ConquerLoader
                 }
             }
         }
+        public static bool IsVCRuntimeInstalled(string arch)
+        {
+            string subKey = $@"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\{arch}";
+
+            bool Check(RegistryView view)
+            {
+                var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
+                var key = baseKey.OpenSubKey(subKey);
+                if (key == null) return false;
+
+                var installed = key.GetValue("Installed");
+                return installed is int i && i == 1;
+            }
+
+            // Probamos ambas vistas por si la app es 32-bit o 64-bit
+            return Check(RegistryView.Registry64) || Check(RegistryView.Registry32);
+        }
+    }
+    public static class SafeIO
+    {
+        public static bool TryWriteAllBytes(
+            string path,
+            byte[] data,
+            Action<Exception> onError = null)
+        {
+            try
+            {
+                File.WriteAllBytes(path, data);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                onError?.Invoke(ex);
+                return false;
+            }
+        }
     }
 }
