@@ -169,4 +169,10 @@
   <data name="lang-en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\en.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="CLHook_Legacy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLHook_Legacy.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ConquerCipherHook" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ConquerCipherHook.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -78,6 +78,30 @@ namespace ConquerLoader.Forms
             }
         }
 
+        private void GenerateRequiredDLL()
+        {
+            Core.LogWritter.Write("Generating Required DLLs...");
+            string PathToConquerExe = Path.Combine(Application.StartupPath, SelectedServer.ExecutableName);
+            string WorkingDir = Path.GetDirectoryName(PathToConquerExe);
+            // Generate required dlls if are necessary
+            if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "CLHook.dll")))
+            {
+                Core.LogWritter.Write("Generated CLHook.dll");
+                SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "CLHook.dll"), Properties.Resources.CLHook_Legacy, ex => Core.LogWritter.Write(ex.ToString()));
+            } else
+            {
+                Core.LogWritter.Write("Using existing CLHook.dll");
+            }
+            if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "ConquerCipherHook.dll")))
+            {
+                Core.LogWritter.Write("Generated ConquerCipherHook.dll");
+                SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "ConquerCipherHook.dll"), Properties.Resources.ConquerCipherHook, ex => Core.LogWritter.Write(ex.ToString()));
+            } else
+            {
+                Core.LogWritter.Write("Using existing ConquerCipherHook.dll");
+            }
+        }
+
         //  The NotifyIcon object
         private void TrayMinimizerForm_Resize(object sender, EventArgs e)
         {
@@ -337,8 +361,9 @@ namespace ConquerLoader.Forms
             {
                 Core.LogWritter.Write("Detected already using ConnquerLoader.");
             }
+            GenerateRequiredDLL();
             // If using 6000 Version or more the HookDLL Used is COHook.dll
-            if (SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat)
+            if ((SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat) || Constants.ForceServerDat)
             {
                 HookDLL = "COHook.dll";
                 Core.LogWritter.Write("Using Custom Server.dat...");

@@ -286,6 +286,8 @@
   <ItemGroup>
     <Content Include="ConquerLoaderLogo.ico" />
     <Compile Include="Models\TextTranslation.cs" />
+    <Content Include="Resources\CLHook_Legacy.dll" />
+    <Content Include="Resources\ConquerCipherHook.dll" />
     <None Include="Resources\en.json" />
     <None Include="Resources\es.json" />
     <None Include="Resources\pt.json" />

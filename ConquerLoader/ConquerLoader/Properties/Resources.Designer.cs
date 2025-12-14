@@ -63,6 +63,16 @@ namespace ConquerLoader.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        internal static byte[] CLHook_Legacy {
+            get {
+                object obj = ResourceManager.GetObject("CLHook_Legacy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         internal static byte[] COFlashFixer_DLL {
             get {
                 object obj = ResourceManager.GetObject("COFlashFixer_DLL", resourceCulture);
@@ -96,6 +106,16 @@ namespace ConquerLoader.Properties {
         internal static byte[] COHook6371 {
             get {
                 object obj = ResourceManager.GetObject("COHook6371", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] ConquerCipherHook {
+            get {
+                object obj = ResourceManager.GetObject("ConquerCipherHook", resourceCulture);
                 return ((byte[])(obj));
             }
         }

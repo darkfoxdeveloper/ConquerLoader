@@ -16,6 +16,7 @@ namespace CLCore
 		public static string LockConfigurationKey = "CONQUERLOADERDFX";
 		public static int MinVersionUseDX8DX9Folders = 6371;
 		public static bool EnableCLServerConnections = true; // manual de momento
+        public static bool ForceServerDat = false;
     }
 	public static class CLTheme
 	{
