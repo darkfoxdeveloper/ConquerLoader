@@ -353,6 +353,10 @@ namespace ConquerLoader.Forms
 
         private void Worker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            if (CustomDLLs)
+            {
+                HookDLL = "COHook.dll";
+            }
             // Do start conquer and inject
             Core.LogWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
             string PathToConquerExe = Path.Combine(Application.StartupPath, SelectedServer.ExecutableName);
@@ -533,12 +537,12 @@ namespace ConquerLoader.Forms
                     {
                         if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
                         {
-                            Core.LogWritter.Write("Injection Hook failed!");
+                            Core.LogWritter.Write($"Injection {HookDLL} failed!");
                             MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {
-                            Core.LogWritter.Write("Injected Hook successfully!");
+                            Core.LogWritter.Write($"Injected {HookDLL} successfully!");
                         }
                     }
                     worker.ReportProgress(100);
