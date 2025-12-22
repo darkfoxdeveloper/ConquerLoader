@@ -122,5 +122,9 @@
   {
     "id": "lblDisableScreenChanges",
     "text": "Desact. alterações de tela"
+  },
+  {
+    "id": "lblUseCustomDLLs",
+    "text": "Usar DLL personalizada"
   }
 ]

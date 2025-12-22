@@ -18,6 +18,7 @@ namespace CLCore.Models
         public string Lang { get; set; }
         public string LicenseKey { get; set; }
         public bool DisableScreenChanges { get; set; }
+        public bool UseCustomDLLs { get; set; }
 
         public LoaderConfig()
         {

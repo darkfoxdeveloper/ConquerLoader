@@ -145,10 +145,20 @@ namespace ConquerLoader
 
         public static void InitPlugins()
         {
+
             foreach (IPlugin plugin in PluginLoader.Plugins)
             {
-                plugin.Init();
-                LogWritter.Write("Init plugin: " + plugin.Name + ".");
+                try
+                {
+                    plugin.Init();
+                    LogWritter.Write("Init plugin: " + plugin.Name + ".");
+                }
+                catch (Exception ex)
+                {
+                    {
+                        MessageBox.Show($"Error loading plugin {plugin.Name}: " + ex.Message.ToString(), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
             }
         }
 

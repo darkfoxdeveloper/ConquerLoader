@@ -21,6 +21,7 @@ namespace CLCore
 	public static class CLTheme
 	{
         public static Control.ControlCollection MainControls = null;
+        public static object MainForm = null;
     }
 	public enum PluginType
 	{

@@ -21,9 +21,11 @@ namespace ConquerLoader.Forms
         public string HookDLL = "CLHook.dll";
         public bool AllStarted = false;
         public bool DX9Allowed = false;
+        public bool CustomDLLs = false;
         public Main()
         {
             InitializeComponent();
+            CLTheme.MainForm = this;
             CLTheme.MainControls = this.Controls;
             this.Resizable = false;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -32,6 +34,7 @@ namespace ConquerLoader.Forms
             {
                 btnSettings.Enabled = false;
             }
+            CustomDLLs = LoaderConfig.UseCustomDLLs;
             Core.LoadControlTranslations(Controls);
             LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
             LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
@@ -393,9 +396,12 @@ namespace ConquerLoader.Forms
                         if (SelectedServer.ServerVersion >= 6371 && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat)
                         {
                             RebuildServerDat();
-                            Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
                             SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp, ex => Core.LogWritter.Write(ex.ToString()));
-                            SafeIO.TryWriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371, ex => Core.LogWritter.Write(ex.ToString()));
+                            if (!CustomDLLs)
+                            {
+                                Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX8)");
+                                SafeIO.TryWriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371, ex => Core.LogWritter.Write(ex.ToString()));
+                            }
                         }
                     }
                     NoUseDX8_DX9 = false;
@@ -418,9 +424,12 @@ namespace ConquerLoader.Forms
                             if (SelectedServer.ServerVersion >= 6600)
                             {
                                 RebuildServerDat();
-                                Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
                                 SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "TQAnp.dll"), Properties.Resources.TQAnp, ex => Core.LogWritter.Write(ex.ToString()));
-                                SafeIO.TryWriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371, ex => Core.LogWritter.Write(ex.ToString()));
+                                if (!CustomDLLs)
+                                {
+                                    Core.LogWritter.Write("Generating required files for use Custom Server.dat... (Using DX9)");
+                                    SafeIO.TryWriteAllBytes(Path.Combine(Application.StartupPath, HookDLL), Properties.Resources.COHook6371, ex => Core.LogWritter.Write(ex.ToString()));
+                                }
                             }
                         }
                         NoUseDX8_DX9 = false;
@@ -428,24 +437,28 @@ namespace ConquerLoader.Forms
                 }
                 if (NoUseDX8_DX9 && UseDecryptedServerDat  && SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat)
                 {
-                    if (!AlreadyUsingLoader)
-                    {
-                        File.WriteAllBytes(Path.Combine(WorkingDir, "COFlashFixer.dll"), Properties.Resources.COFlashFixer_DLL); // Fix for flash
-                    }
-                    if (SelectedServer.ServerVersion >= 6176 && SelectedServer.ServerVersion <= 6370)
+                    if (!CustomDLLs)
                     {
                         if (!AlreadyUsingLoader)
                         {
-                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6176); // 6176 TO 6370 Hook
+                            File.WriteAllBytes(Path.Combine(WorkingDir, "COFlashFixer.dll"), Properties.Resources.COFlashFixer_DLL); // Fix for flash
                         }
-                    } else
-                    {
-                        if (!AlreadyUsingLoader)
+                        if (SelectedServer.ServerVersion >= 6176 && SelectedServer.ServerVersion <= 6370)
                         {
-                            File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6022); // V5717 TO V6175 Hook
+                            if (!AlreadyUsingLoader)
+                            {
+                                File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6176); // 6176 TO 6370 Hook
+                            }
                         }
+                        else
+                        {
+                            if (!AlreadyUsingLoader)
+                            {
+                                File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6022); // V5717 TO V6175 Hook
+                            }
+                        }
+                        Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
                     }
-                    Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
                     RebuildServerDat();
                 }
                 Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });

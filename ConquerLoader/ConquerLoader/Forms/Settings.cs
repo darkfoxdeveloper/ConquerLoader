@@ -61,6 +61,7 @@ namespace ConquerLoader
                 tglServerNameChange.Checked = CurrentLoaderConfig.ServernameChange;
                 tglDisableAutoFixFlash.Checked = CurrentLoaderConfig.DisableAutoFixFlash;
                 tglDisableScreenChanges.Checked = CurrentLoaderConfig.DisableScreenChanges;
+                tglUseCustomDLLs.Checked = CurrentLoaderConfig.UseCustomDLLs;
                 tbxTitle.Text = CurrentLoaderConfig.Title;
                 gridViewSettings.DataSource = CurrentLoaderConfig.Servers;
             }
@@ -124,6 +125,15 @@ namespace ConquerLoader
             {
                 tglFullscreen.Enabled = true;
                 tglHighResolution.Enabled = true;
+            }
+        }
+
+        private void TglUseCustomDLLs_CheckedChanged(object sender, EventArgs e)
+        {
+            CurrentLoaderConfig.UseCustomDLLs = (sender as MetroToggle).Checked;
+            if (CurrentLoaderConfig.UseCustomDLLs)
+            {
+                MetroFramework.MetroMessageBox.Show(this, "For use Custom DLL can put a DLL called COHook.dll for be auto-injected like native lib of loader.", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

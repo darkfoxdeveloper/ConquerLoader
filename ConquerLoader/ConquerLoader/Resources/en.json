@@ -122,5 +122,9 @@
   {
     "id": "lblDisableScreenChanges",
     "text": "Disable Screen Changes"
+  },
+  {
+    "id": "lblUseCustomDLLs",
+    "text": "Use Custom DLL"
   }
 ]
