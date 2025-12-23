@@ -1,4 +1,4 @@
-﻿namespace ConquerLoader.Models
+﻿namespace CLCore
 {
     #region References
 
@@ -46,15 +46,15 @@
         private const uint WAIT_TIMEOUT = 0x00000102;
         private const uint WAIT_FAILED = 0xFFFFFFFF;
         #endregion
+        public static InjectionStatus LastStatus { get; set; }
 
         /// <summary>
         /// Function to inject a Dll
         /// </summary>
         /// <param name="DllName">Name of dll for inject.</param>
         /// <param name="ProcessName">Nombre del proceso en el que sera injectada la Dll.</param>
-        public static bool StartInjection(string DllName, uint ProcessID, System.ComponentModel.BackgroundWorker Worker)
+        public static InjectionStatus StartInjection(string DllName, uint ProcessID, System.ComponentModel.BackgroundWorker Worker)
         {
-            bool Injected = false;
             try
             {
                 IntPtr hProcess = new IntPtr(0); //openprocess
@@ -84,36 +84,43 @@
                                 {
                                     Worker.ReportProgress(50);
                                     uint Result = WaitForSingleObject(hThread, 10 * 1000);
-                                    if (Result != WAIT_FAILED || Result != WAIT_ABANDONED
-                                       || Result != WAIT_OBJECT_0 || Result != WAIT_TIMEOUT)
-                                    {
+                                    if (Result != WAIT_FAILED && Result != WAIT_ABANDONED && Result != WAIT_TIMEOUT) {
                                         if (VirtualFreeEx(hProcess, hModule, 0, MEM_RELEASE))
                                         {
                                             if (hThread != IntPtr.Zero)
                                             {
                                                 Worker.ReportProgress(99);
                                                 CloseHandle(hThread);
-                                                Injected = true;
-                                                return Injected;
+                                                return ReturnInjectionStatus(true, "Injection success");
                                             }
-                                            else Core.LogWritter.Write("Bad thread handle ... injection failed");
+                                            else ReturnInjectionStatus(false, "Bad thread handle ... Injection failed");
                                         }
-                                        else Core.LogWritter.Write("Memory free problem ... injection failed");
+                                        else ReturnInjectionStatus(false, "Memory free problem ... Injection failed");
                                     }
-                                    else Core.LogWritter.Write("WaitForSingle failed: " + Result.ToString() + "...injection failed");
+                                    else ReturnInjectionStatus(false, "WaitForSingle failed: " + Result.ToString() + "... Injection failed");
                                 }
-                                else Core.LogWritter.Write("Problem when starting the thread ... injection failed");
+                                else ReturnInjectionStatus(false, "Problem when starting the thread ... Injection failed");
                             }
-                            else Core.LogWritter.Write("LoadLibraryA address not found ... injection failed");
+                            else ReturnInjectionStatus(false, "LoadLibraryA address not found ... Injection failed");
                         }
-                        else Core.LogWritter.Write("Write error in process ... injection failed");
+                        else ReturnInjectionStatus(false, "Write error in process ... Injection failed");
                     }
-                    else Core.LogWritter.Write("Unallocated memory ... injection failed");
+                    else ReturnInjectionStatus(false, "Unallocated memory ... Injection failed");
                 }
-                else Core.LogWritter.Write("Unopened process ... injection failed");
+                else return ReturnInjectionStatus(false, "Unopened process ... Injection failed");
             }
-            catch (Exception Exc) { Core.LogWritter.Write("Injection Error: " + Exc.ToString()); }
-            return Injected;
+            catch (Exception Exc) { return ReturnInjectionStatus(false, "Injection Error: " + Exc.ToString()); }
+            return ReturnInjectionStatus(false, "Unhandled reason... Injection failed");
         }
+        public static InjectionStatus ReturnInjectionStatus (bool Injected, string ResultMessage)
+        {
+            LastStatus = new InjectionStatus() { Injected = Injected, ResultMessage = ResultMessage };
+            return LastStatus;
+        }
+    }
+    public class InjectionStatus
+    {
+        public bool Injected { get; set; }
+        public string ResultMessage { get; set; }
     }
 }

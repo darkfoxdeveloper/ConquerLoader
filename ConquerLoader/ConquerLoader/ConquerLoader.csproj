@@ -57,7 +57,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ConquerLoaderLogo.ico</ApplicationIcon>
+    <ApplicationIcon>ConquerLoaderICON.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -101,12 +101,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.3\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="PeNet, Version=5.1.0.0, Culture=neutral, PublicKeyToken=6cf2bfba59bcfb3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\PeNet.5.1.0\lib\netstandard2.0\PeNet.dll</HintPath>
-    </Reference>
-    <Reference Include="PeNet.Asn1, Version=2.0.2.0, Culture=neutral, PublicKeyToken=1e2e3568f0050bf5, processorArchitecture=MSIL">
-      <HintPath>..\packages\PeNet.Asn1.2.0.2\lib\net461\PeNet.Asn1.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -231,7 +225,6 @@
     <Compile Include="Forms\Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Injector.cs" />
     <Compile Include="Models\ServersDatGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -284,10 +277,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ConquerLoaderICON.ico" />
     <Content Include="ConquerLoaderLogo.ico" />
     <Compile Include="Models\TextTranslation.cs" />
     <Content Include="Resources\CLHook_Legacy.dll" />
     <Content Include="Resources\ConquerCipherHook.dll" />
+    <None Include="Resources\COServerDat.dll" />
     <None Include="Resources\en.json" />
     <None Include="Resources\es.json" />
     <None Include="Resources\pt.json" />

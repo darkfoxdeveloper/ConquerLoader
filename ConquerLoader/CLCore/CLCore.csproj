@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ConfigFilesEncryption.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Helpers\Injector.cs" />
     <Compile Include="Models\DTOs\ConnectionDTO.cs" />
     <Compile Include="Models\LoaderEvents.cs" />
     <Compile Include="Models\LogWritter.cs" />

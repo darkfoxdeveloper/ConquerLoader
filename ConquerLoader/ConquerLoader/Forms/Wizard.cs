@@ -166,12 +166,11 @@ namespace ConquerLoader
             bool isNumber = int.TryParse(tbxVersion.Text, out _);
             if (isNumber)
             {
-                if (tbxVersion.Text.Length > 0 && int.Parse(tbxVersion.Text) >= Constants.MinVersionUseServerDat)
+                if (tbxVersion.Text.Length > 0 && (int.Parse(tbxVersion.Text) >= Constants.MinVersionUseServerDat || int.Parse(tbxVersion.Text) >= Constants.MinVersionUseRAWServerDat))
                 {
                     tbxGamePort.Text = "5816";
                     tbxGroupIcon.Visible = true;
                     lblGroupIcon.Visible = true;
-                    btnHelpGroupIcon.Visible = true;
                     lblHelpGroup.Visible = true;
                     tbxGroup.Visible = true;
                 }
@@ -179,7 +178,6 @@ namespace ConquerLoader
                 {
                     tbxGroupIcon.Visible = false;
                     lblGroupIcon.Visible = false;
-                    btnHelpGroupIcon.Visible = false;
                     lblHelpGroup.Visible = false;
                     tbxGroup.Visible = false;
                 }
@@ -223,32 +221,6 @@ namespace ConquerLoader
             }
         }
 
-        private void BtnHelpGroupIcon_Click(object sender, System.EventArgs e)
-        {
-            if (tbxGroup.Text.Length <= 0) {
-                MessageBox.Show("Any group specified", "Specify one valid group", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            string p = Path.Combine(Constants.ClientPath, "data", "main", "flash");
-            string AvailableGroupsNameInClient = "";
-            if (Directory.Exists(p))
-            {
-                foreach (string s in Directory.GetDirectories(p, $"{tbxGroup.Text}"))
-                {
-                    string dir = Path.GetFileName(s);
-                    foreach(string f in Directory.GetFiles(s))
-                    {
-                        AvailableGroupsNameInClient += dir + "/" + Path.GetFileName(f) + System.Environment.NewLine;
-                    }
-                }
-                MessageBox.Show(AvailableGroupsNameInClient, "Available Group Icons", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Any found", "Not detected swf files!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private List<string> ServerDatGroupIcons()
         {
             List<string> GroupIcons = new List<string>();
@@ -265,6 +237,38 @@ namespace ConquerLoader
                 }
             }
             return GroupIcons;
+        }
+
+        private void TbxGroup_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (tbxGroup.Text.Length <= 0)
+            {
+                MessageBox.Show("Any group specified", "Specify one valid group", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            tbxGroupIcon.Items.Clear();
+            string p = Path.Combine(Constants.ClientPath, "data", "main", "flash");
+            string AvailableGroupsNameInClient = "";
+            if (Directory.Exists(p))
+            {
+                foreach (string s in Directory.GetDirectories(p, $"{tbxGroup.Text}"))
+                {
+                    string dir = Path.GetFileName(s);
+                    foreach (string f in Directory.GetFiles(s))
+                    {
+                        AvailableGroupsNameInClient += dir + "/" + Path.GetFileName(f) + System.Environment.NewLine;
+                        if (!tbxGroupIcon.Items.Contains(dir + "/" + Path.GetFileName(f)))
+                        {
+                            tbxGroupIcon.Items.Add(dir + "/" + Path.GetFileName(f));
+                        }
+                    }
+                }
+                //MessageBox.Show(AvailableGroupsNameInClient, "Available Group Icons", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                //MessageBox.Show("Any found", "Not detected swf files!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

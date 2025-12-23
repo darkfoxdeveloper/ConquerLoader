@@ -369,6 +369,13 @@ namespace ConquerLoader.Forms
                 Core.LogWritter.Write("Detected already using ConnquerLoader.");
             }
             GenerateRequiredDLL();
+            if (SelectedServer.ServerVersion >= Constants.MinVersionUseRAWServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseRAWServerDat)
+            {
+                HookDLL = "COHook.dll";
+                Core.LogWritter.Write("Using Custom Server.dat (New Raw Mode, Better performance)...");
+                RebuildServerDat();
+                CustomDLLs = true; // Force Launch first the dll COHook
+            }
             // If using 6000 Version or more the HookDLL Used is COHook.dll
             if ((SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseServerDat) || Constants.ForceServerDat)
             {
@@ -443,32 +450,44 @@ namespace ConquerLoader.Forms
                 {
                     if (!CustomDLLs)
                     {
-                        if (!AlreadyUsingLoader)
-                        {
-                            File.WriteAllBytes(Path.Combine(WorkingDir, "COFlashFixer.dll"), Properties.Resources.COFlashFixer_DLL); // Fix for flash
-                        }
+                        SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, "COFlashFixer.dll"), Properties.Resources.COFlashFixer_DLL); // Fix for flash
                         if (SelectedServer.ServerVersion >= 6176 && SelectedServer.ServerVersion <= 6370)
                         {
-                            if (!AlreadyUsingLoader)
-                            {
-                                File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6176); // 6176 TO 6370 Hook
-                            }
+                            SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6176); // 6176 TO 6370 Hook
                         }
                         else
                         {
-                            if (!AlreadyUsingLoader)
-                            {
-                                File.WriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6022); // V5717 TO V6175 Hook
-                            }
+                            SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COHook6022); // V5717 TO V6175 Hook
                         }
                         Core.LogWritter.Write("Generating required files for use Custom Server.dat...");
                     }
                     RebuildServerDat();
                 }
+                if (SelectedServer.ServerVersion >= Constants.MinVersionUseRAWServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseRAWServerDat)
+                {
+                    bool HookCreated = SafeIO.TryWriteAllBytes(Path.Combine(WorkingDir, HookDLL), Properties.Resources.COServerDat); // 5095 - 5716
+                    Core.LogWritter.Write($"Generating required files for use Custom Server.dat... Hook Created: ${HookCreated}");
+                }
                 Process conquerProc = Process.Start(new ProcessStartInfo() { FileName = PathToConquerExe, WorkingDirectory = WorkingDir, Arguments = "blacknull" });
                 if (conquerProc != null)
                 {
                     Core.LogWritter.Write("Process launched!");
+                    if (CustomDLLs)
+                    {
+                        if (!File.Exists(Application.StartupPath + @"\" + HookDLL))
+                        {
+                            Core.LogWritter.Write($"Hook file not exists {HookDLL}");
+                        }
+                        if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker).Injected)
+                        {
+                            Core.LogWritter.Write($"Injection of Custom DLL failed! [{HookDLL}] Reason: {Injector.LastStatus.ResultMessage}");
+                            MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject {HookDLL}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            Core.LogWritter.Write($"Custom Injection of {HookDLL} successfully!");
+                        }
+                    }
                     worker.ReportProgress(10);
                     CurrentConquerProcess = conquerProc;
                     CurrentConquerProcess.EnableRaisingEvents = true;
@@ -502,9 +521,9 @@ namespace ConquerLoader.Forms
                     {
                         if (SelectedServer.ServerVersion <= 6186)
                         {
-                            if (!Injector.StartInjection(Application.StartupPath + @"\COFlashFixer.dll", (uint)conquerProc.Id, worker))
+                            if (!Injector.StartInjection(Application.StartupPath + @"\COFlashFixer.dll", (uint)conquerProc.Id, worker).Injected)
                             {
-                                Core.LogWritter.Write("Injection COFlashFixer failed!");
+                                Core.LogWritter.Write($"Injection COFlashFixer failed! Reason: {Injector.LastStatus.ResultMessage}");
                                 MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject COFlashFixer.dll", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
@@ -514,9 +533,9 @@ namespace ConquerLoader.Forms
                         }
                         if (SelectedServer.ServerVersion >= Constants.MinVersionUseServerDat)
                         {
-                            if (!Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker))
+                            if (!Injector.StartInjection(Application.StartupPath + @"\" + "ConquerCipherHook.dll", (uint)conquerProc.Id, worker).Injected)
                             {
-                                Core.LogWritter.Write("Injection ConquerCipherHook failed!");
+                                Core.LogWritter.Write($"Injection ConquerCipherHook failed! Reason: {Injector.LastStatus.ResultMessage}");
                                 MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject ConquerCipherHook.dll", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
@@ -524,9 +543,10 @@ namespace ConquerLoader.Forms
                                 Core.LogWritter.Write("Injected ConquerCipherHook successfully!");
                             }
                         }
-                        if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
+                        if (CustomDLLs) return;
+                        if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker).Injected)
                         {
-                            Core.LogWritter.Write($"Injection {HookDLL} failed!");
+                            Core.LogWritter.Write($"Injection {HookDLL} failed! Reason: {Injector.LastStatus.ResultMessage}");
                             MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject {HookDLL}", this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
@@ -535,9 +555,10 @@ namespace ConquerLoader.Forms
                         }
                     } else
                     {
-                        if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker))
+                        if (CustomDLLs) return;
+                        if (!Injector.StartInjection(Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker).Injected)
                         {
-                            Core.LogWritter.Write($"Injection {HookDLL} failed!");
+                            Core.LogWritter.Write($"Injection {HookDLL} failed! Reason: {Injector.LastStatus.ResultMessage}");
                             MetroFramework.MetroMessageBox.Show(this, $"[{SelectedServer.ServerName}] Cannot inject " + HookDLL, this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else

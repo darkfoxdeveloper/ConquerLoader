@@ -1,4 +1,5 @@
-﻿using CLCore.Models;
+﻿using CLCore;
+using CLCore.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -166,11 +167,17 @@ namespace ConquerLoader.Models
                 doc.Save(writer);
                 writer.Close();
                 memStream.Position = 0;
-                using (FileStream compressedFileStream = File.Create("Servers.dat"))
+                if (Config.DefaultServer.ServerVersion >= Constants.MinVersionUseRAWServerDat && Config.DefaultServer.ServerVersion <= Constants.MaxVersionUseRAWServerDat)
                 {
-                    using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                    File.WriteAllBytes("COServer.dat", memStream.ToArray());
+                } else
+                {
+                    using (FileStream compressedFileStream = File.Create("Servers.dat"))
                     {
-                        memStream.CopyTo(compressionStream);
+                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                        {
+                            memStream.CopyTo(compressionStream);
+                        }
                     }
                 }
             }
