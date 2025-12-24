@@ -34,13 +34,15 @@ namespace ConquerLoader.Forms
             {
                 btnSettings.Enabled = false;
             }
-            CustomDLLs = LoaderConfig.UseCustomDLLs;
             Core.LoadControlTranslations(Controls);
             LoaderEvents.LauncherLoaded += LoaderEvents_LauncherLoaded;
             LoaderEvents.ConquerLaunched += LoaderEvents_ConquerLaunched;
             LoaderEvents.LauncherExit += LoaderEvents_LauncherExit;
             Constants.ClientPath = Directory.GetCurrentDirectory();
-            if (LoaderConfig != null) Constants.CloseOnFinish = LoaderConfig.CloseOnFinish;
+            if (LoaderConfig != null) {
+                Constants.CloseOnFinish = LoaderConfig.CloseOnFinish;
+                CustomDLLs = LoaderConfig.UseCustomDLLs;
+            }
             Constants.MainWorker = worker;
             Core.LoadAvailablePlugins();
             Core.LoadRemotePlugins(); // Experimental
@@ -472,7 +474,7 @@ namespace ConquerLoader.Forms
                 if (conquerProc != null)
                 {
                     Core.LogWritter.Write("Process launched!");
-                    if (CustomDLLs)
+                    if (CustomDLLs) // TODO hay que ver como soluciono el bug de que en versiones como 6609 parece que necesita mas tiempo, si lo injecto mas para abajo funciona sino no
                     {
                         if (!File.Exists(Application.StartupPath + @"\" + HookDLL))
                         {
